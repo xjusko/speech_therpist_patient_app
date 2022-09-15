@@ -7,7 +7,7 @@ import Login from "./pages/Login";
 
 function App() {
   return (
-    <Container>
+    <Container style={{ maxWidth: "600px", height: "100vh" }}>
       <Routes>
         <Route path="/" element={<Menu />} />
         <Route path="/register" element={<Register />} />
