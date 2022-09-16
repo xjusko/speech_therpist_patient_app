@@ -4,14 +4,16 @@ import Register from "./pages/Register";
 import { Routes, Route } from "react-router-dom";
 import Menu from "./pages/Menu";
 import Login from "./pages/Login";
+import FindTherapist from "./pages/FindTherapist";
 
 function App() {
   return (
-    <Container style={{ maxWidth: "600px", height: "100vh" }}>
+    <Container style={{ maxWidth: "700px" }}>
       <Routes>
         <Route path="/" element={<Menu />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/findtherapist" element={<FindTherapist />} />
       </Routes>
     </Container>
   );

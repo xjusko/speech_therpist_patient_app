@@ -51,10 +51,7 @@ function Register() {
       >
         {({ handleSubmit, handleChange, values, errors, touched }) => (
           <Form noValidate onSubmit={handleSubmit}>
-            <Stack
-              className="gap-3"
-              style={{ width: "75vw", maxWidth: "500px" }}
-            >
+            <Stack className="gap-3 mx-4">
               <FloatingLabel controlId="floatingFullName" label="Full Name">
                 <Form.Control
                   size="lg"
@@ -127,7 +124,11 @@ function Register() {
               </Button>
               <div className="d-flex m-auto gap-2 text-light">
                 Already have an account?
-                <Nav.Link href="/login" as={NavLink} className="fw-bold">
+                <Nav.Link
+                  href="/login"
+                  as={NavLink}
+                  className="fw-bold text-decoration-underline"
+                >
                   Log In
                 </Nav.Link>
               </div>

@@ -37,10 +37,7 @@ function Login() {
       >
         {({ handleSubmit, handleChange, values, errors, touched }) => (
           <Form noValidate onSubmit={handleSubmit}>
-            <Stack
-              className="gap-3"
-              style={{ width: "75vw", maxWidth: "600px" }}
-            >
+            <Stack className="gap-3 mx-4">
               <FloatingLabel controlId="floatingEmail" label="Email">
                 <Form.Control
                   size="lg"
@@ -80,7 +77,11 @@ function Login() {
               </Button>
               <div className="d-flex m-auto gap-2 text-light">
                 Don't have an account?
-                <Nav.Link href="/register" as={NavLink} className="fw-bold">
+                <Nav.Link
+                  href="/register"
+                  as={NavLink}
+                  className="fw-bold text-decoration-underline"
+                >
                   Sign In
                 </Nav.Link>
               </div>

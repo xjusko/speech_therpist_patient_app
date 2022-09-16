@@ -1,33 +1,32 @@
 import React from "react";
-import { Button, Col, Container, Row } from "react-bootstrap";
+import { Button, Col, Nav, NavLink, Row } from "react-bootstrap";
 
 function Menu() {
-  const hrStyle = { width: "10rem", opacity: "50%" };
-  const vrStyle = { height: "10rem", opacity: "50%" };
   const mainButtonStyle = {
     height: "10rem",
     width: "10rem",
     border: "none",
     borderRadius: "2rem",
   };
+  const imageStyle = { height: "8rem", width: "8rem" };
   return (
-    <>
+    <div className="d-flex flex-column vh-100 justify-content-center">
       <Row>
-        <Col className="d-flex flex-column justify-content-between mt-5 align-items-center text-light">
+        <Col className="d-flex flex-column mt-5 align-items-center text-light">
           <div
             className="fw-bold font-monospace text-uppercase"
-            style={{ fontSize: "40px" }}
+            style={{ fontSize: "50px" }}
           >
             Welcome
           </div>
           <div className="fs-1">To Speech Therapist</div>
         </Col>
       </Row>
-      <Row>
-        <Col className="d-flex gap-2 justify-content-center align-items-center mt-5">
+      <Row xs={2} md={4} className="g-2 mt-5 text-center">
+        <Col>
           <Button variant="outline-dark" style={mainButtonStyle}>
             <svg
-              style={{ height: "8rem", width: "8rem" }}
+              style={imageStyle}
               xmlns="http://www.w3.org/2000/svg"
               width="16"
               height="16"
@@ -35,16 +34,14 @@ function Menu() {
               viewBox="0 0 16 16"
             >
               <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
-              <path
-                fill-rule="evenodd"
-                d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"
-              />
+              <path d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
             </svg>
           </Button>
-          <div className="vr" style={vrStyle}></div>
+        </Col>
+        <Col>
           <Button variant="outline-dark" style={mainButtonStyle}>
             <svg
-              style={{ height: "8rem", width: "8rem" }}
+              style={imageStyle}
               xmlns="http://www.w3.org/2000/svg"
               width="16"
               height="16"
@@ -56,18 +53,10 @@ function Menu() {
             </svg>
           </Button>
         </Col>
-      </Row>
-      <Row>
-        <Col className="d-flex gap-4 justify-content-center align-items-center">
-          <hr style={hrStyle} />
-          <hr style={hrStyle} />
-        </Col>
-      </Row>
-      <Row>
-        <Col className="d-flex gap-2 justify-content-center align-items-center">
+        <Col>
           <Button variant="outline-dark" style={mainButtonStyle}>
             <svg
-              style={{ height: "8rem", width: "8rem" }}
+              style={imageStyle}
               xmlns="http://www.w3.org/2000/svg"
               width="16"
               height="16"
@@ -78,10 +67,11 @@ function Menu() {
               <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z" />
             </svg>
           </Button>
-          <div className="vr" style={vrStyle}></div>
+        </Col>
+        <Col>
           <Button variant="outline-dark" style={mainButtonStyle}>
             <svg
-              style={{ height: "8rem", width: "8rem" }}
+              style={imageStyle}
               xmlns="http://www.w3.org/2000/svg"
               width="16"
               height="16"
@@ -94,7 +84,19 @@ function Menu() {
           </Button>
         </Col>
       </Row>
-    </>
+      <Row className="mt-auto mb-3 text-light fs-2 text-center">
+        <Col>
+          <Nav.Link href="/login" as={NavLink}>
+            Log Out
+          </Nav.Link>
+        </Col>
+        <Col>
+          <Nav.Link href="/findtherapist" as={NavLink}>
+            Find Therapist
+          </Nav.Link>
+        </Col>
+      </Row>
+    </div>
   );
 }
 
