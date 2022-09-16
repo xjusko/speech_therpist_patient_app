@@ -1,0 +1,58 @@
+[
+  {
+    "id": 1,
+    "firstName": "First",
+    "lastName": "Guy",
+    "location": "Brno",
+    "imageUrl": "/images/book.jpg"
+  },
+  {
+    "id": 2,
+    "firstName": "Second",
+    "lastName": "Woman",
+    "location": "Berlin",
+    "imageUrl": "/images/computer.jpg"
+  },
+  {
+    "id": 3,
+    "firstName": "Thord",
+    "lastName": "Boggers",
+    "location": "London",
+    "imageUrl": "/images/bananas.jpg"
+  },
+  {
+    "id": 5,
+    "firstName": "Sunz",
+    "lastName": "Bunz",
+    "location": "Prague",
+    "imageUrl": "/images/car.jpg"
+  },
+  {
+    "id": 6,
+    "firstName": "Sunz",
+    "lastName": "Bunz",
+    "location": "Prague",
+    "imageUrl": "/images/car.jpg"
+  },
+  {
+    "id": 7,
+    "firstName": "Sunz",
+    "lastName": "Bunz",
+    "location": "Prague",
+    "imageUrl": "/images/car.jpg"
+  },
+  {
+    "id": 8,
+    "firstName": "Sunz",
+    "lastName": "Bunz",
+    "location": "Prague",
+    "imageUrl": "/images/car.jpg"
+  },
+  {
+    "id": 9,
+    "firstName": "Sunz",
+    "lastName": "Bunz",
+    "location": "Prague",
+    "imageUrl": "/images/car.jpg"
+  }
+]

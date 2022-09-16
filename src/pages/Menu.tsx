@@ -24,7 +24,7 @@ function Menu() {
       </Row>
       <Row xs={2} md={4} className="g-2 mt-5 text-center">
         <Col>
-          <Button variant="outline-dark" style={mainButtonStyle}>
+          <Button variant="outline-light" style={mainButtonStyle}>
             <svg
               style={imageStyle}
               xmlns="http://www.w3.org/2000/svg"
@@ -39,7 +39,7 @@ function Menu() {
           </Button>
         </Col>
         <Col>
-          <Button variant="outline-dark" style={mainButtonStyle}>
+          <Button variant="outline-light" style={mainButtonStyle}>
             <svg
               style={imageStyle}
               xmlns="http://www.w3.org/2000/svg"
@@ -54,7 +54,7 @@ function Menu() {
           </Button>
         </Col>
         <Col>
-          <Button variant="outline-dark" style={mainButtonStyle}>
+          <Button variant="outline-light" style={mainButtonStyle}>
             <svg
               style={imageStyle}
               xmlns="http://www.w3.org/2000/svg"
@@ -69,7 +69,7 @@ function Menu() {
           </Button>
         </Col>
         <Col>
-          <Button variant="outline-dark" style={mainButtonStyle}>
+          <Button variant="outline-light" style={mainButtonStyle}>
             <svg
               style={imageStyle}
               xmlns="http://www.w3.org/2000/svg"
