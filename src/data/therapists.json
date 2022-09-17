@@ -4,55 +4,79 @@
     "firstName": "First",
     "lastName": "Guy",
     "location": "Brno",
-    "imageUrl": "/images/book.jpg"
+    "imageUrl": "/images/book.jpg",
+    "city": "Czechia",
+    "email": "email@mail.com",
+    "phone": "+012 345 678"
   },
   {
     "id": 2,
     "firstName": "Second",
     "lastName": "Woman",
     "location": "Berlin",
-    "imageUrl": "/images/computer.jpg"
+    "imageUrl": "/images/computer.jpg",
+    "city": "Czechia",
+    "email": "email@mail.com",
+    "phone": "+012 345 678"
   },
   {
     "id": 3,
     "firstName": "Thord",
     "lastName": "Boggers",
     "location": "London",
-    "imageUrl": "/images/bananas.jpg"
+    "imageUrl": "/images/bananas.jpg",
+    "city": "Czechia",
+    "email": "email@mail.com",
+    "phone": "+012 345 678"
   },
   {
     "id": 5,
     "firstName": "Sunz",
     "lastName": "Bunz",
     "location": "Prague",
-    "imageUrl": "/images/car.jpg"
+    "imageUrl": "/images/car.jpg",
+    "city": "Czechia",
+    "email": "email@mail.com",
+    "phone": "+012 345 678"
   },
   {
     "id": 6,
     "firstName": "Sunz",
     "lastName": "Bunz",
     "location": "Prague",
-    "imageUrl": "/images/car.jpg"
+    "imageUrl": "/images/car.jpg",
+    "city": "Czechia",
+    "email": "email@mail.com",
+    "phone": "+012 345 678"
   },
   {
     "id": 7,
     "firstName": "Sunz",
     "lastName": "Bunz",
     "location": "Prague",
-    "imageUrl": "/images/car.jpg"
+    "imageUrl": "/images/car.jpg",
+    "city": "Czechia",
+    "email": "email@mail.com",
+    "phone": "+012 345 678"
   },
   {
     "id": 8,
     "firstName": "Sunz",
     "lastName": "Bunz",
     "location": "Prague",
-    "imageUrl": "/images/car.jpg"
+    "imageUrl": "/images/car.jpg",
+    "city": "Czechia",
+    "email": "email@mail.com",
+    "phone": "+012 345 678"
   },
   {
     "id": 9,
     "firstName": "Sunz",
     "lastName": "Bunz",
     "location": "Prague",
-    "imageUrl": "/images/car.jpg"
+    "imageUrl": "/images/car.jpg",
+    "city": "Czechia",
+    "email": "email@mail.com",
+    "phone": "+012 345 678"
   }
 ]

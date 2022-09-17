@@ -9,13 +9,13 @@ type TherapistCardProps = {
   imageUrl: string;
 };
 
-function TherapistCard(props: TherapistCardProps) {
+function FindTherapistCard(props: TherapistCardProps) {
   return (
     <Button className="w-100" variant="outline-dark">
       <Stack
         direction="horizontal"
         gap={2}
-        className="d-flex align-items-center text-light"
+        className="d-flex align-items-center text-dark"
       >
         <img
           src={props.imageUrl}
@@ -45,4 +45,4 @@ function TherapistCard(props: TherapistCardProps) {
   );
 }
 
-export default TherapistCard;
+export default FindTherapistCard;

@@ -30,7 +30,7 @@ function Register() {
   return (
     <div className="d-flex flex-column align-items-center">
       <div
-        className="fs-1 fw-bold my-5 font-monospace text-light"
+        className="fs-1 fw-bold my-5 font-monospace text-dark"
         style={{ textAlign: "center" }}
       >
         Speech Therapist
@@ -116,13 +116,13 @@ function Register() {
               <Button
                 size="lg"
                 type="submit"
-                className="fs-3 mt-5 fw-bold text-light"
+                className="fs-3 mt-5 fw-bold text-dark"
                 variant="outline-dark"
                 style={{ border: "3px solid" }}
               >
                 Create Account
               </Button>
-              <div className="d-flex m-auto gap-2 text-light">
+              <div className="d-flex m-auto gap-2 text-dark">
                 Already have an account?
                 <Nav.Link
                   href="/login"

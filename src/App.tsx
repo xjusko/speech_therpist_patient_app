@@ -5,6 +5,7 @@ import { Routes, Route } from "react-router-dom";
 import Menu from "./pages/Menu";
 import Login from "./pages/Login";
 import FindTherapist from "./pages/FindTherapist";
+import TherapistMainInfo from "./pages/TherapistMainInfo";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/findtherapist" element={<FindTherapist />} />
+        <Route path="/therapist/:id" element={<TherapistMainInfo />} />
       </Routes>
     </Container>
   );
