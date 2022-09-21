@@ -1,0 +1,118 @@
+{
+  "tasks": [
+    {
+      "id": "181913649",
+      "name": "Drake Hotline Bling",
+      "type": "3",
+      "difficulty": "easy"
+    },
+    {
+      "id": "87743020",
+      "name": "Two Buttons",
+      "type": "1",
+      "difficulty": "hard"
+    },
+    {
+      "id": "112126428",
+      "name": "Distracted Boyfriend",
+      "type": "1",
+      "difficulty": "hard"
+    },
+    {
+      "id": "131087935",
+      "name": "Running Away Balloon",
+      "type": "2",
+      "difficulty": "easy"
+    },
+    {
+      "id": "217743513",
+      "name": "UNO Draw 25 Cards",
+      "type": "1",
+      "difficulty": "easy"
+    },
+    {
+      "id": "129242436",
+      "name": "Change My Mind",
+      "type": "3",
+      "difficulty": "easy"
+    },
+    {
+      "id": "124822590",
+      "name": "Left Exit 12 Off Ramp",
+      "type": "3",
+      "difficulty": "easy"
+    },
+    {
+      "id": "247375501",
+      "name": "Buff Doge vs. Cheems",
+      "type": "2",
+      "difficulty": "hard"
+    },
+    {
+      "id": "222403160",
+      "name": "Bernie I Am Once Again",
+      "type": "1",
+      "difficulty": "easy"
+    },
+    {
+      "id": "131940431",
+      "name": "Gru's Plan",
+      "type": "1",
+      "difficulty": "easy"
+    },
+    {
+      "id": "4087833",
+      "name": "Waiting Skeleton",
+      "type": "3",
+      "difficulty": "easy"
+    },
+    {
+      "id": "27813981",
+      "name": "Hide the Pain Harold",
+      "type": "2",
+      "difficulty": "hard"
+    },
+    {
+      "id": "119139145",
+      "name": "Blank Nut Button",
+      "type": "1",
+      "difficulty": "medium"
+    },
+    {
+      "id": "61579",
+      "name": "One Does Not Simply",
+      "type": "3",
+      "difficulty": "medium"
+    },
+    {
+      "id": "135256802",
+      "name": "Epic Handshake",
+      "type": "2",
+      "difficulty": "easy"
+    },
+    {
+      "id": "438680",
+      "name": "Batman Slapping Robin",
+      "type": "3",
+      "difficulty": "medium"
+    },
+    {
+      "id": "101470",
+      "name": "Ancient Aliens",
+      "type": "3",
+      "difficulty": "medium"
+    },
+    {
+      "id": "80707627",
+      "name": "Sad Pablo Escobar",
+      "type": "2",
+      "difficulty": "medium"
+    },
+    {
+      "id": "93895088",
+      "name": "Expanding Brain",
+      "type": "1",
+      "difficulty": "medium"
+    }
+  ]
+}

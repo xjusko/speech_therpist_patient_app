@@ -11,24 +11,30 @@ type TherapistCardProps = {
 
 function FindTherapistCard(props: TherapistCardProps) {
   return (
-    <Button className="w-100" variant="outline-dark">
+    <div
+      className="w-100 my-1"
+      style={{
+        border: "1px solid rgba(0, 0, 0, .3)",
+        borderRadius: "1rem",
+      }}
+    >
       <Stack
         direction="horizontal"
         gap={2}
-        className="d-flex align-items-center text-dark"
+        className="d-flex align-items-center text-dark mx-2 my-2"
       >
         <img
           src={props.imageUrl}
           height="100px"
           width="100px"
-          style={{ objectFit: "cover", borderRadius: "50%" }}
+          style={{ objectFit: "cover", borderRadius: "1rem" }}
         ></img>
         <div className="me-auto fs-5">
           <div>
             {props.firstName} {props.lastName}
           </div>
         </div>
-        <div>
+        <div className="text-center">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="16"
@@ -41,7 +47,7 @@ function FindTherapistCard(props: TherapistCardProps) {
           <div>{props.location}</div>
         </div>
       </Stack>
-    </Button>
+    </div>
   );
 }
 
