@@ -7,6 +7,7 @@ import Login from "./pages/Login";
 import FindTherapist from "./pages/FindTherapist";
 import TherapistMainInfo from "./pages/TherapistMainInfo";
 import TaskMenu from "./pages/TaskMenu";
+import Connect from "./pages/questionTypes/Connect";
 
 function App() {
   return (
@@ -17,7 +18,8 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/findtherapist" element={<FindTherapist />} />
         <Route path="/therapist/:id" element={<TherapistMainInfo />} />
-        <Route path="/exercisemenu" element={<TaskMenu />} />
+        <Route path="/taskmenu" element={<TaskMenu />} />
+        <Route path="/questionconnect/:id" element={<Connect />} />
       </Routes>
     </Container>
   );

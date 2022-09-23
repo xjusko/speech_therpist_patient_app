@@ -24,7 +24,7 @@ function Menu() {
       </Row>
       <Row xs={1} className="g-2 text-center mt-2">
         <Col>
-          <Nav.Link href="/exercisemenu" as={NavLink}>
+          <Nav.Link href="/taskmenu" as={NavLink}>
             <Button variant="outline-dark" style={mainButtonStyle}>
               <svg
                 style={imageStyle}

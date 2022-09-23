@@ -9,12 +9,12 @@ import {
   OverlayTrigger,
 } from "react-bootstrap";
 import { useParams } from "react-router-dom";
-import storeItems from "../data/therapists.json";
+import therapists from "../data/therapists.json";
 import { BackArrowIcon, HomeIcon } from "../utils/CommonIcons";
 
 function TherapistMainInfo() {
   const { id } = useParams();
-  const therapist = storeItems.find((i) => i.id === Number(id));
+  const therapist = therapists.find((i) => i.id === Number(id));
   return (
     <div className="mx-4">
       <div className="d-flex mt-1">

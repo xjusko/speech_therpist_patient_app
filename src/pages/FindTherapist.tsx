@@ -79,9 +79,7 @@ function FindTherapist() {
         <Row xs={1} className="g-3">
           {storeItems.map((item) => (
             <Col className="hidden" key={item.id}>
-              <Nav.Link href={`/therapist/${item.id}`}>
-                <FindTherapistCard {...item} />
-              </Nav.Link>
+              <FindTherapistCard {...item} />
             </Col>
           ))}
         </Row>
