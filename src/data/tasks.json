@@ -40,29 +40,29 @@
           "firstOptions": [
             {
               "id": 1,
-              "text": "1-A"
+              "text": "1-D"
             },
             {
               "id": 2,
-              "text": "1-B"
+              "text": "1-E"
             },
             {
               "id": 3,
-              "text": "1-C"
+              "text": "1-F"
             }
           ],
           "secondOptions": [
             {
               "id": 1,
-              "text": "2-A"
+              "text": "2-E"
             },
             {
               "id": 2,
-              "text": "2-B"
+              "text": "2-D"
             },
             {
               "id": 3,
-              "text": "2-C"
+              "text": "2-F"
             }
           ]
         }

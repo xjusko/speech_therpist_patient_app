@@ -8,6 +8,8 @@ import FindTherapist from "./pages/FindTherapist";
 import TherapistMainInfo from "./pages/TherapistMainInfo";
 import TaskMenu from "./pages/TaskMenu";
 import Connect from "./pages/questionTypes/Connect";
+import TaskFinishScreen from "./pages/TaskFinishScreen";
+import FourChoices from "./pages/questionTypes/FourChoices";
 
 function App() {
   return (
@@ -20,6 +22,8 @@ function App() {
         <Route path="/therapist/:id" element={<TherapistMainInfo />} />
         <Route path="/taskmenu" element={<TaskMenu />} />
         <Route path="/questionconnect/:id" element={<Connect />} />
+        <Route path="/questionfourchoices/:id" element={<FourChoices />} />
+        <Route path="/taskfinish/:qid" element={<TaskFinishScreen />} />
       </Routes>
     </Container>
   );
