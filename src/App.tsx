@@ -11,7 +11,7 @@ import Connect from "./pages/questionTypes/Connect";
 
 function App() {
   return (
-    <Container style={{ maxWidth: "700px", minHeight: "100vh" }}>
+    <Container style={{ maxWidth: "700px" }}>
       <Routes>
         <Route path="/" element={<Menu />} />
         <Route path="/register" element={<Register />} />
