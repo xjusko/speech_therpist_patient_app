@@ -7,7 +7,7 @@
       "difficulty": "easy",
       "questions": [
         {
-          "firstOptions": [
+          "leftOptions": [
             {
               "id": 1,
               "text": "1-A"
@@ -21,7 +21,7 @@
               "text": "1-C"
             }
           ],
-          "secondOptions": [
+          "rightOptions": [
             {
               "id": 1,
               "text": "2-A"
@@ -37,7 +37,7 @@
           ]
         },
         {
-          "firstOptions": [
+          "leftOptions": [
             {
               "id": 1,
               "text": "1-D"
@@ -51,7 +51,7 @@
               "text": "1-F"
             }
           ],
-          "secondOptions": [
+          "rightOptions": [
             {
               "id": 1,
               "text": "2-E"
@@ -146,7 +146,7 @@
       "difficulty": "hard",
       "questions": [
         {
-          "firstOptions": [
+          "leftOptions": [
             {
               "id": 1,
               "text": "1-A"
@@ -160,7 +160,7 @@
               "text": "1-C"
             }
           ],
-          "secondOptions": [
+          "rightOptions": [
             {
               "id": 1,
               "text": "2-A"
@@ -176,7 +176,7 @@
           ]
         },
         {
-          "firstOptions": [
+          "leftOptions": [
             {
               "id": 1,
               "text": "1-A"
@@ -190,7 +190,7 @@
               "text": "1-C"
             }
           ],
-          "secondOptions": [
+          "rightOptions": [
             {
               "id": 1,
               "text": "2-A"
@@ -214,7 +214,7 @@
       "difficulty": "easy",
       "questions": [
         {
-          "firstOptions": [
+          "leftOptions": [
             {
               "id": 1,
               "text": "1-A"
@@ -228,7 +228,7 @@
               "text": "1-C"
             }
           ],
-          "secondOptions": [
+          "rightOptions": [
             {
               "id": 1,
               "text": "2-A"
@@ -244,7 +244,7 @@
           ]
         },
         {
-          "firstOptions": [
+          "leftOptions": [
             {
               "id": 1,
               "text": "1-A"
@@ -258,7 +258,7 @@
               "text": "1-C"
             }
           ],
-          "secondOptions": [
+          "rightOptions": [
             {
               "id": 1,
               "text": "2-A"
@@ -282,7 +282,7 @@
       "difficulty": "easy",
       "questions": [
         {
-          "firstOptions": [
+          "leftOptions": [
             {
               "id": 1,
               "text": "1-A"
@@ -296,7 +296,7 @@
               "text": "1-C"
             }
           ],
-          "secondOptions": [
+          "rightOptions": [
             {
               "id": 1,
               "text": "2-A"
@@ -312,7 +312,7 @@
           ]
         },
         {
-          "firstOptions": [
+          "leftOptions": [
             {
               "id": 1,
               "text": "1-A"
@@ -326,7 +326,7 @@
               "text": "1-C"
             }
           ],
-          "secondOptions": [
+          "rightOptions": [
             {
               "id": 1,
               "text": "2-A"
@@ -350,7 +350,7 @@
       "difficulty": "easy",
       "questions": [
         {
-          "firstOptions": [
+          "leftOptions": [
             {
               "id": 1,
               "text": "1-A"
@@ -364,7 +364,7 @@
               "text": "1-C"
             }
           ],
-          "secondOptions": [
+          "rightOptions": [
             {
               "id": 1,
               "text": "2-A"
@@ -380,7 +380,7 @@
           ]
         },
         {
-          "firstOptions": [
+          "leftOptions": [
             {
               "id": 1,
               "text": "1-A"
@@ -394,7 +394,7 @@
               "text": "1-C"
             }
           ],
-          "secondOptions": [
+          "rightOptions": [
             {
               "id": 1,
               "text": "2-A"
@@ -418,7 +418,7 @@
       "difficulty": "easy",
       "questions": [
         {
-          "firstOptions": [
+          "leftOptions": [
             {
               "id": 1,
               "text": "1-A"
@@ -432,7 +432,7 @@
               "text": "1-C"
             }
           ],
-          "secondOptions": [
+          "rightOptions": [
             {
               "id": 1,
               "text": "2-A"
@@ -448,7 +448,7 @@
           ]
         },
         {
-          "firstOptions": [
+          "leftOptions": [
             {
               "id": 1,
               "text": "1-A"
@@ -462,7 +462,7 @@
               "text": "1-C"
             }
           ],
-          "secondOptions": [
+          "rightOptions": [
             {
               "id": 1,
               "text": "2-A"
@@ -486,7 +486,7 @@
       "difficulty": "hard",
       "questions": [
         {
-          "firstOptions": [
+          "leftOptions": [
             {
               "id": 1,
               "text": "1-A"
@@ -500,7 +500,7 @@
               "text": "1-C"
             }
           ],
-          "secondOptions": [
+          "rightOptions": [
             {
               "id": 1,
               "text": "2-A"
@@ -516,7 +516,7 @@
           ]
         },
         {
-          "firstOptions": [
+          "leftOptions": [
             {
               "id": 1,
               "text": "1-A"
@@ -530,7 +530,7 @@
               "text": "1-C"
             }
           ],
-          "secondOptions": [
+          "rightOptions": [
             {
               "id": 1,
               "text": "2-A"
@@ -554,7 +554,7 @@
       "difficulty": "easy",
       "questions": [
         {
-          "firstOptions": [
+          "leftOptions": [
             {
               "id": 1,
               "text": "1-A"
@@ -568,7 +568,7 @@
               "text": "1-C"
             }
           ],
-          "secondOptions": [
+          "rightOptions": [
             {
               "id": 1,
               "text": "2-A"
@@ -584,7 +584,7 @@
           ]
         },
         {
-          "firstOptions": [
+          "leftOptions": [
             {
               "id": 1,
               "text": "1-A"
@@ -598,7 +598,7 @@
               "text": "1-C"
             }
           ],
-          "secondOptions": [
+          "rightOptions": [
             {
               "id": 1,
               "text": "2-A"
@@ -622,7 +622,7 @@
       "difficulty": "easy",
       "questions": [
         {
-          "firstOptions": [
+          "leftOptions": [
             {
               "id": 1,
               "text": "1-A"
@@ -636,7 +636,7 @@
               "text": "1-C"
             }
           ],
-          "secondOptions": [
+          "rightOptions": [
             {
               "id": 1,
               "text": "2-A"
@@ -652,7 +652,7 @@
           ]
         },
         {
-          "firstOptions": [
+          "leftOptions": [
             {
               "id": 1,
               "text": "1-A"
@@ -666,7 +666,7 @@
               "text": "1-C"
             }
           ],
-          "secondOptions": [
+          "rightOptions": [
             {
               "id": 1,
               "text": "2-A"
@@ -690,7 +690,7 @@
       "difficulty": "easy",
       "questions": [
         {
-          "firstOptions": [
+          "leftOptions": [
             {
               "id": 1,
               "text": "1-A"
@@ -704,7 +704,7 @@
               "text": "1-C"
             }
           ],
-          "secondOptions": [
+          "rightOptions": [
             {
               "id": 1,
               "text": "2-A"
@@ -720,7 +720,7 @@
           ]
         },
         {
-          "firstOptions": [
+          "leftOptions": [
             {
               "id": 1,
               "text": "1-A"
@@ -734,7 +734,7 @@
               "text": "1-C"
             }
           ],
-          "secondOptions": [
+          "rightOptions": [
             {
               "id": 1,
               "text": "2-A"
@@ -758,7 +758,7 @@
       "difficulty": "hard",
       "questions": [
         {
-          "firstOptions": [
+          "leftOptions": [
             {
               "id": 1,
               "text": "1-A"
@@ -772,7 +772,7 @@
               "text": "1-C"
             }
           ],
-          "secondOptions": [
+          "rightOptions": [
             {
               "id": 1,
               "text": "2-A"
@@ -788,7 +788,7 @@
           ]
         },
         {
-          "firstOptions": [
+          "leftOptions": [
             {
               "id": 1,
               "text": "1-A"
@@ -802,7 +802,7 @@
               "text": "1-C"
             }
           ],
-          "secondOptions": [
+          "rightOptions": [
             {
               "id": 1,
               "text": "2-A"
@@ -826,7 +826,7 @@
       "difficulty": "medium",
       "questions": [
         {
-          "firstOptions": [
+          "leftOptions": [
             {
               "id": 1,
               "text": "1-A"
@@ -840,7 +840,7 @@
               "text": "1-C"
             }
           ],
-          "secondOptions": [
+          "rightOptions": [
             {
               "id": 1,
               "text": "2-A"
@@ -856,7 +856,7 @@
           ]
         },
         {
-          "firstOptions": [
+          "leftOptions": [
             {
               "id": 1,
               "text": "1-A"
@@ -870,7 +870,7 @@
               "text": "1-C"
             }
           ],
-          "secondOptions": [
+          "rightOptions": [
             {
               "id": 1,
               "text": "2-A"
@@ -894,7 +894,7 @@
       "difficulty": "medium",
       "questions": [
         {
-          "firstOptions": [
+          "leftOptions": [
             {
               "id": 1,
               "text": "1-A"
@@ -908,7 +908,7 @@
               "text": "1-C"
             }
           ],
-          "secondOptions": [
+          "rightOptions": [
             {
               "id": 1,
               "text": "2-A"
@@ -924,7 +924,7 @@
           ]
         },
         {
-          "firstOptions": [
+          "leftOptions": [
             {
               "id": 1,
               "text": "1-A"
@@ -938,7 +938,7 @@
               "text": "1-C"
             }
           ],
-          "secondOptions": [
+          "rightOptions": [
             {
               "id": 1,
               "text": "2-A"
@@ -962,7 +962,7 @@
       "difficulty": "easy",
       "questions": [
         {
-          "firstOptions": [
+          "leftOptions": [
             {
               "id": 1,
               "text": "1-A"
@@ -976,7 +976,7 @@
               "text": "1-C"
             }
           ],
-          "secondOptions": [
+          "rightOptions": [
             {
               "id": 1,
               "text": "2-A"
@@ -992,7 +992,7 @@
           ]
         },
         {
-          "firstOptions": [
+          "leftOptions": [
             {
               "id": 1,
               "text": "1-A"
@@ -1006,7 +1006,7 @@
               "text": "1-C"
             }
           ],
-          "secondOptions": [
+          "rightOptions": [
             {
               "id": 1,
               "text": "2-A"
@@ -1030,7 +1030,7 @@
       "difficulty": "medium",
       "questions": [
         {
-          "firstOptions": [
+          "leftOptions": [
             {
               "id": 1,
               "text": "1-A"
@@ -1044,7 +1044,7 @@
               "text": "1-C"
             }
           ],
-          "secondOptions": [
+          "rightOptions": [
             {
               "id": 1,
               "text": "2-A"
@@ -1060,7 +1060,7 @@
           ]
         },
         {
-          "firstOptions": [
+          "leftOptions": [
             {
               "id": 1,
               "text": "1-A"
@@ -1074,7 +1074,7 @@
               "text": "1-C"
             }
           ],
-          "secondOptions": [
+          "rightOptions": [
             {
               "id": 1,
               "text": "2-A"
@@ -1098,7 +1098,7 @@
       "difficulty": "medium",
       "questions": [
         {
-          "firstOptions": [
+          "leftOptions": [
             {
               "id": 1,
               "text": "1-A"
@@ -1112,7 +1112,7 @@
               "text": "1-C"
             }
           ],
-          "secondOptions": [
+          "rightOptions": [
             {
               "id": 1,
               "text": "2-A"
@@ -1128,7 +1128,7 @@
           ]
         },
         {
-          "firstOptions": [
+          "leftOptions": [
             {
               "id": 1,
               "text": "1-A"
@@ -1142,7 +1142,7 @@
               "text": "1-C"
             }
           ],
-          "secondOptions": [
+          "rightOptions": [
             {
               "id": 1,
               "text": "2-A"
@@ -1166,7 +1166,7 @@
       "difficulty": "medium",
       "questions": [
         {
-          "firstOptions": [
+          "leftOptions": [
             {
               "id": 1,
               "text": "1-A"
@@ -1180,7 +1180,7 @@
               "text": "1-C"
             }
           ],
-          "secondOptions": [
+          "rightOptions": [
             {
               "id": 1,
               "text": "2-A"
@@ -1196,7 +1196,7 @@
           ]
         },
         {
-          "firstOptions": [
+          "leftOptions": [
             {
               "id": 1,
               "text": "1-A"
@@ -1210,7 +1210,7 @@
               "text": "1-C"
             }
           ],
-          "secondOptions": [
+          "rightOptions": [
             {
               "id": 1,
               "text": "2-A"
@@ -1234,7 +1234,7 @@
       "difficulty": "medium",
       "questions": [
         {
-          "firstOptions": [
+          "leftOptions": [
             {
               "id": 1,
               "text": "1-A"
@@ -1248,7 +1248,7 @@
               "text": "1-C"
             }
           ],
-          "secondOptions": [
+          "rightOptions": [
             {
               "id": 1,
               "text": "2-A"
@@ -1264,7 +1264,7 @@
           ]
         },
         {
-          "firstOptions": [
+          "leftOptions": [
             {
               "id": 1,
               "text": "1-A"
@@ -1278,7 +1278,7 @@
               "text": "1-C"
             }
           ],
-          "secondOptions": [
+          "rightOptions": [
             {
               "id": 1,
               "text": "2-A"
