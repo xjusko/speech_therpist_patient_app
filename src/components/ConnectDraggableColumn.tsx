@@ -40,10 +40,11 @@ function ConnectDraggableColumn({
                     <div
                       className="d-flex align-items-center justify-content-center"
                       style={{
-                        height: "20vh",
+                        height: "35vw",
                         width: "40vw",
                         border: "3px solid black",
-                        maxWidth: "250px",
+                        maxWidth: "290px",
+                        maxHeight: "250px",
                       }}
                     >
                       {item.text}

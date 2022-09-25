@@ -3,7 +3,7 @@
     {
       "id": "181913649",
       "name": "Drake Hotline Bling",
-      "type": "3",
+      "type": "1",
       "difficulty": "easy",
       "questions": [
         {
@@ -71,11 +71,12 @@
     {
       "id": "87743020",
       "name": "Two Buttons",
-      "type": "1",
+      "type": "2",
       "difficulty": "hard",
       "questions": [
         {
-          "firstOptions": [
+          "main": "../images/car.jpg",
+          "options": [
             {
               "id": 1,
               "text": "1-A"
@@ -87,39 +88,16 @@
             {
               "id": 3,
               "text": "1-C"
-            }
-          ],
-          "secondOptions": [
-            {
-              "id": 1,
-              "text": "2-A"
             },
             {
-              "id": 2,
-              "text": "2-B"
-            },
-            {
-              "id": 3,
-              "text": "2-C"
+              "id": 4,
+              "text": "1-D"
             }
           ]
         },
         {
-          "firstOptions": [
-            {
-              "id": 1,
-              "text": "1-A"
-            },
-            {
-              "id": 2,
-              "text": "1-B"
-            },
-            {
-              "id": 3,
-              "text": "1-C"
-            }
-          ],
-          "secondOptions": [
+          "main": "../images/book.jpg",
+          "options": [
             {
               "id": 1,
               "text": "2-A"
@@ -131,6 +109,31 @@
             {
               "id": 3,
               "text": "2-C"
+            },
+            {
+              "id": 4,
+              "text": "3-D"
+            }
+          ]
+        },
+        {
+          "main": "../images/bananas.jpg",
+          "options": [
+            {
+              "id": 1,
+              "text": "2-A"
+            },
+            {
+              "id": 2,
+              "text": "2-B"
+            },
+            {
+              "id": 3,
+              "text": "2-C"
+            },
+            {
+              "id": 4,
+              "text": "3-D"
             }
           ]
         }
@@ -343,7 +346,7 @@
     {
       "id": "129242436",
       "name": "Change My Mind",
-      "type": "3",
+      "type": "2",
       "difficulty": "easy",
       "questions": [
         {
@@ -411,7 +414,7 @@
     {
       "id": "124822590",
       "name": "Left Exit 12 Off Ramp",
-      "type": "3",
+      "type": "2",
       "difficulty": "easy",
       "questions": [
         {
@@ -683,7 +686,7 @@
     {
       "id": "4087833",
       "name": "Waiting Skeleton",
-      "type": "3",
+      "type": "2",
       "difficulty": "easy",
       "questions": [
         {
@@ -887,7 +890,7 @@
     {
       "id": "61579",
       "name": "One Does Not Simply",
-      "type": "3",
+      "type": "2",
       "difficulty": "medium",
       "questions": [
         {
@@ -1023,7 +1026,7 @@
     {
       "id": "438680",
       "name": "Batman Slapping Robin",
-      "type": "3",
+      "type": "1",
       "difficulty": "medium",
       "questions": [
         {
@@ -1091,7 +1094,7 @@
     {
       "id": "101470",
       "name": "Ancient Aliens",
-      "type": "3",
+      "type": "2",
       "difficulty": "medium",
       "questions": [
         {

@@ -4,20 +4,37 @@ import { useParams, useNavigate } from "react-router-dom";
 import { DropResult } from "react-beautiful-dnd";
 import data from "../../data/tasks.json";
 import ConnectDraggableColumn from "../../components/ConnectDraggableColumn";
-import { BackArrowIcon } from "../../utils/CommonIcons";
+import { BackArrowIcon, HomeIcon } from "../../utils/CommonIcons";
 
 type Question = {
   id: number;
   text: string;
 };
 
+type ConnectTask = {
+  id: string;
+  name: string;
+  type: string;
+  difficulty: string;
+  questions: {
+    firstOptions: {
+      id: number;
+      text: string;
+    }[];
+    secondOptions: {
+      id: number;
+      text: string;
+    }[];
+  }[];
+};
+
 function Connect() {
   const { id } = useParams();
-  const task = data.tasks.find((i) => i.id === id);
-  if (!task) return <div></div>;
+  const task: ConnectTask = data.tasks.find((i) => i.id === id);
   const questionsCount = task.questions.length;
 
   const navigate = useNavigate();
+  const [isChecked, setIsChecked] = useState(false);
   const [questions, setQuestions] = useState({
     questionIndex: 0,
     firstOptions: task.questions[0].firstOptions,
@@ -63,9 +80,17 @@ function Connect() {
   }
   return (
     <div>
-      <NavLink href="/taskmenu" as={NavLink}>
-        <BackArrowIcon />
-      </NavLink>
+      <div className="d-flex mx-4 justify-content-between">
+        <NavLink href="/taskmenu" as={NavLink}>
+          <BackArrowIcon />
+        </NavLink>
+        <div className="d-flex justify-content-center align-items-center">{`${
+          questions.questionIndex + 1
+        } / ${questionsCount}`}</div>
+        <NavLink href="/" as={NavLink}>
+          <HomeIcon />
+        </NavLink>
+      </div>
       <div className="mx-4 my-5">
         <div className="fs-1 fw-bold font-monospace text-center ">
           Pair by dragging
@@ -84,13 +109,26 @@ function Connect() {
           />
         </Stack>
         <div className="text-center">
-          <Button variant="dark" size="lg" onClick={handleNextButtonClick}>
-            Next
+          <Button
+            variant="dark"
+            size="lg"
+            onClick={isChecked ? handleNextButtonClick : handleCheckButtonClick}
+          >
+            {isChecked ? "Next" : "Check"}
           </Button>
         </div>
       </div>
     </div>
   );
+
+  function handleCheckButtonClick(): void {
+    setIsChecked(true);
+    setQuestions((prev) => ({
+      ...prev,
+      firstOptions: task.questions[prev.questionIndex].firstOptions,
+      secondOptions: task.questions[prev.questionIndex].secondOptions,
+    }));
+  }
 
   function handleNextButtonClick(): void {
     if (!task) {

@@ -11,7 +11,12 @@ type ChooseTaskCardProps = {
 
 function ChooseTaskCard({ id, name, type, difficulty }: ChooseTaskCardProps) {
   return (
-    <Nav.Link href={`/questionconnect/${id}`} as={NavLink}>
+    <Nav.Link
+      href={`/${
+        type === "1" ? "questionconnect" : "questionfourchoices"
+      }/${id}`}
+      as={NavLink}
+    >
       <div
         className="w-100 my-1"
         style={{
