@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, ButtonGroup, Col, NavLink, Row } from "react-bootstrap";
+import { Button, Col, NavLink, Row } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import data from "../../data/tasks.json";
 import { BackArrowIcon, HomeIcon } from "../../utils/CommonIcons";
@@ -24,14 +24,15 @@ function FourChoices() {
   const task: FourChoicesTask = data.tasks.find((i) => i.id === id);
   const questionsCount = task.questions.length;
   const [answers, setAnswers] = useState<number[]>([]);
+  const [isAnswered, setIsAnswered] = useState(false);
   const [question, setQuestion] = useState({
     index: 0,
     main: task.questions[0].main,
     choices: task.questions[0].options,
   });
 
-  function handleClick(id: number) {
-    setAnswers((prev) => [...prev, id]);
+  function handleNextClick() {
+    setIsAnswered(false);
     if (questionsCount - 1 === question.index) {
       navigate(`/taskfinish/${id}`);
       return;
@@ -42,7 +43,11 @@ function FourChoices() {
       choices: task.questions[prev.index + 1].options,
     }));
   }
-  console.log(answers);
+
+  function handleChoiceClick(item) {
+    setAnswers((prev) => [...prev, item.id]);
+    setIsAnswered(true);
+  }
 
   return (
     <div>
@@ -58,6 +63,9 @@ function FourChoices() {
         </NavLink>
       </div>
       <div className="mx-4 my-5">
+        <Row className="text-center mb-3 fs-1 fw-bold">
+          <Col>Choose Correct Answer</Col>
+        </Row>
         <Row className="text-center ">
           <Col>
             <div
@@ -85,13 +93,15 @@ function FourChoices() {
               key={item.id}
             >
               <Button
-                onClick={() => handleClick(item.id)}
+                onClick={() => handleChoiceClick(item)}
                 size="lg"
                 variant="secondary"
                 style={{
                   height: "15vw",
                   width: "100%",
                   maxHeight: "100px",
+                  border:
+                    isAnswered && item.id === 1 ? "3px solid green" : "none",
                 }}
               >
                 {item.text}
@@ -99,6 +109,15 @@ function FourChoices() {
             </Col>
           ))}
         </Row>
+        {isAnswered && (
+          <Row className="text-center mt-5">
+            <Col>
+              <Button size="lg" onClick={handleNextClick}>
+                Next
+              </Button>
+            </Col>
+          </Row>
+        )}
       </div>
     </div>
   );

@@ -10,6 +10,7 @@ import TaskMenu from "./pages/TaskMenu";
 import Connect from "./pages/questionTypes/Connect";
 import TaskFinishScreen from "./pages/TaskFinishScreen";
 import FourChoices from "./pages/questionTypes/FourChoices";
+import Routine from "./pages/Routine";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path="/findtherapist" element={<FindTherapist />} />
         <Route path="/therapist/:id" element={<TherapistMainInfo />} />
         <Route path="/taskmenu" element={<TaskMenu />} />
+        <Route path="/routine" element={<Routine />} />
         <Route path="/questionconnect/:id" element={<Connect />} />
         <Route path="/questionfourchoices/:id" element={<FourChoices />} />
         <Route path="/taskfinish/:qid" element={<TaskFinishScreen />} />

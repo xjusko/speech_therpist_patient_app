@@ -1,3 +1,4 @@
+import { motion, useIsPresent } from "framer-motion";
 import React from "react";
 import { Nav, NavLink, Stack } from "react-bootstrap";
 
@@ -10,6 +11,17 @@ type ChooseTaskCardProps = {
 };
 
 function ChooseTaskCard({ id, name, type, difficulty }: ChooseTaskCardProps) {
+  const isPresent = useIsPresent();
+  const animations = {
+    layout: true,
+    initial: "out",
+    animate: isPresent ? "in" : "out",
+    variants: {
+      in: { scale: 1, opacity: 1 },
+      out: { scale: 0, opacity: 0 },
+    },
+    transition: { ease: "easeInOut", duration: 0.2 },
+  };
   return (
     <Nav.Link
       href={`/${
@@ -17,9 +29,11 @@ function ChooseTaskCard({ id, name, type, difficulty }: ChooseTaskCardProps) {
       }/${id}`}
       as={NavLink}
     >
-      <div
+      <motion.div
+        {...animations}
         className="w-100 my-1"
         style={{
+          position: isPresent ? "static" : "absolute",
           border: "1px solid rgba(0, 0, 0, .3)",
           borderRadius: "1rem",
         }}
@@ -35,7 +49,7 @@ function ChooseTaskCard({ id, name, type, difficulty }: ChooseTaskCardProps) {
             <div>{difficulty}</div>
           </div>
         </Stack>
-      </div>
+      </motion.div>
     </Nav.Link>
   );
 }
