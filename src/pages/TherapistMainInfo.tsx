@@ -15,6 +15,9 @@ import { BackArrowIcon, HomeIcon } from "../utils/CommonIcons";
 function TherapistMainInfo() {
   const { id } = useParams();
   const therapist = therapists.find((i) => i.id === Number(id));
+  if (!therapist) {
+    return <div></div>;
+  }
   return (
     <div className="mx-4">
       <div className="d-flex mt-1">
@@ -27,26 +30,36 @@ function TherapistMainInfo() {
       </div>
       <Card
         style={{ background: "none", border: "none" }}
-        className="mt-1 text-dark"
+        className="mt-1 text-dark d-flex"
       >
-        <Card.Img
-          src={therapist?.imageUrl}
-          style={{ objectFit: "fill", height: "45vh" }}
-        />
+        <div className="d-flex justify-content-center align-items-center">
+          <Card.Img
+            className="d-flex justify-content-center align-items-center"
+            src={therapist.imageUrl}
+            style={{
+              objectFit: "fill",
+              borderRadius: "50%",
+              height: "40vw",
+              width: "40vw",
+            }}
+          />
+        </div>
         <Card.Body>
-          <Card.Title className="d-flex align-items-center">
-            {therapist?.firstName} {therapist?.lastName}
-            <span className="ms-auto" style={{ fontSize: "0.85rem" }}>
-              {therapist?.email}
-            </span>
+          <Card.Title className="d-flex align-items-center justify-content-center fs-1">
+            {therapist.firstName} {therapist.lastName}
           </Card.Title>
-          <Card.Subtitle className="my-2 d-flex align-items-center">
-            {therapist?.location}
-            {", "}
-            {therapist?.city}
-            <span className="ms-auto" style={{ fontSize: "0.85rem" }}>
-              {therapist?.phone}
-            </span>
+          <Card.Subtitle className="d-flex align-items-center justify-content-center fs-4">
+            {therapist.email}
+          </Card.Subtitle>
+          <Card.Subtitle className="mt-1 d-flex align-items-center justify-content-center">
+            {therapist.phone}
+          </Card.Subtitle>
+          <Card.Subtitle className="mt-1 d-flex align-items-center justify-content-center">
+            {therapist.location}, {therapist.city}
+          </Card.Subtitle>
+          <Card.Subtitle className="mt-4 d-flex align-items-center justify-content-center fs-3">
+            <span className="fw-bold fs-1 me-1">15</span>
+            <span>patients</span>
           </Card.Subtitle>
           <hr style={{ opacity: "1", height: "1px" }} />
           <Card.Text>

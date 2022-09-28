@@ -14,7 +14,7 @@ import Routine from "./pages/Routine";
 
 function App() {
   return (
-    <Container style={{ maxWidth: "700px" }}>
+    <Container style={{ maxWidth: "700px", minHeight: "100vh" }}>
       <Routes>
         <Route path="/" element={<Menu />} />
         <Route path="/register" element={<Register />} />

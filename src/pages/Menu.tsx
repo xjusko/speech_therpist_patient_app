@@ -26,7 +26,7 @@ function Menu() {
     maxWidth: "200px",
   };
   return (
-    <div className="d-flex flex-column vh-100 mx-4">
+    <div className="d-flex flex-column mx-4 min-vh-100">
       <Row>
         <Col className="d-flex flex-column mt-5 align-items-center text-dark">
           <div
@@ -43,15 +43,15 @@ function Menu() {
           <Nav.Link href="/taskmenu" as={NavLink}>
             <Button variant="outline-dark" style={mainButtonStyle}>
               <BsController style={imageStyle} />
-            </Button>{" "}
-            <div>TASKS</div>
+              <div className="mt-2">TASKS</div>
+            </Button>
           </Nav.Link>
         </Col>
         <Col>
           <Button variant="outline-dark" style={mainButtonStyle}>
             <BsJournalCheck style={imageStyle} />
+            <div className="mt-2">MY ROUTINE</div>
           </Button>
-          <div>MY ROUTINE</div>
         </Col>
       </Row>
       <Row xs={2} className="mt-2 g-2 text-center">
@@ -59,15 +59,16 @@ function Menu() {
           <QuickTaskButton
             imageStyle={imageStyle}
             buttonStyle={mainButtonStyle}
-          />
-          <div>QUICK TASK</div>
+          >
+            <div className="mt-2">QUICK TASK</div>
+          </QuickTaskButton>
         </Col>
         <Col>
           <Nav.Link href="/findtherapist" as={NavLink}>
             <Button variant="outline-dark" style={mainButtonStyle}>
               <BsPersonFill style={imageStyle} />
-            </Button>{" "}
-            <div>MY THERAPIST</div>
+              <div className="mt-2">MY THERAPIST</div>
+            </Button>
           </Nav.Link>
         </Col>
       </Row>

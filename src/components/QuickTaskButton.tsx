@@ -7,9 +7,11 @@ import { BsFillLightningFill } from "react-icons/bs";
 function QuickTaskButton({
   imageStyle,
   buttonStyle,
+  children,
 }: {
   imageStyle: React.CSSProperties;
   buttonStyle: React.CSSProperties;
+  children: React.ReactNode;
 }) {
   const navigate = useNavigate();
   function handleClick() {
@@ -24,13 +26,9 @@ function QuickTaskButton({
     }
   }
   return (
-    <Button
-      variant="outline-dark"
-      className="text-uppercase fs-3"
-      onClick={handleClick}
-      style={buttonStyle}
-    >
+    <Button variant="outline-dark" onClick={handleClick} style={buttonStyle}>
       <BsFillLightningFill style={imageStyle} />
+      <div>{children}</div>
     </Button>
   );
 }

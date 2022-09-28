@@ -44,8 +44,8 @@ function FourChoices() {
     }));
   }
 
-  function handleChoiceClick(item) {
-    setAnswers((prev) => [...prev, item.id]);
+  function handleChoiceClick(itemId: number) {
+    setAnswers((prev) => [...prev, itemId]);
     setIsAnswered(true);
   }
 
@@ -93,15 +93,18 @@ function FourChoices() {
               key={item.id}
             >
               <Button
-                onClick={() => handleChoiceClick(item)}
+                onClick={(event) => handleChoiceClick(item.id)}
                 size="lg"
-                variant="secondary"
+                variant="outline-dark"
+                disabled={isAnswered}
                 style={{
                   height: "15vw",
                   width: "100%",
                   maxHeight: "100px",
                   border:
-                    isAnswered && item.id === 1 ? "3px solid green" : "none",
+                    isAnswered && item.id === 1
+                      ? "5px solid green"
+                      : "1px solid black",
                 }}
               >
                 {item.text}
@@ -109,15 +112,19 @@ function FourChoices() {
             </Col>
           ))}
         </Row>
-        {isAnswered && (
-          <Row className="text-center mt-5">
-            <Col>
-              <Button size="lg" onClick={handleNextClick}>
-                Next
-              </Button>
-            </Col>
-          </Row>
-        )}
+
+        <Row className="text-center mt-5">
+          <Col>
+            <Button
+              size="lg"
+              variant="dark"
+              onClick={handleNextClick}
+              disabled={!isAnswered}
+            >
+              Next
+            </Button>
+          </Col>
+        </Row>
       </div>
     </div>
   );
