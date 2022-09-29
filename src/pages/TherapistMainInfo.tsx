@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Button,
   Card,
@@ -7,17 +7,29 @@ import {
   Stack,
   Tooltip,
   OverlayTrigger,
+  Tab,
+  Tabs,
 } from "react-bootstrap";
+import {
+  BsBuilding,
+  BsFillEnvelopeFill,
+  BsGeoAltFill,
+  BsTelephoneFill,
+} from "react-icons/bs";
 import { useParams } from "react-router-dom";
 import therapists from "../data/therapists.json";
 import { BackArrowIcon, HomeIcon } from "../utils/CommonIcons";
 
 function TherapistMainInfo() {
   const { id } = useParams();
+
   const therapist = therapists.find((i) => i.id === Number(id));
   if (!therapist) {
     return <div></div>;
   }
+  const [tabKey, settabKey] = useState("home");
+  const contactIconStyle = { width: "2rem", height: "2rem" };
+  const contactTextClassName = "fs-3 ms-2 my-1";
   return (
     <div className="mx-4">
       <div className="d-flex mt-1">
@@ -48,39 +60,72 @@ function TherapistMainInfo() {
           <Card.Title className="d-flex align-items-center justify-content-center fs-1">
             {therapist.firstName} {therapist.lastName}
           </Card.Title>
-          <Card.Subtitle className="d-flex align-items-center justify-content-center fs-4">
-            {therapist.email}
-          </Card.Subtitle>
-          <Card.Subtitle className="mt-1 d-flex align-items-center justify-content-center">
-            {therapist.phone}
-          </Card.Subtitle>
-          <Card.Subtitle className="mt-1 d-flex align-items-center justify-content-center">
-            {therapist.location}, {therapist.city}
-          </Card.Subtitle>
+
           <Card.Subtitle className="mt-4 d-flex align-items-center justify-content-center fs-3">
             <span className="fw-bold fs-1 me-1">15</span>
             <span>patients</span>
           </Card.Subtitle>
-          <hr style={{ opacity: "1", height: "1px" }} />
-          <Card.Text>
-            Some quick example text to build on the card title and make up the
-            bulk of the card's content.
-          </Card.Text>
-          <Stack
-            direction="horizontal"
-            className="d-flex gap-3"
-            style={{ flexWrap: "nowrap", overflowX: "auto" }}
+          <Tabs
+            id="controlled-tab-example"
+            activeKey={tabKey}
+            onSelect={(k) => settabKey(k)}
+            className="mb-3 mt-5"
+            justify
           >
-            <EventButton />
+            <Tab eventKey="bio" title="Bio">
+              <Card.Text className="fs-4">
+                Some quick example text to build on the card title and make up
+                the bulk of the card's content.
+              </Card.Text>
+            </Tab>
 
-            <EventButton />
+            <Tab eventKey="contact" title="Contact">
+              <div className="d-flex align-items-center">
+                <div>
+                  <BsFillEnvelopeFill style={contactIconStyle} />
+                </div>
+                <div className={contactTextClassName}>{therapist.email}</div>
+              </div>
+              <div className="d-flex align-items-center">
+                <div>
+                  <BsTelephoneFill style={contactIconStyle} />
+                </div>
+                <div className={contactTextClassName}>{therapist.phone}</div>
+              </div>
+              <div className="d-flex align-items-center">
+                <div>
+                  <BsGeoAltFill style={contactIconStyle} />
+                </div>
+                <div className={contactTextClassName}>
+                  {therapist.city}, {therapist.location}
+                </div>
+              </div>
+              <div className="d-flex align-items-center">
+                <div>
+                  <BsBuilding style={contactIconStyle} />
+                </div>
+                <div className={contactTextClassName}>{therapist.email}</div>
+              </div>
+            </Tab>
+            <Tab eventKey="events" title="Events">
+              <Card.Text className="fs-2 mb-0">Upcoming events</Card.Text>
+              <Stack
+                direction="horizontal"
+                className="d-flex gap-3"
+                style={{ flexWrap: "nowrap", overflowX: "auto" }}
+              >
+                <EventButton />
 
-            <EventButton />
+                <EventButton />
 
-            <EventButton />
+                <EventButton />
 
-            <EventButton />
-          </Stack>
+                <EventButton />
+
+                <EventButton />
+              </Stack>
+            </Tab>
+          </Tabs>
         </Card.Body>
       </Card>
     </div>
