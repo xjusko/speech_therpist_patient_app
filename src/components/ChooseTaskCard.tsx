@@ -1,6 +1,6 @@
 import { motion, useIsPresent } from "framer-motion";
 import React from "react";
-import { Nav, NavLink, Stack } from "react-bootstrap";
+import { NavLink, Stack } from "react-bootstrap";
 
 type ChooseTaskCardProps = {
   id: string;
@@ -23,11 +23,10 @@ function ChooseTaskCard({ id, name, type, difficulty }: ChooseTaskCardProps) {
     transition: { ease: "easeInOut", duration: 0.2 },
   };
   return (
-    <Nav.Link
+    <NavLink
       href={`/${
         type === "1" ? "questionconnect" : "questionfourchoices"
       }/${id}`}
-      as={NavLink}
     >
       <motion.div
         {...animations}
@@ -50,7 +49,7 @@ function ChooseTaskCard({ id, name, type, difficulty }: ChooseTaskCardProps) {
           </div>
         </Stack>
       </motion.div>
-    </Nav.Link>
+    </NavLink>
   );
 }
 export default ChooseTaskCard;

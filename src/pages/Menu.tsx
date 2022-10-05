@@ -8,9 +8,11 @@ import {
   BsPersonFill,
 } from "react-icons/bs";
 import QuickTaskButton from "../components/QuickTaskButton";
+import { useAuth } from "../contexts/AuthContext";
 import { FireStreakIcon } from "../utils/CommonIcons";
 
 function Menu() {
+  const { setUser } = useAuth();
   const mainButtonStyle = {
     height: "40vw",
     width: "40vw",
@@ -40,18 +42,20 @@ function Menu() {
       </Row>
       <Row xs={2} className="g-2 text-center mt-2">
         <Col>
-          <Nav.Link href="/taskmenu" as={NavLink}>
+          <NavLink href="/taskmenu">
             <Button variant="outline-dark" style={mainButtonStyle}>
               <BsController style={imageStyle} />
               <div className="mt-2">TASKS</div>
             </Button>
-          </Nav.Link>
+          </NavLink>
         </Col>
         <Col>
-          <Button variant="outline-dark" style={mainButtonStyle}>
-            <BsJournalCheck style={imageStyle} />
-            <div className="mt-2">MY ROUTINE</div>
-          </Button>
+          <NavLink href="/routine">
+            <Button variant="outline-dark" style={mainButtonStyle}>
+              <BsJournalCheck style={imageStyle} />
+              <div className="mt-2">MY ROUTINE</div>
+            </Button>
+          </NavLink>
         </Col>
       </Row>
       <Row xs={2} className="mt-2 g-2 text-center">
@@ -64,19 +68,19 @@ function Menu() {
           </QuickTaskButton>
         </Col>
         <Col>
-          <Nav.Link href="/findtherapist" as={NavLink}>
+          <NavLink href="/findtherapist">
             <Button variant="outline-dark" style={mainButtonStyle}>
               <BsPersonFill style={imageStyle} />
               <div className="mt-2">MY THERAPIST</div>
             </Button>
-          </Nav.Link>
+          </NavLink>
         </Col>
       </Row>
       <Row xs={1} sm={2} className="my-5 gap-2 justify-content-center">
         <Col
           xs={10}
           sm={5}
-          style={{ border: "2px solid grey", borderRadius: "16px" }}
+          style={{ border: "2px solid black", borderRadius: "16px" }}
         >
           <div className="d-flex mx-2 my-2 align-items-center">
             <FireStreakIcon />
@@ -89,7 +93,7 @@ function Menu() {
         <Col
           xs={10}
           sm={5}
-          style={{ border: "2px solid grey", borderRadius: "16px" }}
+          style={{ border: "2px solid black", borderRadius: "16px" }}
         >
           <div className="d-flex mx-2 my-2 align-items-center">
             <BsBell style={{ height: "3rem", width: "3rem" }} />
@@ -102,9 +106,12 @@ function Menu() {
       </Row>
       <Row className="mt-auto mb-3 text-dark fs-2 text-center">
         <Col>
-          <Nav.Link href="/login" as={NavLink}>
+          <NavLink href="/login" onClick={() => setUser("")}>
             <BsBoxArrowLeft style={{ height: "3rem", width: "3rem" }} />
-          </Nav.Link>
+            <div className="ms-2" style={{ fontSize: "1rem" }}>
+              Log Out
+            </div>
+          </NavLink>
         </Col>
       </Row>
     </div>

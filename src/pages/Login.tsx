@@ -1,15 +1,9 @@
 import React, { useState } from "react";
 import { Formik } from "formik";
 import * as yup from "yup";
-import {
-  Form,
-  Stack,
-  FloatingLabel,
-  Button,
-  Nav,
-  NavLink,
-} from "react-bootstrap";
+import { Form, Stack, FloatingLabel, Button, NavLink } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
 
 const schema = yup.object({
   email: yup.string().email("Invalid email address").required("Required"),
@@ -18,6 +12,7 @@ const schema = yup.object({
 
 function Login() {
   const navigate = useNavigate();
+  const { user, setUser } = useAuth();
   return (
     <div className="d-flex flex-column align-items-center">
       <div
@@ -29,9 +24,12 @@ function Login() {
       <Formik
         validationSchema={schema}
         initialValues={{ email: "", password: "" }}
-        onSubmit={(values, { setSubmitting }) => {
-          console.log(values);
-          navigate("/");
+        onSubmit={async (values, { setSubmitting }) => {
+          const response = await login(values);
+          if (response.status === 200) {
+            response.json().then((data) => setUser(data.token));
+            navigate("/");
+          }
           setSubmitting(false);
         }}
       >
@@ -77,13 +75,12 @@ function Login() {
               </Button>
               <div className="d-flex m-auto gap-2 text-dark">
                 Don't have an account?
-                <Nav.Link
+                <NavLink
                   href="/register"
-                  as={NavLink}
                   className="fw-bold text-decoration-underline"
                 >
                   Sign In
-                </Nav.Link>
+                </NavLink>
               </div>
             </Stack>
           </Form>
@@ -91,6 +88,16 @@ function Login() {
       </Formik>
     </div>
   );
+}
+
+async function login(values) {
+  return await fetch("http://172.26.5.2/api/user/login/", {
+    method: "POST",
+    body: JSON.stringify(values),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
 }
 
 export default Login;

@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Card, Col, Nav, Row, Stack } from "react-bootstrap";
+import { NavLink, Stack } from "react-bootstrap";
 
 type TherapistCardProps = {
   id: number;
@@ -17,7 +17,7 @@ function FindTherapistCard({
   imageUrl,
 }: TherapistCardProps) {
   return (
-    <Nav.Link href={`/therapist/${id}`}>
+    <NavLink href={`/therapist/${id}`}>
       <div
         className="w-100 my-1"
         style={{
@@ -55,7 +55,7 @@ function FindTherapistCard({
           </div>
         </Stack>
       </div>
-    </Nav.Link>
+    </NavLink>
   );
 }
 

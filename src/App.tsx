@@ -11,23 +11,29 @@ import Connect from "./pages/questionTypes/Connect";
 import TaskFinishScreen from "./pages/TaskFinishScreen";
 import FourChoices from "./pages/questionTypes/FourChoices";
 import Routine from "./pages/Routine";
+import { AuthProvider } from "./contexts/AuthContext";
+import AuthRequired from "./components/AuthRequired";
 
 function App() {
   return (
-    <Container style={{ maxWidth: "700px", minHeight: "100vh" }}>
-      <Routes>
-        <Route path="/" element={<Menu />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/findtherapist" element={<FindTherapist />} />
-        <Route path="/therapist/:id" element={<TherapistMainInfo />} />
-        <Route path="/taskmenu" element={<TaskMenu />} />
-        <Route path="/routine" element={<Routine />} />
-        <Route path="/questionconnect/:id" element={<Connect />} />
-        <Route path="/questionfourchoices/:id" element={<FourChoices />} />
-        <Route path="/taskfinish/:qid" element={<TaskFinishScreen />} />
-      </Routes>
-    </Container>
+    <AuthProvider>
+      <Container style={{ maxWidth: "700px", minHeight: "100vh" }}>
+        <Routes>
+          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
+          <Route element={<AuthRequired />}>
+            <Route path="/" element={<Menu />} />
+            <Route path="/findtherapist" element={<FindTherapist />} />
+            <Route path="/therapist/:id" element={<TherapistMainInfo />} />
+            <Route path="/taskmenu" element={<TaskMenu />} />
+            <Route path="/routine" element={<Routine />} />
+            <Route path="/questionconnect/:id" element={<Connect />} />
+            <Route path="/questionfourchoices/:id" element={<FourChoices />} />
+            <Route path="/taskfinish/:qid" element={<TaskFinishScreen />} />
+          </Route>
+        </Routes>
+      </Container>
+    </AuthProvider>
   );
 }
 

@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import {
   Button,
   Card,
-  Nav,
   NavLink,
   Stack,
   Tooltip,
@@ -27,18 +26,18 @@ function TherapistMainInfo() {
   if (!therapist) {
     return <div></div>;
   }
-  const [tabKey, settabKey] = useState("home");
+  const [tabKey, settabKey] = useState("bio");
   const contactIconStyle = { width: "2rem", height: "2rem" };
   const contactTextClassName = "fs-3 ms-2 my-1";
   return (
     <div className="mx-4">
       <div className="d-flex mt-1">
-        <Nav.Link href="/findtherapist" as={NavLink}>
+        <NavLink href="/findtherapist">
           <BackArrowIcon />
-        </Nav.Link>
-        <Nav.Link href="/" as={NavLink} className="ms-auto">
+        </NavLink>
+        <NavLink href="/" className="ms-auto">
           <HomeIcon />
-        </Nav.Link>
+        </NavLink>
       </div>
       <Card
         style={{ background: "none", border: "none" }}
@@ -49,10 +48,10 @@ function TherapistMainInfo() {
             className="d-flex justify-content-center align-items-center"
             src={therapist.imageUrl}
             style={{
-              objectFit: "fill",
+              objectFit: "cover",
               borderRadius: "50%",
-              height: "40vw",
-              width: "40vw",
+              height: "80vw",
+              maxHeight: "550px",
             }}
           />
         </div>
@@ -68,18 +67,18 @@ function TherapistMainInfo() {
           <Tabs
             id="controlled-tab-example"
             activeKey={tabKey}
-            onSelect={(k) => settabKey(k)}
+            onSelect={(key) => settabKey(key)}
             className="mb-3 mt-5"
             justify
           >
-            <Tab eventKey="bio" title="Bio">
+            <Tab eventKey="bio" title="Bio" tabClassName="text-black">
               <Card.Text className="fs-4">
                 Some quick example text to build on the card title and make up
                 the bulk of the card's content.
               </Card.Text>
             </Tab>
 
-            <Tab eventKey="contact" title="Contact">
+            <Tab eventKey="contact" title="Contact" tabClassName="text-black">
               <div className="d-flex align-items-center">
                 <div>
                   <BsFillEnvelopeFill style={contactIconStyle} />
@@ -107,7 +106,7 @@ function TherapistMainInfo() {
                 <div className={contactTextClassName}>{therapist.email}</div>
               </div>
             </Tab>
-            <Tab eventKey="events" title="Events">
+            <Tab eventKey="events" title="Events" tabClassName="text-black">
               <Card.Text className="fs-2 mb-0">Upcoming events</Card.Text>
               <Stack
                 direction="horizontal"

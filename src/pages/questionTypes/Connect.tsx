@@ -44,13 +44,13 @@ function Connect() {
   return (
     <div>
       <div className="d-flex mx-4 justify-content-between">
-        <NavLink href="/taskmenu" as={NavLink}>
+        <NavLink href="/taskmenu">
           <BackArrowIcon />
         </NavLink>
         <div className="d-flex justify-content-center align-items-center">{`${
           questionIndex + 1
         } / ${questionsCount}`}</div>
-        <NavLink href="/" as={NavLink}>
+        <NavLink href="/">
           <HomeIcon />
         </NavLink>
       </div>

@@ -3,7 +3,6 @@ import {
   Button,
   Col,
   Form,
-  Nav,
   NavLink,
   Offcanvas,
   Row,
@@ -39,9 +38,9 @@ function FindTherapist() {
       onScroll={() => setShow(true)}
     >
       <div className="d-flex">
-        <Nav.Link href="/" as={NavLink}>
+        <NavLink href="/">
           <BackArrowIcon />
-        </Nav.Link>
+        </NavLink>
       </div>
 
       <Stack className="d-flex align-items-center my-4">

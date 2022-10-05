@@ -9,11 +9,15 @@ import {
   Stack,
 } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useAuth } from "../contexts/AuthContext";
 
 function Register() {
   const navigate = useNavigate();
+  const { user, setUser } = useAuth();
+  const [responseError, setResponseError] = useState("");
   const schema = yup.object({
-    fullName: yup.string().required("Required"),
+    name: yup.string().required("Required"),
     email: yup.string().email("Invalid email address").required("Required"),
     password: yup
       .string()
@@ -22,7 +26,7 @@ function Register() {
         /^(?=.*[0-9])(?=.*[A-Z]).{8,20}$/,
         "Password must be 8-20 characters long, contain an uppercase character and a digit"
       ),
-    confirmPassword: yup
+    confirm_password: yup
       .string()
       .oneOf([yup.ref("password"), null], "Passwords must match"),
   });
@@ -38,32 +42,37 @@ function Register() {
       <Formik
         validationSchema={schema}
         initialValues={{
-          fullName: "",
           email: "",
+          name: "",
           password: "",
-          confirmPassword: "",
+          confirm_password: "",
         }}
-        onSubmit={(values, { setSubmitting }) => {
-          console.log(values);
-          navigate("/");
+        onSubmit={async (values, { setSubmitting }) => {
+          const response = await registerUser(values);
+          if (response.status === 201) {
+            navigate("/");
+          } else {
+            response.json().then((data) => setResponseError(data.email[0]));
+          }
+
           setSubmitting(false);
         }}
       >
         {({ handleSubmit, handleChange, values, errors, touched }) => (
           <Form noValidate onSubmit={handleSubmit}>
             <Stack className="gap-3 mx-4">
-              <FloatingLabel controlId="floatingFullName" label="Full Name">
+              <FloatingLabel controlId="floatingname" label="Full Name">
                 <Form.Control
                   size="lg"
                   type="text"
                   placeholder="Full Name"
                   onChange={handleChange}
-                  value={values.fullName}
-                  isInvalid={touched.fullName && !!errors.fullName}
-                  name="fullName"
+                  value={values.name}
+                  isInvalid={touched.name && !!errors.name}
+                  name="name"
                 />
                 <Form.Control.Feedback type="invalid">
-                  {errors.fullName}
+                  {errors.name}
                 </Form.Control.Feedback>
               </FloatingLabel>
               <FloatingLabel controlId="floatingEmail" label="Email">
@@ -103,20 +112,23 @@ function Register() {
                   type="password"
                   placeholder="Confirm Password"
                   onChange={handleChange}
-                  value={values.confirmPassword}
+                  value={values.confirm_password}
                   isInvalid={
-                    touched.confirmPassword && !!errors.confirmPassword
+                    touched.confirm_password && !!errors.confirm_password
                   }
-                  name="confirmPassword"
+                  name="confirm_password"
                 />
                 <Form.Control.Feedback type="invalid">
-                  {errors.confirmPassword}
+                  {errors.confirm_password}
                 </Form.Control.Feedback>
               </FloatingLabel>
+              <div className="d-flex justify-content-center">
+                {responseError}
+              </div>
               <Button
                 size="lg"
                 type="submit"
-                className="fs-3 mt-5 fw-bold text-dark"
+                className="fs-3 mt-4  fw-bold text-dark"
                 variant="outline-dark"
                 style={{ border: "3px solid" }}
               >
@@ -124,13 +136,12 @@ function Register() {
               </Button>
               <div className="d-flex m-auto gap-2 text-dark">
                 Already have an account?
-                <Nav.Link
+                <NavLink
                   href="/login"
-                  as={NavLink}
                   className="fw-bold text-decoration-underline"
                 >
                   Log In
-                </Nav.Link>
+                </NavLink>
               </div>
             </Stack>
           </Form>
@@ -138,6 +149,16 @@ function Register() {
       </Formik>
     </div>
   );
+}
+
+async function registerUser(values) {
+  return await fetch("http://172.26.5.2/api/user/register/patient/", {
+    method: "POST",
+    body: JSON.stringify(values),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
 }
 
 export default Register;

@@ -1,20 +1,12 @@
 import React, { useState } from "react";
-import {
-  Nav,
-  NavLink,
-  Form,
-  ButtonGroup,
-  Button,
-  ToggleButton,
-  ToggleButtonGroup,
-} from "react-bootstrap";
+import { Nav, NavLink, ToggleButton, ToggleButtonGroup } from "react-bootstrap";
 import { BackArrowIcon } from "../utils/CommonIcons";
 import data from "../data/tasks.json";
 import ChooseTaskCard from "../components/ChooseTaskCard";
 import { AnimatePresence } from "framer-motion";
 
 function TaskMenu() {
-  const [difficulties, setDifficulties] = useState(["easy", "medium", "hard"]);
+  const [difficulties, setDifficulties] = useState(["easy", "hard"]);
   const [types, setTypes] = useState(["1", "2"]);
   const filteredData = data.tasks.filter(
     (item) =>
@@ -23,38 +15,57 @@ function TaskMenu() {
   return (
     <div className="d-flex flex-column gap-4 mx-4">
       <div className="d-flex">
-        <Nav.Link href="/" as={NavLink}>
+        <NavLink href="/">
           <BackArrowIcon />
-        </Nav.Link>
+        </NavLink>
       </div>
       <div className="text-center text-monospace fs-1 fw-bold text-uppercase mb-5">
         Choose exercise
       </div>
       <ToggleButtonGroup
+        className="gap-1"
         type="checkbox"
         value={difficulties}
         onChange={(value) => setDifficulties(value)}
       >
-        <ToggleButton id="diff-1" value={"easy"} variant="outline-dark">
+        <ToggleButton
+          id="diff-1"
+          value={"easy"}
+          variant="outline-dark"
+          style={{ width: "40vw", borderRadius: "5px" }}
+        >
           EASY
         </ToggleButton>
-        <ToggleButton id="diff-2" value={"medium"} variant="outline-dark">
-          MEDIUM
-        </ToggleButton>
-        <ToggleButton id="diff-3" value={"hard"} variant="outline-dark">
+        <ToggleButton
+          id="diff-2"
+          value={"hard"}
+          variant="outline-dark"
+          style={{ width: "40vw", borderRadius: "5px" }}
+        >
           HARD
         </ToggleButton>
       </ToggleButtonGroup>
 
       <ToggleButtonGroup
+        className="gap-1"
         type="checkbox"
         value={types}
         onChange={(value) => setTypes(value)}
       >
-        <ToggleButton id="type-1" value={"1"} variant="outline-dark">
+        <ToggleButton
+          id="type-1"
+          value={"1"}
+          variant="outline-dark"
+          style={{ width: "40vw", borderRadius: "5px" }}
+        >
           CONNECT SIX
         </ToggleButton>
-        <ToggleButton id="type-2" value={"2"} variant="outline-dark">
+        <ToggleButton
+          id="type-2"
+          value={"2"}
+          variant="outline-dark"
+          style={{ width: "40vw", borderRadius: "5px" }}
+        >
           FOUR CHOICES
         </ToggleButton>
       </ToggleButtonGroup>
