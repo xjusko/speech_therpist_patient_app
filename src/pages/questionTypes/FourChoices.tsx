@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Button, Col, NavLink, Row } from "react-bootstrap";
-import { useNavigate, useParams } from "react-router-dom";
+import { Button, Col, Nav, Row } from "react-bootstrap";
+import { NavLink, useNavigate, useParams } from "react-router-dom";
 import data from "../../data/tasks.json";
 import { BackArrowIcon, HomeIcon } from "../../utils/CommonIcons";
 
@@ -52,15 +52,15 @@ function FourChoices() {
   return (
     <div>
       <div className="d-flex mx-4 justify-content-between">
-        <NavLink href="/taskmenu">
+        <Nav.Link to="/taskmenu" as={NavLink}>
           <BackArrowIcon />
-        </NavLink>
+        </Nav.Link>
         <div className="d-flex justify-content-center align-items-center">{`${
           question.index + 1
         } / ${questionsCount}`}</div>
-        <NavLink href="/">
+        <Nav.Link to="/" as={NavLink}>
           <HomeIcon />
-        </NavLink>
+        </Nav.Link>
       </div>
       <div className="mx-4 my-5">
         <Row className="text-center mb-3 fs-1 fw-bold">

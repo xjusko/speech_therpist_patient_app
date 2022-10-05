@@ -1,14 +1,7 @@
 import { Formik } from "formik";
 import * as yup from "yup";
-import {
-  Button,
-  FloatingLabel,
-  Form,
-  Nav,
-  NavLink,
-  Stack,
-} from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { Button, FloatingLabel, Form, Nav, Stack } from "react-bootstrap";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
 
@@ -136,12 +129,13 @@ function Register() {
               </Button>
               <div className="d-flex m-auto gap-2 text-dark">
                 Already have an account?
-                <NavLink
-                  href="/login"
+                <Nav.Link
+                  to="/login"
                   className="fw-bold text-decoration-underline"
+                  as={NavLink}
                 >
                   Log In
-                </NavLink>
+                </Nav.Link>
               </div>
             </Stack>
           </Form>

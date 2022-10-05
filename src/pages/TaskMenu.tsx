@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { Nav, NavLink, ToggleButton, ToggleButtonGroup } from "react-bootstrap";
+import { Nav, ToggleButton, ToggleButtonGroup } from "react-bootstrap";
 import { BackArrowIcon } from "../utils/CommonIcons";
 import data from "../data/tasks.json";
 import ChooseTaskCard from "../components/ChooseTaskCard";
 import { AnimatePresence } from "framer-motion";
+import { NavLink } from "react-router-dom";
 
 function TaskMenu() {
   const [difficulties, setDifficulties] = useState(["easy", "hard"]);
@@ -15,9 +16,9 @@ function TaskMenu() {
   return (
     <div className="d-flex flex-column gap-4 mx-4">
       <div className="d-flex">
-        <NavLink href="/">
+        <Nav.Link to="/" as={NavLink}>
           <BackArrowIcon />
-        </NavLink>
+        </Nav.Link>
       </div>
       <div className="text-center text-monospace fs-1 fw-bold text-uppercase mb-5">
         Choose exercise

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Formik } from "formik";
 import * as yup from "yup";
-import { Form, Stack, FloatingLabel, Button, NavLink } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { Form, Stack, FloatingLabel, Button, Nav } from "react-bootstrap";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 
 const schema = yup.object({
@@ -75,12 +75,13 @@ function Login() {
               </Button>
               <div className="d-flex m-auto gap-2 text-dark">
                 Don't have an account?
-                <NavLink
-                  href="/register"
+                <Nav.Link
+                  to="/register"
                   className="fw-bold text-decoration-underline"
+                  as={NavLink}
                 >
                   Sign In
-                </NavLink>
+                </Nav.Link>
               </div>
             </Stack>
           </Form>

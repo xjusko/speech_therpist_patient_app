@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import {
   Button,
   Card,
-  NavLink,
   Stack,
   Tooltip,
   OverlayTrigger,
   Tab,
   Tabs,
+  Nav,
 } from "react-bootstrap";
 import {
   BsBuilding,
@@ -15,7 +15,7 @@ import {
   BsGeoAltFill,
   BsTelephoneFill,
 } from "react-icons/bs";
-import { useParams } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 import therapists from "../data/therapists.json";
 import { BackArrowIcon, HomeIcon } from "../utils/CommonIcons";
 
@@ -32,12 +32,12 @@ function TherapistMainInfo() {
   return (
     <div className="mx-4">
       <div className="d-flex mt-1">
-        <NavLink href="/findtherapist">
+        <Nav.Link to="/findtherapist" as={NavLink}>
           <BackArrowIcon />
-        </NavLink>
-        <NavLink href="/" className="ms-auto">
+        </Nav.Link>
+        <Nav.Link to="/" className="ms-auto" as={NavLink}>
           <HomeIcon />
-        </NavLink>
+        </Nav.Link>
       </div>
       <Card
         style={{ background: "none", border: "none" }}
@@ -50,8 +50,10 @@ function TherapistMainInfo() {
             style={{
               objectFit: "cover",
               borderRadius: "50%",
-              height: "80vw",
-              maxHeight: "550px",
+              height: "60vw",
+              width: "60vw",
+              maxHeight: "400px",
+              maxWidth: "400px",
             }}
           />
         </div>

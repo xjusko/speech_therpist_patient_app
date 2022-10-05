@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Button, NavLink, Stack } from "react-bootstrap";
-import { useParams, useNavigate } from "react-router-dom";
+import { Button, Nav, Stack } from "react-bootstrap";
+import { useParams, useNavigate, NavLink } from "react-router-dom";
 import data from "../../data/tasks.json";
 import { BackArrowIcon, HomeIcon } from "../../utils/CommonIcons";
 import { ConnectColumn } from "../../components/ConnectColumn";
@@ -44,15 +44,15 @@ function Connect() {
   return (
     <div>
       <div className="d-flex mx-4 justify-content-between">
-        <NavLink href="/taskmenu">
+        <Nav.Link to="/taskmenu" as={NavLink}>
           <BackArrowIcon />
-        </NavLink>
+        </Nav.Link>
         <div className="d-flex justify-content-center align-items-center">{`${
           questionIndex + 1
         } / ${questionsCount}`}</div>
-        <NavLink href="/">
+        <Nav.Link to="/" as={NavLink}>
           <HomeIcon />
-        </NavLink>
+        </Nav.Link>
       </div>
       <div className="mx-4 my-5">
         <div className="fs-1 fw-bold font-monospace text-center ">

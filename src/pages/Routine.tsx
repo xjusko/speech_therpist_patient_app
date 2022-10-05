@@ -1,6 +1,7 @@
 import { AnimatePresence } from "framer-motion";
 import React from "react";
-import { NavLink } from "react-bootstrap";
+import { Nav } from "react-bootstrap";
+import { NavLink } from "react-router-dom";
 import ChooseTaskCard from "../components/ChooseTaskCard";
 import data from "../data/tasks.json";
 import { BackArrowIcon } from "../utils/CommonIcons";
@@ -9,9 +10,9 @@ function Routine() {
   return (
     <div>
       <div className="d-flex mx-4">
-        <NavLink href="/">
+        <Nav.Link to="/" as={NavLink}>
           <BackArrowIcon />
-        </NavLink>
+        </Nav.Link>
       </div>
       <div className="d-flex flex-column mx-4 my-5">
         <div className="d-flex fs-1 font-monospace fw-bold justify-content-center mb-2">

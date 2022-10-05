@@ -1,6 +1,6 @@
 import React from "react";
-import { Button, NavLink } from "react-bootstrap";
-import { useParams } from "react-router-dom";
+import { Button, Nav } from "react-bootstrap";
+import { NavLink, useParams } from "react-router-dom";
 import QuickTaskButton from "../components/QuickTaskButton";
 
 type TaskFinishScreenProps = {
@@ -28,18 +28,18 @@ function TaskFinishScreen() {
         <div className="d-flex justify-content-center">Quick Task</div>
       </div>
       <div className="mb-2 mt-auto d-flex justify-content-center ">
-        <NavLink href="/taskmenu">
+        <Nav.Link to="/taskmenu" as={NavLink}>
           <Button variant="dark" size="lg" style={{ width: "250px" }}>
             Choose Another Task
           </Button>
-        </NavLink>
+        </Nav.Link>
       </div>
       <div className="mb-auto d-flex justify-content-center">
-        <NavLink href="/">
+        <Nav.Link to="/" as={NavLink}>
           <Button variant="dark" size="lg" style={{ width: "250px" }}>
             Go To Home Page
           </Button>
-        </NavLink>
+        </Nav.Link>
       </div>
     </div>
   );

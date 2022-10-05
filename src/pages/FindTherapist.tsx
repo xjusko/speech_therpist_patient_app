@@ -1,13 +1,6 @@
 import React, { useEffect, useState } from "react";
-import {
-  Button,
-  Col,
-  Form,
-  NavLink,
-  Offcanvas,
-  Row,
-  Stack,
-} from "react-bootstrap";
+import { Button, Col, Form, Nav, Offcanvas, Row, Stack } from "react-bootstrap";
+import { NavLink } from "react-router-dom";
 import FindTherapistCard from "../components/FindTherapistCard";
 import storeItems from "../data/therapists.json";
 import { BackArrowIcon } from "../utils/CommonIcons";
@@ -38,9 +31,9 @@ function FindTherapist() {
       onScroll={() => setShow(true)}
     >
       <div className="d-flex">
-        <NavLink href="/">
+        <Nav.Link to="/" as={NavLink}>
           <BackArrowIcon />
-        </NavLink>
+        </Nav.Link>
       </div>
 
       <Stack className="d-flex align-items-center my-4">

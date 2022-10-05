@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Col, Nav, NavLink, Row } from "react-bootstrap";
+import { Button, Col, Nav, Row } from "react-bootstrap";
 import {
   BsBell,
   BsBoxArrowLeft,
@@ -7,6 +7,7 @@ import {
   BsJournalCheck,
   BsPersonFill,
 } from "react-icons/bs";
+import { NavLink } from "react-router-dom";
 import QuickTaskButton from "../components/QuickTaskButton";
 import { useAuth } from "../contexts/AuthContext";
 import { FireStreakIcon } from "../utils/CommonIcons";
@@ -42,20 +43,20 @@ function Menu() {
       </Row>
       <Row xs={2} className="g-2 text-center mt-2">
         <Col>
-          <NavLink href="/taskmenu">
+          <Nav.Link to="/taskmenu" as={NavLink}>
             <Button variant="outline-dark" style={mainButtonStyle}>
               <BsController style={imageStyle} />
               <div className="mt-2">TASKS</div>
             </Button>
-          </NavLink>
+          </Nav.Link>
         </Col>
         <Col>
-          <NavLink href="/routine">
+          <Nav.Link to="/routine" as={NavLink}>
             <Button variant="outline-dark" style={mainButtonStyle}>
               <BsJournalCheck style={imageStyle} />
               <div className="mt-2">MY ROUTINE</div>
             </Button>
-          </NavLink>
+          </Nav.Link>
         </Col>
       </Row>
       <Row xs={2} className="mt-2 g-2 text-center">
@@ -68,12 +69,12 @@ function Menu() {
           </QuickTaskButton>
         </Col>
         <Col>
-          <NavLink href="/findtherapist">
+          <Nav.Link to="/findtherapist" as={NavLink}>
             <Button variant="outline-dark" style={mainButtonStyle}>
               <BsPersonFill style={imageStyle} />
               <div className="mt-2">MY THERAPIST</div>
             </Button>
-          </NavLink>
+          </Nav.Link>
         </Col>
       </Row>
       <Row xs={1} sm={2} className="my-5 gap-2 justify-content-center">
@@ -106,12 +107,12 @@ function Menu() {
       </Row>
       <Row className="mt-auto mb-3 text-dark fs-2 text-center">
         <Col>
-          <NavLink href="/login" onClick={() => setUser("")}>
+          <Nav.Link to="/login" onClick={() => setUser("")} as={NavLink}>
             <BsBoxArrowLeft style={{ height: "3rem", width: "3rem" }} />
             <div className="ms-2" style={{ fontSize: "1rem" }}>
               Log Out
             </div>
-          </NavLink>
+          </Nav.Link>
         </Col>
       </Row>
     </div>
