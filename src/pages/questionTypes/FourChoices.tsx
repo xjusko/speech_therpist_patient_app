@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Button, Col, Nav, Row } from "react-bootstrap";
 import { NavLink, useNavigate, useParams } from "react-router-dom";
+import ConfirmTaskExitModal from "../../components/ConfirmTaskExitModal";
 import data from "../../data/tasks.json";
 import { BackArrowIcon, HomeIcon } from "../../utils/CommonIcons";
 
@@ -52,15 +53,11 @@ function FourChoices() {
   return (
     <div>
       <div className="d-flex mx-4 justify-content-between">
-        <Nav.Link to="/taskmenu" as={NavLink}>
-          <BackArrowIcon />
-        </Nav.Link>
+        <ConfirmTaskExitModal icon={<BackArrowIcon />} to="/taskmenu" />
         <div className="d-flex justify-content-center align-items-center">{`${
           question.index + 1
         } / ${questionsCount}`}</div>
-        <Nav.Link to="/" as={NavLink}>
-          <HomeIcon />
-        </Nav.Link>
+        <ConfirmTaskExitModal icon={<HomeIcon />} to="/" />
       </div>
       <div className="mx-4 my-5">
         <Row className="text-center mb-3 fs-1 fw-bold">

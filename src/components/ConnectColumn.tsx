@@ -1,28 +1,39 @@
 import React from "react";
 import { Reorder } from "framer-motion";
 
-type Options = {
+type Choice = {
   id: number;
   text: string;
+  image: string;
 };
 
-type SetOptions = {
-  (value: React.SetStateAction<{ id: number; text: string }[]>): void;
-  (value: React.SetStateAction<{ id: number; text: string }[]>): void;
+type SetChoices = {
+  (value: React.SetStateAction<Choice[] | undefined>): void;
+  (value: React.SetStateAction<Choice[] | undefined>): void;
   (newOrder: any[]): void;
 };
 
-export function ConnectColumn(options: Options[], setOptions: SetOptions) {
+type ConnectColumnProps = {
+  choices: Choice[];
+  setChoices: SetChoices;
+  isImage: boolean;
+};
+
+export function ConnectColumn({
+  choices,
+  setChoices,
+  isImage,
+}: ConnectColumnProps) {
   return (
     <Reorder.Group
       axis="y"
-      values={options}
-      onReorder={setOptions}
+      values={choices}
+      onReorder={setChoices}
       style={{ padding: "0" }}
     >
-      {options.map((item) => (
+      {choices.map((item) => (
         <Reorder.Item key={item.id} value={item} style={{ listStyle: "none" }}>
-          <Choice>{item.text}</Choice>
+          <Choice>{isImage ? item.text : item.text}</Choice>
         </Reorder.Item>
       ))}
     </Reorder.Group>

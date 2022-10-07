@@ -106,7 +106,7 @@ function Menu() {
         </Col>
       </Row>
       <Row className="mt-auto mb-3 text-dark fs-2 text-center">
-        <Col>
+        <Col className="d-flex justify-content-center">
           <Nav.Link to="/login" onClick={() => setUser("")} as={NavLink}>
             <BsBoxArrowLeft style={{ height: "3rem", width: "3rem" }} />
             <div className="ms-2" style={{ fontSize: "1rem" }}>

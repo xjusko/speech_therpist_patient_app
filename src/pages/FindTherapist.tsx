@@ -16,7 +16,6 @@ function FindTherapist() {
       } else {
         entry.target.classList.remove("show");
       }
-      console.log(entry);
     });
   });
   useEffect(() => {
@@ -24,7 +23,6 @@ function FindTherapist() {
     animatedElements.forEach((el) => observer.observe(el));
   });
 
-  console.log(link);
   return (
     <div
       className="d-flex flex-column justify-content-center mx-4"
