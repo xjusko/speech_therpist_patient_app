@@ -28,16 +28,21 @@ type ConnectTask = {
   tags: string[];
 };
 
+type QuestionAnswer = ChoiceAnswer[];
+
+type ChoiceAnswer = { text: string; image: string; isCorrect: boolean };
+
 function Connect() {
   const { id } = useParams();
   const { user } = useAuth();
-  const [task, setTask] = useState<ConnectTask>();
   const navigate = useNavigate();
+  const [task, setTask] = useState<ConnectTask>();
   const [isChecked, setIsChecked] = useState(false);
   const [questionIndex, setQuestionIndex] = useState(0);
-
   const [leftOptions, setLeftOptions] = useState<Choice[]>();
   const [rightOptions, setRightOptions] = useState<Choice[]>();
+  const [taskAnswer, setTaskAnswer] = useState<QuestionAnswer[]>([]);
+  const [isOrdered, setIsOrdered] = useState(true);
 
   useEffect(() => {
     fetch("http://172.26.5.2/api/task/tasks/", {
@@ -45,9 +50,10 @@ function Connect() {
     })
       .then((res) => res.json())
       .then((data) => {
-        setTask(data[0]);
-        setLeftOptions(data[0].questions[0].choices);
-        setRightOptions(data[0].questions[0].choices);
+        const shuffledQuestions = shuffle(data[0].questions);
+        setTask({ ...data[0], questions: shuffledQuestions });
+        setLeftOptions(shuffle(shuffledQuestions[0].choices));
+        setRightOptions(shuffle(shuffledQuestions[0].choices));
       });
   }, []);
 
@@ -89,6 +95,11 @@ function Connect() {
             variant="dark"
             size="lg"
             onClick={isChecked ? handleNextButtonClick : handleCheckButtonClick}
+            style={
+              isChecked
+                ? { border: `5px solid ${isOrdered ? "green" : "red"}` }
+                : {}
+            }
           >
             {isChecked ? "Next" : "Check"}
           </Button>
@@ -98,12 +109,36 @@ function Connect() {
   );
 
   function handleCheckButtonClick(): void {
-    if (!task) {
+    if (!task || !leftOptions || !rightOptions) {
       return;
     }
+    let questionAnswer: QuestionAnswer = [];
+    let isOrderCorrect = true;
+    for (
+      let index = 0;
+      index < task.questions[questionIndex].choices.length;
+      index++
+    ) {
+      const isCorrect = task.questions[questionIndex].choices.some(
+        (choice) =>
+          choice.text === leftOptions[index].text &&
+          choice.image === rightOptions[index].image
+      );
+      const choiceAnswer: ChoiceAnswer = {
+        text: leftOptions[index].text,
+        image: rightOptions[index].image,
+        isCorrect: isCorrect,
+      };
+      questionAnswer = [...questionAnswer, choiceAnswer];
+      isOrderCorrect = isOrderCorrect && isCorrect;
+    }
+    setTaskAnswer((prev) => [...prev, questionAnswer]);
     setIsChecked(true);
-    setLeftOptions(task.questions[questionIndex].choices);
-    setRightOptions(task.questions[questionIndex].choices);
+    setIsOrdered(isOrderCorrect);
+    if (!isOrderCorrect) {
+      setLeftOptions(task.questions[questionIndex].choices);
+      setRightOptions(task.questions[questionIndex].choices);
+    }
   }
 
   function handleNextButtonClick(): void {
@@ -111,16 +146,23 @@ function Connect() {
       return;
     }
     if (questionsCount - 1 === questionIndex) {
+      //Change to API POST call when implemented
+      console.log({ taskId: task.id, answers: taskAnswer });
       navigate(`/taskfinish/${id}`);
       return;
     }
     setQuestionIndex((prev) => {
       setIsChecked(false);
-      setLeftOptions(task.questions[prev + 1].choices);
-      setRightOptions(task.questions[prev + 1].choices);
+      setLeftOptions(shuffle(task.questions[prev + 1].choices));
+      setRightOptions(shuffle(task.questions[prev + 1].choices));
       return prev + 1;
     });
   }
+}
+
+function shuffle(array: any[]) {
+  const result = [...array].sort(() => Math.random() - 0.5);
+  return result;
 }
 
 export default Connect;
