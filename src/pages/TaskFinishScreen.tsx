@@ -1,31 +1,28 @@
 import React from "react";
 import { Button, Nav } from "react-bootstrap";
-import { NavLink, useParams } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import QuickTaskButton from "../components/QuickTaskButton";
 
-type TaskFinishScreenProps = {
-  totalQuestions: number;
-  correctQuestions: number;
-};
-
 function TaskFinishScreen() {
-  const { qid } = useParams();
+  const { state } = useLocation();
+  const { totalQuestions, correctQuestions } = state;
   return (
     <div className="d-flex flex-column mx-5 vh-100">
       <div className="fs-1 text-uppercase font-monospace text-center my-5">
         Task Finished!
       </div>
-      <div className="fs-3 text-center my-2">{`Correct: ${6}/${7}`}</div>
+      <div className="fs-3 text-center my-2">{`Correct: ${correctQuestions}/${totalQuestions}`}</div>
       <div className="fs-3 text-center my-2">{`Success Rate: ${(
-        (6 / 7) *
+        (correctQuestions / totalQuestions) *
         100
       ).toFixed(1)}%`}</div>
       <div className="mt-auto mb-2 d-flex flex-column align-items-center">
         <QuickTaskButton
           imageStyle={{ width: "4rem", height: "4rem" }}
-          buttonStyle={{ width: "6rem", height: "6rem", border: "none" }}
-        />
-        <div className="d-flex justify-content-center">Quick Task</div>
+          buttonStyle={{ width: "8rem", height: "8rem", border: "none" }}
+        >
+          <div className="mt-2">QUICK TASK</div>
+        </QuickTaskButton>
       </div>
       <div className="mb-2 mt-auto d-flex justify-content-center ">
         <Nav.Link to="/taskmenu" as={NavLink}>

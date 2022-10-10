@@ -41,17 +41,20 @@ function Connect() {
   const [questionIndex, setQuestionIndex] = useState(0);
   const [leftOptions, setLeftOptions] = useState<Choice[]>();
   const [rightOptions, setRightOptions] = useState<Choice[]>();
-  const [taskAnswer, setTaskAnswer] = useState<QuestionAnswer[]>([]);
+  const [taskAnswer, setTaskAnswer] = useState<{ answer: QuestionAnswer }[]>(
+    []
+  );
   const [isOrdered, setIsOrdered] = useState(true);
+  const [countCorrect, setCountCorrect] = useState(0);
 
   useEffect(() => {
-    fetch("http://172.26.5.2/api/task/tasks/", {
+    fetch(`http://172.26.5.2/api/task/tasks/${id}/`, {
       headers: { Authorization: `Token ${user}` },
     })
       .then((res) => res.json())
       .then((data) => {
-        const shuffledQuestions = shuffle(data[0].questions);
-        setTask({ ...data[0], questions: shuffledQuestions });
+        const shuffledQuestions = shuffle(data.questions);
+        setTask({ ...data, questions: shuffledQuestions });
         setLeftOptions(shuffle(shuffledQuestions[0].choices));
         setRightOptions(shuffle(shuffledQuestions[0].choices));
       });
@@ -132,12 +135,14 @@ function Connect() {
       questionAnswer = [...questionAnswer, choiceAnswer];
       isOrderCorrect = isOrderCorrect && isCorrect;
     }
-    setTaskAnswer((prev) => [...prev, questionAnswer]);
+    setTaskAnswer((prev) => [...prev, { answer: questionAnswer }]);
     setIsChecked(true);
     setIsOrdered(isOrderCorrect);
     if (!isOrderCorrect) {
       setLeftOptions(task.questions[questionIndex].choices);
       setRightOptions(task.questions[questionIndex].choices);
+    } else {
+      setCountCorrect((prev) => prev + 1);
     }
   }
 
@@ -148,7 +153,12 @@ function Connect() {
     if (questionsCount - 1 === questionIndex) {
       //Change to API POST call when implemented
       console.log({ taskId: task.id, answers: taskAnswer });
-      navigate(`/taskfinish/${id}`);
+      navigate("/taskfinish", {
+        state: {
+          totalQuestions: questionsCount,
+          correctQuestions: countCorrect,
+        },
+      });
       return;
     }
     setQuestionIndex((prev) => {

@@ -3,15 +3,16 @@ import React from "react";
 import { Nav, Stack } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 
-type ChooseTaskCardProps = {
-  id: string;
+export type BasicTaskInfo = {
+  id: number;
   name: string;
-  type: string;
+  type: number;
   difficulty: string;
-  questions: Array<any>;
+  tags: any[];
+  created_by: number;
 };
 
-function ChooseTaskCard({ id, name, type, difficulty }: ChooseTaskCardProps) {
+function ChooseTaskCard({ id, name, type, difficulty }: BasicTaskInfo) {
   const isPresent = useIsPresent();
   const animations = {
     layout: true,
@@ -25,7 +26,7 @@ function ChooseTaskCard({ id, name, type, difficulty }: ChooseTaskCardProps) {
   };
   return (
     <Nav.Link
-      to={`/${type === "1" ? "questionconnect" : "questionfourchoices"}/${id}`}
+      to={`/${type === 1 ? "questionconnect" : "questionfourchoices"}/${id}`}
       as={NavLink}
     >
       <motion.div

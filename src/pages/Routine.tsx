@@ -1,12 +1,27 @@
 import { AnimatePresence } from "framer-motion";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Nav } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
-import ChooseTaskCard from "../components/ChooseTaskCard";
-import data from "../data/tasks.json";
+import ChooseTaskCard, { BasicTaskInfo } from "../components/ChooseTaskCard";
+import { useAuth } from "../contexts/AuthContext";
 import { BackArrowIcon } from "../utils/CommonIcons";
 
 function Routine() {
+  const { user } = useAuth();
+  const [tasks, setTasks] = useState<BasicTaskInfo[]>();
+  useEffect(() => {
+    fetch("http://172.26.5.2/api/task/tasks/", {
+      headers: { Authorization: `Token ${user}` },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setTasks(data);
+      });
+  }, []);
+
+  if (!tasks) {
+    return <div> </div>;
+  }
   return (
     <div>
       <div className="d-flex mx-4">
@@ -20,12 +35,8 @@ function Routine() {
         </div>
         <div>
           <AnimatePresence>
-            {data.tasks.length !== 0 ? (
-              data.tasks
-                .slice(0, 4)
-                .map((item) => (
-                  <ChooseTaskCard key={Number(item.id)} {...item} />
-                ))
+            {tasks.length !== 0 ? (
+              tasks.map((item) => <ChooseTaskCard key={item.id} {...item} />)
             ) : (
               <div>
                 Unfortunately, your therapist have not assigned any task to you.
