@@ -11,6 +11,7 @@ function Routine() {
   const [tasks, setTasks] = useState<BasicTaskInfo[]>();
   useEffect(() => {
     fetch("http://172.26.5.2/api/task/tasks/", {
+      method: "GET",
       headers: { Authorization: `Token ${user}` },
     })
       .then((res) => res.json())

@@ -1,6 +1,5 @@
 import React from "react";
 import { Button } from "react-bootstrap";
-import data from "../data/tasks.json";
 import { useNavigate } from "react-router-dom";
 import { BsFillLightningFill } from "react-icons/bs";
 
@@ -15,7 +14,7 @@ function QuickTaskButton({
 }) {
   const navigate = useNavigate();
   function handleClick() {
-    const easyTasks = data.tasks.filter((item) => item.difficulty === "easy");
+    const easyTasks = [].filter((item) => item.difficulty === "easy");
     const randomTask = easyTasks[Math.floor(Math.random() * easyTasks.length)];
     if (randomTask.type === "1") {
       navigate(`/questionconnect/${randomTask.id}`);

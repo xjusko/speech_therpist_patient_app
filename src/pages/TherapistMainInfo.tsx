@@ -9,6 +9,7 @@ import {
   Tabs,
   Nav,
 } from "react-bootstrap";
+import { IconType } from "react-icons";
 import {
   BsBuilding,
   BsFillEnvelopeFill,
@@ -81,32 +82,13 @@ function TherapistMainInfo() {
             </Tab>
 
             <Tab eventKey="contact" title="Contact" tabClassName="text-black">
-              <div className="d-flex align-items-center">
-                <div>
-                  <BsFillEnvelopeFill style={contactIconStyle} />
-                </div>
-                <div className={contactTextClassName}>{therapist.email}</div>
-              </div>
-              <div className="d-flex align-items-center">
-                <div>
-                  <BsTelephoneFill style={contactIconStyle} />
-                </div>
-                <div className={contactTextClassName}>{therapist.phone}</div>
-              </div>
-              <div className="d-flex align-items-center">
-                <div>
-                  <BsGeoAltFill style={contactIconStyle} />
-                </div>
-                <div className={contactTextClassName}>
-                  {therapist.city}, {therapist.location}
-                </div>
-              </div>
-              <div className="d-flex align-items-center">
-                <div>
-                  <BsBuilding style={contactIconStyle} />
-                </div>
-                <div className={contactTextClassName}>{therapist.email}</div>
-              </div>
+              <Contact
+                text={therapist.email}
+                Icon={BsFillEnvelopeFill}
+              ></Contact>
+              <Contact text={therapist.phone} Icon={BsTelephoneFill}></Contact>
+              <Contact text={therapist.location} Icon={BsGeoAltFill}></Contact>
+              <Contact text={therapist.email} Icon={BsBuilding}></Contact>
             </Tab>
             <Tab eventKey="events" title="Events" tabClassName="text-black">
               <Card.Text className="fs-2 mb-0">Upcoming events</Card.Text>
@@ -116,13 +98,9 @@ function TherapistMainInfo() {
                 style={{ flexWrap: "nowrap", overflowX: "auto" }}
               >
                 <EventButton />
-
                 <EventButton />
-
                 <EventButton />
-
                 <EventButton />
-
                 <EventButton />
               </Stack>
             </Tab>
@@ -131,6 +109,17 @@ function TherapistMainInfo() {
       </Card>
     </div>
   );
+
+  function Contact({ Icon, text }: { Icon: IconType; text: string }) {
+    return (
+      <div className="d-flex align-items-center">
+        <div>
+          <Icon style={contactIconStyle} />
+        </div>
+        <div className={contactTextClassName}>{text}</div>
+      </div>
+    );
+  }
 }
 
 export default TherapistMainInfo;

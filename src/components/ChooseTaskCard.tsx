@@ -22,7 +22,7 @@ function ChooseTaskCard({ id, name, type, difficulty }: BasicTaskInfo) {
       in: { scale: 1, opacity: 1 },
       out: { scale: 0, opacity: 0 },
     },
-    transition: { ease: "easeInOut", duration: 0.2 },
+    transition: { ease: [0.17, 0.55, 0.55, 1], duration: 0.2 },
   };
   return (
     <Nav.Link

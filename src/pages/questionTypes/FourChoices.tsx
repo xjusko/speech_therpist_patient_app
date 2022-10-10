@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Button, Col, Nav, Row } from "react-bootstrap";
 import { NavLink, useNavigate, useParams } from "react-router-dom";
 import ConfirmTaskExitModal from "../../components/ConfirmTaskExitModal";
-import data from "../../data/tasks.json";
 import { BackArrowIcon, HomeIcon } from "../../utils/CommonIcons";
 
 type FourChoicesTask = {

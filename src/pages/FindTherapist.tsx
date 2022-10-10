@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Button, Col, Form, Nav, Offcanvas, Row, Stack } from "react-bootstrap";
+import { BsLink45Deg } from "react-icons/bs";
 import { NavLink } from "react-router-dom";
 import FindTherapistCard from "../components/FindTherapistCard";
 import storeItems from "../data/therapists.json";
@@ -8,20 +9,6 @@ import { BackArrowIcon } from "../utils/CommonIcons";
 function FindTherapist() {
   const [show, setShow] = useState(false);
   const [link, setLink] = useState("");
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add("show");
-      } else {
-        entry.target.classList.remove("show");
-      }
-    });
-  });
-  useEffect(() => {
-    const animatedElements = document.querySelectorAll(".hidden");
-    animatedElements.forEach((el) => observer.observe(el));
-  });
 
   return (
     <div
@@ -49,17 +36,7 @@ function FindTherapist() {
             onChange={(e) => setLink(e.target.value)}
           />
           <Button variant="dark">
-            <svg
-              style={{ width: "3rem", height: "3rem" }}
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              fill="currentColor"
-              viewBox="0 0 16 16"
-            >
-              <path d="M4.715 6.542 3.343 7.914a3 3 0 1 0 4.243 4.243l1.828-1.829A3 3 0 0 0 8.586 5.5L8 6.086a1.002 1.002 0 0 0-.154.199 2 2 0 0 1 .861 3.337L6.88 11.45a2 2 0 1 1-2.83-2.83l.793-.792a4.018 4.018 0 0 1-.128-1.287z" />
-              <path d="M6.586 4.672A3 3 0 0 0 7.414 9.5l.775-.776a2 2 0 0 1-.896-3.346L9.12 3.55a2 2 0 1 1 2.83 2.83l-.793.792c.112.42.155.855.128 1.287l1.372-1.372a3 3 0 1 0-4.243-4.243L6.586 4.672z" />
-            </svg>
+            <BsLink45Deg style={{ width: "3rem", height: "3rem" }} />
           </Button>
         </Form>
         <div className="text-muted" style={{ fontSize: "0.8rem" }}>
@@ -68,7 +45,7 @@ function FindTherapist() {
 
         <Row xs={1} className="g-3">
           {storeItems.map((item) => (
-            <Col className="hidden" key={item.id}>
+            <Col key={item.id}>
               <FindTherapistCard {...item} />
             </Col>
           ))}
