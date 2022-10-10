@@ -1,7 +1,14 @@
 import React, { useState } from "react";
 import { Formik } from "formik";
 import * as yup from "yup";
-import { Form, Stack, FloatingLabel, Button, Nav } from "react-bootstrap";
+import {
+  Form,
+  Stack,
+  FloatingLabel,
+  Button,
+  Nav,
+  Alert,
+} from "react-bootstrap";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 
@@ -13,6 +20,7 @@ const schema = yup.object({
 function Login() {
   const navigate = useNavigate();
   const { user, setUser } = useAuth();
+  const [show, setShow] = useState(false);
   return (
     <div className="d-flex flex-column align-items-center">
       <div
@@ -29,13 +37,20 @@ function Login() {
           if (response.status === 200) {
             response.json().then((data) => setUser(data.token));
             navigate("/");
+          } else {
+            response.json().then((data) => setShow(true));
           }
           setSubmitting(false);
         }}
       >
         {({ handleSubmit, handleChange, values, errors, touched }) => (
           <Form noValidate onSubmit={handleSubmit}>
-            <Stack className="gap-3 mx-4">
+            <Stack className="gap-3 mx-4" style={{ maxWidth: "300px" }}>
+              {show && (
+                <Alert variant="danger" className="text-center">
+                  Invalid email or password
+                </Alert>
+              )}
               <FloatingLabel controlId="floatingEmail" label="Email">
                 <Form.Control
                   size="lg"
@@ -64,6 +79,7 @@ function Login() {
                   {errors.password}
                 </Form.Control.Feedback>
               </FloatingLabel>
+
               <Button
                 size="lg"
                 type="submit"
@@ -91,7 +107,7 @@ function Login() {
   );
 }
 
-async function login(values) {
+export async function login(values: { email: string; password: string }) {
   return await fetch("http://172.26.5.2/api/user/login/", {
     method: "POST",
     body: JSON.stringify(values),

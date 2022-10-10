@@ -1,14 +1,22 @@
 import { Formik } from "formik";
 import * as yup from "yup";
-import { Button, FloatingLabel, Form, Nav, Stack } from "react-bootstrap";
+import {
+  Alert,
+  Button,
+  FloatingLabel,
+  Form,
+  Nav,
+  Stack,
+} from "react-bootstrap";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
+import { login } from "./Login";
 
 function Register() {
   const navigate = useNavigate();
-  const { user, setUser } = useAuth();
-  const [responseError, setResponseError] = useState("");
+  const { setUser } = useAuth();
+  const [show, setShow] = useState(false);
   const schema = yup.object({
     name: yup.string().required("Required"),
     email: yup.string().email("Invalid email address").required("Required"),
@@ -41,11 +49,17 @@ function Register() {
           confirm_password: "",
         }}
         onSubmit={async (values, { setSubmitting }) => {
-          const response = await registerUser(values);
-          if (response.status === 201) {
+          const registerResponse = await registerUser(values);
+          if (registerResponse.status === 201) {
+            const loginResponse = await login({
+              email: values.email,
+              password: values.password,
+            });
+            console.log(loginResponse);
+            loginResponse.json().then((data) => setUser(data.token));
             navigate("/");
           } else {
-            response.json().then((data) => setResponseError(data.email[0]));
+            registerResponse.json().then((data) => setShow(true));
           }
 
           setSubmitting(false);
@@ -53,7 +67,12 @@ function Register() {
       >
         {({ handleSubmit, handleChange, values, errors, touched }) => (
           <Form noValidate onSubmit={handleSubmit}>
-            <Stack className="gap-3 mx-4">
+            <Stack className="gap-3 mx-4" style={{ maxWidth: "300px" }}>
+              {show && (
+                <Alert variant="danger" className="text-center">
+                  User with this email address already exists
+                </Alert>
+              )}
               <FloatingLabel controlId="floatingname" label="Full Name">
                 <Form.Control
                   size="lg"
@@ -115,9 +134,6 @@ function Register() {
                   {errors.confirm_password}
                 </Form.Control.Feedback>
               </FloatingLabel>
-              <div className="d-flex justify-content-center">
-                {responseError}
-              </div>
               <Button
                 size="lg"
                 type="submit"
@@ -145,7 +161,12 @@ function Register() {
   );
 }
 
-async function registerUser(values) {
+async function registerUser(values: {
+  email: string;
+  name: string;
+  password: string;
+  confirm_password: string;
+}) {
   return await fetch("http://172.26.5.2/api/user/register/patient/", {
     method: "POST",
     body: JSON.stringify(values),
