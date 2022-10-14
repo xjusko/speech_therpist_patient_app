@@ -11,7 +11,7 @@ import {
 import { NavLink, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
-import { login } from "./Login";
+import { login, register } from "../utils/ApiRequests";
 
 function Register() {
   const navigate = useNavigate();
@@ -49,7 +49,7 @@ function Register() {
           confirm_password: "",
         }}
         onSubmit={async (values, { setSubmitting }) => {
-          const registerResponse = await registerUser(values);
+          const registerResponse = await register(values);
           if (registerResponse.status === 201) {
             const loginResponse = await login({
               email: values.email,
@@ -159,21 +159,6 @@ function Register() {
       </Formik>
     </div>
   );
-}
-
-async function registerUser(values: {
-  email: string;
-  name: string;
-  password: string;
-  confirm_password: string;
-}) {
-  return await fetch("http://172.26.5.2/api/user/register/patient/", {
-    method: "POST",
-    body: JSON.stringify(values),
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
 }
 
 export default Register;

@@ -3,12 +3,23 @@ import { Button, Col, Form, Nav, Offcanvas, Row, Stack } from "react-bootstrap";
 import { BsLink45Deg } from "react-icons/bs";
 import { NavLink } from "react-router-dom";
 import FindTherapistCard from "../components/FindTherapistCard";
+import { useAuth } from "../contexts/AuthContext";
 import storeItems from "../data/therapists.json";
+import { fetchTherapistList } from "../utils/ApiRequests";
 import { BackArrowIcon } from "../utils/CommonIcons";
 
 function FindTherapist() {
+  const { user } = useAuth();
   const [show, setShow] = useState(false);
   const [link, setLink] = useState("");
+  const [therapistList, setTherapistList] = useState([]);
+
+  useEffect(() => {
+    fetchTherapistList(user).then((data) => {
+      setTherapistList(data);
+    });
+  }, []);
+  console.log(therapistList);
 
   return (
     <div

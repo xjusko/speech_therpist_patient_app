@@ -1,0 +1,83 @@
+{
+  "id": "87743020",
+  "name": "Two Buttons",
+  "type": "2",
+  "difficulty": "hard",
+  "questions": [
+    {
+      "main": { "id": 1, "text": "main", "image": "../car.jpg" },
+      "options": [
+        {
+          "id": 1,
+          "text": "1-A",
+          "image": "../car.jpg"
+        },
+        {
+          "id": 2,
+          "text": "1-B",
+          "image": "../car.jpg"
+        },
+        {
+          "id": 3,
+          "text": "1-C",
+          "image": "../car.jpg"
+        },
+        {
+          "id": 4,
+          "text": "1-D",
+          "image": "../car.jpg"
+        }
+      ]
+    },
+    {
+      "main": { "id": 1, "text": "main", "image": "../car.jpg" },
+      "options": [
+        {
+          "id": 1,
+          "text": "2-A",
+          "image": "../car.jpg"
+        },
+        {
+          "id": 2,
+          "text": "2-B",
+          "image": "../car.jpg"
+        },
+        {
+          "id": 3,
+          "text": "2-C",
+          "image": "../car.jpg"
+        },
+        {
+          "id": 4,
+          "text": "3-D",
+          "image": "../car.jpg"
+        }
+      ]
+    },
+    {
+      "main": { "id": 1, "text": "main", "image": "../car.jpg" },
+      "options": [
+        {
+          "id": 1,
+          "text": "2-A",
+          "image": "../car.jpg"
+        },
+        {
+          "id": 2,
+          "text": "2-B",
+          "image": "../car.jpg"
+        },
+        {
+          "id": 3,
+          "text": "2-C",
+          "image": "../car.jpg"
+        },
+        {
+          "id": 4,
+          "text": "3-D",
+          "image": "../car.jpg"
+        }
+      ]
+    }
+  ]
+}

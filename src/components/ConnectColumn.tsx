@@ -1,6 +1,6 @@
 import React from "react";
 import { Reorder } from "framer-motion";
-import { BsCheckLg } from "react-icons/bs";
+import { BsCheckLg, BsXLg } from "react-icons/bs";
 
 type Choice = {
   id: number;
@@ -18,12 +18,14 @@ type ConnectColumnProps = {
   choices: Choice[];
   setChoices: SetChoices;
   isImage: boolean;
+  answer: boolean[] | null;
 };
 
 export function ConnectColumn({
   choices,
   setChoices,
   isImage,
+  answer,
 }: ConnectColumnProps) {
   return (
     <Reorder.Group
@@ -32,7 +34,7 @@ export function ConnectColumn({
       onReorder={setChoices}
       style={{ padding: "0" }}
     >
-      {choices.map((item) => (
+      {choices.map((item, index) => (
         <Reorder.Item
           key={item.id}
           value={item}
@@ -42,7 +44,7 @@ export function ConnectColumn({
             fontSize: "1rem",
           }}
         >
-          <Choice>
+          <Choice isCorrect={answer && answer[index]}>
             {isImage ? (
               <img
                 src={item.image}
@@ -62,7 +64,13 @@ export function ConnectColumn({
   );
 }
 
-function Choice({ children }: { children: React.ReactNode }) {
+function Choice({
+  isCorrect,
+  children,
+}: {
+  isCorrect: boolean | null;
+  children: React.ReactNode;
+}) {
   return (
     <div
       className="d-flex align-items-center justify-content-center my-1"
@@ -73,9 +81,32 @@ function Choice({ children }: { children: React.ReactNode }) {
         borderRadius: "10px",
         maxWidth: "290px",
         maxHeight: "250px",
+        position: "relative",
       }}
     >
       {children}
+      {isCorrect != null &&
+        (isCorrect ? (
+          <BsCheckLg
+            color="green"
+            style={{
+              position: "absolute",
+              width: "100%",
+              height: "100%",
+              opacity: "20%",
+            }}
+          />
+        ) : (
+          <BsXLg
+            color="red"
+            style={{
+              position: "absolute",
+              width: "100%",
+              height: "100%",
+              opacity: "20%",
+            }}
+          />
+        ))}
     </div>
   );
 }

@@ -41,7 +41,7 @@ function Menu() {
           <div className="fs-1">To Speech Therapist</div>
         </Col>
       </Row>
-      <Row xs={2} className="g-2 text-center mt-2">
+      <Row xs={2} className="mt-2 g-2 text-center">
         <Col>
           <Nav.Link to="/taskmenu" as={NavLink}>
             <Button variant="outline-dark" style={mainButtonStyle}>

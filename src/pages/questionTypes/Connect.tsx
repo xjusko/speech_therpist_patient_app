@@ -5,6 +5,10 @@ import { BackArrowIcon, HomeIcon } from "../../utils/CommonIcons";
 import { ConnectColumn } from "../../components/ConnectColumn";
 import ConfirmTaskExitModal from "../../components/ConfirmTaskExitModal";
 import { useAuth } from "../../contexts/AuthContext";
+import {
+  fetchConnectTask,
+  postConnectTaskAnswers,
+} from "../../utils/ApiRequests";
 
 type Choice = {
   id: number;
@@ -30,7 +34,7 @@ type ConnectTask = {
 
 type QuestionAnswer = ChoiceAnswer[];
 
-type ChoiceAnswer = { text: string; image: string; isCorrect: boolean };
+type ChoiceAnswer = { data1: string; data2: string; isCorrect: boolean };
 
 function Connect() {
   const { id } = useParams();
@@ -48,17 +52,12 @@ function Connect() {
   const [countCorrect, setCountCorrect] = useState(0);
 
   useEffect(() => {
-    fetch(`http://172.26.5.2/api/task/tasks/${id}/`, {
-      method: "GET",
-      headers: { Authorization: `Token ${user}` },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        const shuffledQuestions = shuffle(data.questions);
-        setTask({ ...data, questions: shuffledQuestions });
-        setLeftOptions(shuffle(shuffledQuestions[0].choices));
-        setRightOptions(shuffle(shuffledQuestions[0].choices));
-      });
+    fetchConnectTask(id, user).then((data) => {
+      const shuffledQuestions = shuffle(data.questions);
+      setTask({ ...data, questions: shuffledQuestions });
+      setLeftOptions(shuffle(shuffledQuestions[0].choices));
+      setRightOptions(shuffle(shuffledQuestions[0].choices));
+    });
   }, []);
 
   if (!task || !leftOptions || !rightOptions) {
@@ -87,25 +86,40 @@ function Connect() {
             choices={leftOptions}
             setChoices={setLeftOptions}
             isImage={false}
+            answer={
+              taskAnswer[questionIndex]
+                ? taskAnswer[questionIndex].answer.map(
+                    (answer) => answer.isCorrect
+                  )
+                : null
+            }
           />
           <ConnectColumn
             choices={rightOptions}
             setChoices={setRightOptions}
             isImage={true}
+            answer={
+              taskAnswer[questionIndex]
+                ? taskAnswer[questionIndex].answer.map(
+                    (answer) => answer.isCorrect
+                  )
+                : null
+            }
           />
         </Stack>
         <div className="text-center">
           <Button
             variant="dark"
             size="lg"
-            onClick={isChecked ? handleNextButtonClick : handleCheckButtonClick}
-            style={
+            onClick={
               isChecked
-                ? { border: `5px solid ${isOrdered ? "green" : "red"}` }
-                : {}
+                ? isOrdered
+                  ? handleNextButtonClick
+                  : handleOrderButtonClick
+                : handleCheckButtonClick
             }
           >
-            {isChecked ? "Next" : "Check"}
+            {isChecked ? (isOrdered ? "Next" : "Order") : "Check"}
           </Button>
         </div>
       </div>
@@ -129,8 +143,8 @@ function Connect() {
           choice.image === rightOptions[index].image
       );
       const choiceAnswer: ChoiceAnswer = {
-        text: leftOptions[index].text,
-        image: rightOptions[index].image,
+        data1: leftOptions[index].text,
+        data2: rightOptions[index].image,
         isCorrect: isCorrect,
       };
       questionAnswer = [...questionAnswer, choiceAnswer];
@@ -139,12 +153,18 @@ function Connect() {
     setTaskAnswer((prev) => [...prev, { answer: questionAnswer }]);
     setIsChecked(true);
     setIsOrdered(isOrderCorrect);
-    if (!isOrderCorrect) {
-      setLeftOptions(task.questions[questionIndex].choices);
-      setRightOptions(task.questions[questionIndex].choices);
-    } else {
+    if (isOrderCorrect) {
       setCountCorrect((prev) => prev + 1);
     }
+  }
+
+  function handleOrderButtonClick(): void {
+    if (!task) {
+      return;
+    }
+    setIsOrdered(true);
+    setLeftOptions(task.questions[questionIndex].choices);
+    setRightOptions(task.questions[questionIndex].choices);
   }
 
   function handleNextButtonClick(): void {
@@ -152,8 +172,7 @@ function Connect() {
       return;
     }
     if (questionsCount - 1 === questionIndex) {
-      //Change to API POST call when implemented
-      console.log({ taskId: task.id, answers: taskAnswer });
+      postConnectTaskAnswers(user, task.id, taskAnswer);
       navigate("/taskfinish", {
         state: {
           totalQuestions: questionsCount,

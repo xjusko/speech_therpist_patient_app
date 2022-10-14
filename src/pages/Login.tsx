@@ -11,6 +11,7 @@ import {
 } from "react-bootstrap";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
+import { login } from "../utils/ApiRequests";
 
 const schema = yup.object({
   email: yup.string().email("Invalid email address").required("Required"),
@@ -105,16 +106,6 @@ function Login() {
       </Formik>
     </div>
   );
-}
-
-export async function login(values: { email: string; password: string }) {
-  return await fetch("http://172.26.5.2/api/user/login/", {
-    method: "POST",
-    body: JSON.stringify(values),
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
 }
 
 export default Login;

@@ -5,20 +5,15 @@ import ChooseTaskCard, { BasicTaskInfo } from "../components/ChooseTaskCard";
 import { AnimatePresence } from "framer-motion";
 import { NavLink } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
+import { fetchDefaultTasks } from "../utils/ApiRequests";
 
 function TaskMenu() {
   const { user } = useAuth();
   const [types, setTypes] = useState([1, 2]);
   const [tasks, setTasks] = useState<BasicTaskInfo[]>();
+
   useEffect(() => {
-    fetch("http://172.26.5.2/api/task/tasks/", {
-      method: "GET",
-      headers: { Authorization: `Token ${user}` },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setTasks(data);
-      });
+    fetchDefaultTasks(user).then((data) => setTasks(data));
   }, []);
 
   if (!tasks) {

@@ -1,27 +1,30 @@
 import React, { useState } from "react";
 import { Button, Col, Nav, Row } from "react-bootstrap";
-import { NavLink, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import data from "../../data/fourchoices.json";
 import ConfirmTaskExitModal from "../../components/ConfirmTaskExitModal";
 import { BackArrowIcon, HomeIcon } from "../../utils/CommonIcons";
 
+type Choice = {
+  id: number;
+  text: string;
+  image: string;
+};
 type FourChoicesTask = {
   id: string;
   name: string;
   type: string;
   difficulty: string;
   questions: {
-    main: string;
-    options: {
-      id: number;
-      text: string;
-    }[];
+    main: Choice;
+    options: Choice[];
   }[];
 };
 
 function FourChoices() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const task: FourChoicesTask = data.tasks.find((i) => i.id === id);
+  const task: FourChoicesTask = data;
   const questionsCount = task.questions.length;
   const [answers, setAnswers] = useState<number[]>([]);
   const [isAnswered, setIsAnswered] = useState(false);
@@ -73,7 +76,7 @@ function FourChoices() {
               }}
             >
               <img
-                src={question.main}
+                src={question.main.image}
                 width="100%"
                 height="100%"
                 style={{ objectFit: "cover" }}

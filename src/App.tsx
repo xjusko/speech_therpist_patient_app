@@ -28,7 +28,7 @@ function App() {
             <Route path="/taskmenu" element={<TaskMenu />} />
             <Route path="/routine" element={<Routine />} />
             <Route path="/questionconnect/:id" element={<Connect />} />
-            <Route path="/questionfourchoices/:id" element={<FourChoices />} />
+            <Route path="/questionfourchoices" element={<FourChoices />} />
             <Route path="/taskfinish" element={<TaskFinishScreen />} />
           </Route>
         </Routes>
