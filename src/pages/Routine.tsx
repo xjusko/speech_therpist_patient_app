@@ -1,28 +1,23 @@
 import { AnimatePresence } from "framer-motion";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Nav } from "react-bootstrap";
-import { NavLink } from "react-router-dom";
-import ChooseTaskCard, { BasicTaskInfo } from "../components/ChooseTaskCard";
+import { NavLink, useNavigate } from "react-router-dom";
+import ChooseTaskCard from "../components/ChooseTaskCard";
 import { useAuth } from "../contexts/AuthContext";
+import { fetchMyProfile } from "../utils/ApiRequests";
 import { BackArrowIcon } from "../utils/CommonIcons";
+import { BasicTaskInfo } from "../utils/TaskTypes";
 
 function Routine() {
   const { user } = useAuth();
-  const [tasks, setTasks] = useState<BasicTaskInfo[]>();
+  const [myTasks, setMyTasks] = useState<BasicTaskInfo[]>();
+  // Get tasks assigned to the user
   useEffect(() => {
-    fetch("http://172.26.5.2/api/task/tasks/", {
-      method: "GET",
-      headers: { Authorization: `Token ${user}` },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setTasks(data);
-      });
+    fetchMyProfile(user).then((profile) => {
+      setMyTasks(profile.assigned_tasks);
+    });
   }, []);
 
-  if (!tasks) {
-    return <div> </div>;
-  }
   return (
     <div>
       <div className="d-flex mx-4">
@@ -35,14 +30,10 @@ function Routine() {
           Assigned tasks
         </div>
         <div>
+          {/* Render assigned tasks */}
           <AnimatePresence>
-            {tasks.length !== 0 ? (
-              tasks.map((item) => <ChooseTaskCard key={item.id} {...item} />)
-            ) : (
-              <div>
-                Unfortunately, your therapist have not assigned any task to you.
-              </div>
-            )}
+            {myTasks &&
+              myTasks.map((item) => <ChooseTaskCard key={item.id} {...item} />)}
           </AnimatePresence>
         </div>
       </div>

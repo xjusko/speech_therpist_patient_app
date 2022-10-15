@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Col, Form, Nav, Offcanvas, Row, Stack } from "react-bootstrap";
 import { BsLink45Deg } from "react-icons/bs";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import FindTherapistCard from "../components/FindTherapistCard";
 import { useAuth } from "../contexts/AuthContext";
 import storeItems from "../data/therapists.json";
@@ -10,10 +10,10 @@ import { BackArrowIcon } from "../utils/CommonIcons";
 
 function FindTherapist() {
   const { user } = useAuth();
-  const [show, setShow] = useState(false);
   const [link, setLink] = useState("");
   const [therapistList, setTherapistList] = useState([]);
 
+  // Get all therapists
   useEffect(() => {
     fetchTherapistList(user).then((data) => {
       setTherapistList(data);
@@ -22,16 +22,15 @@ function FindTherapist() {
   console.log(therapistList);
 
   return (
-    <div
-      className="d-flex flex-column justify-content-center mx-4"
-      onScroll={() => setShow(true)}
-    >
+    <div className="d-flex flex-column justify-content-center mx-4">
+      {/* Go to previous page button */}
       <div className="d-flex">
         <Nav.Link to="/" as={NavLink}>
           <BackArrowIcon />
         </Nav.Link>
       </div>
 
+      {/* Link with therapist field and submit button */}
       <Stack className="d-flex align-items-center my-4">
         <div className="fs-1 text-center text-dark fw-bold font-monospace mb-3">
           Enter Link Here
@@ -54,6 +53,7 @@ function FindTherapist() {
           Enter the link you recieved from your therapist
         </div>
 
+        {/* Render basic therapist information labels */}
         <Row xs={1} className="g-3">
           {storeItems.map((item) => (
             <Col key={item.id}>
@@ -61,24 +61,6 @@ function FindTherapist() {
             </Col>
           ))}
         </Row>
-        <Offcanvas
-          show={show}
-          onHide={() => setShow(false)}
-          placement="bottom"
-          style={{ height: "70vh", background: "none", border: "none" }}
-          className="text-dark fs-2"
-        >
-          <Offcanvas.Header closeButton>
-            <Offcanvas.Title className="fs-1 font-monospace">
-              Therapists
-            </Offcanvas.Title>
-          </Offcanvas.Header>
-
-          <Offcanvas.Body>
-            Some text as placeholder. In real life you can have the elements you
-            have chosen. Like, text, images, lists, etc.
-          </Offcanvas.Body>
-        </Offcanvas>
       </Stack>
     </div>
   );

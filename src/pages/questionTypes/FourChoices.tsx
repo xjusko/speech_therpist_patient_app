@@ -1,25 +1,10 @@
-import React, { useState } from "react";
-import { Button, Col, Nav, Row } from "react-bootstrap";
+import { useState } from "react";
+import { Button, Col, Row } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
-import data from "../../data/fourchoices.json";
 import ConfirmTaskExitModal from "../../components/ConfirmTaskExitModal";
+import data from "../../data/fourchoices.json";
 import { BackArrowIcon, HomeIcon } from "../../utils/CommonIcons";
-
-type Choice = {
-  id: number;
-  text: string;
-  image: string;
-};
-type FourChoicesTask = {
-  id: string;
-  name: string;
-  type: string;
-  difficulty: string;
-  questions: {
-    main: Choice;
-    options: Choice[];
-  }[];
-};
+import { FourChoicesTask } from "../../utils/TaskTypes";
 
 function FourChoices() {
   const { id } = useParams();
@@ -37,7 +22,7 @@ function FourChoices() {
   function handleNextClick() {
     setIsAnswered(false);
     if (questionsCount - 1 === question.index) {
-      navigate(`/taskfinish/${id}`);
+      navigate(`/tasksummary`);
       return;
     }
     setQuestion((prev) => ({

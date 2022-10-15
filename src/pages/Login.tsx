@@ -1,29 +1,30 @@
-import React, { useState } from "react";
 import { Formik } from "formik";
-import * as yup from "yup";
+import { useState } from "react";
 import {
-  Form,
-  Stack,
-  FloatingLabel,
-  Button,
-  Nav,
   Alert,
+  Button,
+  FloatingLabel,
+  Form,
+  Nav,
+  Stack,
 } from "react-bootstrap";
 import { NavLink, useNavigate } from "react-router-dom";
+import * as yup from "yup";
 import { useAuth } from "../contexts/AuthContext";
 import { login } from "../utils/ApiRequests";
 
-const schema = yup.object({
+const validationSchema = yup.object({
   email: yup.string().email("Invalid email address").required("Required"),
   password: yup.string().required("Required"),
 });
 
 function Login() {
   const navigate = useNavigate();
-  const { user, setUser } = useAuth();
+  const { setUser } = useAuth();
   const [show, setShow] = useState(false);
   return (
     <div className="d-flex flex-column align-items-center">
+      {/* Title */}
       <div
         className="fs-1 fw-bold my-5 font-monospace text-dark"
         style={{ textAlign: "center" }}
@@ -31,13 +32,15 @@ function Login() {
         Speech Therapist
       </div>
       <Formik
-        validationSchema={schema}
+        validationSchema={validationSchema}
         initialValues={{ email: "", password: "" }}
         onSubmit={async (values, { setSubmitting }) => {
           const response = await login(values);
+          // save authentication token to local storage if login was succesful
           if (response.status === 200) {
             response.json().then((data) => setUser(data.token));
             navigate("/");
+            // otherwise show error
           } else {
             response.json().then((data) => setShow(true));
           }
@@ -47,11 +50,14 @@ function Login() {
         {({ handleSubmit, handleChange, values, errors, touched }) => (
           <Form noValidate onSubmit={handleSubmit}>
             <Stack className="gap-3 mx-4" style={{ maxWidth: "300px" }}>
+              {/* Alert to be shown when registration failed */}
               {show && (
                 <Alert variant="danger" className="text-center">
                   Invalid email or password
                 </Alert>
               )}
+              {/* Form fields */}
+              {/* Validated only after first submit if the field are filled incorrectly, then validated live */}
               <FloatingLabel controlId="floatingEmail" label="Email">
                 <Form.Control
                   size="lg"
@@ -80,7 +86,7 @@ function Login() {
                   {errors.password}
                 </Form.Control.Feedback>
               </FloatingLabel>
-
+              {/* Log In button */}
               <Button
                 size="lg"
                 type="submit"
@@ -90,6 +96,7 @@ function Login() {
               >
                 Log In
               </Button>
+              {/* Routing to registration page */}
               <div className="d-flex m-auto gap-2 text-dark">
                 Don't have an account?
                 <Nav.Link

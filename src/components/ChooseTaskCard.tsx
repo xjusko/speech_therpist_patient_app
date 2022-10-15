@@ -1,18 +1,11 @@
 import { motion, useIsPresent } from "framer-motion";
-import React from "react";
 import { Nav, Stack } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
+import { BasicTaskInfo } from "../utils/TaskTypes";
 
-export type BasicTaskInfo = {
-  id: number;
-  name: string;
-  type: number;
-  difficulty: string;
-  tags: any[];
-  created_by: number;
-};
-
+// Basic card to be shown for listing tasks.
 function ChooseTaskCard({ id, name, type, difficulty }: BasicTaskInfo) {
+  // animations properties
   const isPresent = useIsPresent();
   const animations = {
     layout: true,
@@ -25,6 +18,7 @@ function ChooseTaskCard({ id, name, type, difficulty }: BasicTaskInfo) {
     transition: { ease: [0.17, 0.55, 0.55, 1], duration: 0.2 },
   };
   return (
+    // Navigating based on task type
     <Nav.Link
       to={`/${type === 1 ? "questionconnect" : "questionfourchoices"}/${id}`}
       as={NavLink}
@@ -38,6 +32,7 @@ function ChooseTaskCard({ id, name, type, difficulty }: BasicTaskInfo) {
           borderRadius: "1rem",
         }}
       >
+        {/* Main content */}
         <Stack
           direction="horizontal"
           gap={2}

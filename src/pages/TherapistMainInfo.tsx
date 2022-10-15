@@ -1,13 +1,13 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Button,
   Card,
-  Stack,
-  Tooltip,
+  Nav,
   OverlayTrigger,
+  Stack,
   Tab,
   Tabs,
-  Nav,
+  Tooltip,
 } from "react-bootstrap";
 import { IconType } from "react-icons";
 import {
@@ -22,7 +22,6 @@ import { BackArrowIcon, HomeIcon } from "../utils/CommonIcons";
 
 function TherapistMainInfo() {
   const { id } = useParams();
-
   const therapist = therapists.find((i) => i.id === Number(id));
   if (!therapist) {
     return <div></div>;

@@ -15,10 +15,10 @@ export const BackArrowIcon = () => {
   );
 };
 
-export const FireStreakIcon = () => {
+export const FireStreakIcon = ({ style }: { style: React.CSSProperties }) => {
   return (
     <svg
-      style={{ width: "3rem", height: "3rem" }}
+      style={style}
       xmlns="http://www.w3.org/2000/svg"
       width="16"
       height="16"

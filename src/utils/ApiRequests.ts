@@ -1,3 +1,5 @@
+import { BasicTaskInfo, ConnectTask, FourChoicesTask } from "./TaskTypes";
+
 export async function fetchTherapistList(user: string): Promise<any> {
   return await fetch("http://172.26.5.2/api/user/list/?therapist_only=1", {
     method: "GET",
@@ -23,7 +25,7 @@ export async function register(values: {
   password: string;
   confirm_password: string;
 }) {
-  return await fetch("http://172.26.5.2/api/user/register/patient/", {
+  return await fetch("http://172.26.5.2/api/user/patient/register/", {
     method: "POST",
     body: JSON.stringify(values),
     headers: {
@@ -32,7 +34,9 @@ export async function register(values: {
   });
 }
 
-export async function fetchDefaultTasks(user: string): Promise<any> {
+export async function fetchDefaultTasks(
+  user: string
+): Promise<BasicTaskInfo[]> {
   return await fetch("http://172.26.5.2/api/task/tasks/", {
     method: "GET",
     headers: { Authorization: `Token ${user}` },
@@ -67,5 +71,25 @@ export async function postConnectTaskAnswers(
       "Content-Type": "application/json",
       Authorization: `Token ${user}`,
     },
+  });
+}
+
+export async function fetchRandomDefaultTask(
+  user: string
+): Promise<BasicTaskInfo> {
+  return await fetch("http://172.26.5.2/api/task/tasks/get_random_task/", {
+    method: "GET",
+    headers: { Authorization: `Token ${user}` },
+  }).then((res) => {
+    return res.json();
+  });
+}
+
+export async function fetchMyProfile(user: string): Promise<any> {
+  return await fetch("http://172.26.5.2/api/user/patient/myprofile/", {
+    method: "GET",
+    headers: { Authorization: `Token ${user}` },
+  }).then((res) => {
+    return res.json();
   });
 }

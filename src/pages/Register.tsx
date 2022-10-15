@@ -17,7 +17,7 @@ function Register() {
   const navigate = useNavigate();
   const { setUser } = useAuth();
   const [show, setShow] = useState(false);
-  const schema = yup.object({
+  const validationSchema = yup.object({
     name: yup.string().required("Required"),
     email: yup.string().email("Invalid email address").required("Required"),
     password: yup
@@ -41,7 +41,7 @@ function Register() {
         Speech Therapist
       </div>
       <Formik
-        validationSchema={schema}
+        validationSchema={validationSchema}
         initialValues={{
           email: "",
           name: "",
@@ -49,16 +49,19 @@ function Register() {
           confirm_password: "",
         }}
         onSubmit={async (values, { setSubmitting }) => {
+          // first register the user
           const registerResponse = await register(values);
           if (registerResponse.status === 201) {
+            // if successfull, login and route to main page
             const loginResponse = await login({
               email: values.email,
               password: values.password,
             });
-            console.log(loginResponse);
+            // save authentication token to local storage
             loginResponse.json().then((data) => setUser(data.token));
             navigate("/");
           } else {
+            // otherwise show error
             registerResponse.json().then((data) => setShow(true));
           }
 
@@ -68,11 +71,14 @@ function Register() {
         {({ handleSubmit, handleChange, values, errors, touched }) => (
           <Form noValidate onSubmit={handleSubmit}>
             <Stack className="gap-3 mx-4" style={{ maxWidth: "300px" }}>
+              {/* Alert to be shown when registration failed */}
               {show && (
                 <Alert variant="danger" className="text-center">
                   User with this email address already exists
                 </Alert>
               )}
+              {/* Form fields */}
+              {/* Validated only after first submit if the field are filled incorrectly, then validated live */}
               <FloatingLabel controlId="floatingname" label="Full Name">
                 <Form.Control
                   size="lg"
@@ -134,6 +140,7 @@ function Register() {
                   {errors.confirm_password}
                 </Form.Control.Feedback>
               </FloatingLabel>
+              {/* Create account button */}
               <Button
                 size="lg"
                 type="submit"
@@ -143,6 +150,7 @@ function Register() {
               >
                 Create Account
               </Button>
+              {/* Routing to Log In page */}
               <div className="d-flex m-auto gap-2 text-dark">
                 Already have an account?
                 <Nav.Link

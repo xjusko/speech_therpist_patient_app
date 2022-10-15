@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { Nav, ToggleButton, ToggleButtonGroup } from "react-bootstrap";
-import { BackArrowIcon } from "../utils/CommonIcons";
-import ChooseTaskCard, { BasicTaskInfo } from "../components/ChooseTaskCard";
 import { AnimatePresence } from "framer-motion";
-import { NavLink } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Nav, ToggleButton, ToggleButtonGroup } from "react-bootstrap";
+import { NavLink, useNavigate } from "react-router-dom";
+import ChooseTaskCard from "../components/ChooseTaskCard";
 import { useAuth } from "../contexts/AuthContext";
 import { fetchDefaultTasks } from "../utils/ApiRequests";
+import { BackArrowIcon } from "../utils/CommonIcons";
+import { BasicTaskInfo } from "../utils/TaskTypes";
 
 function TaskMenu() {
   const { user } = useAuth();
@@ -20,6 +21,7 @@ function TaskMenu() {
     return <div> </div>;
   }
 
+  // Filter tasks based on chosen type
   const filteredData = tasks.filter((task) => types.includes(task.type));
 
   return (
@@ -33,6 +35,7 @@ function TaskMenu() {
         Choose exercise
       </div>
 
+      {/* Filter buttons */}
       <ToggleButtonGroup
         className="gap-1"
         type="checkbox"
@@ -59,7 +62,8 @@ function TaskMenu() {
 
       <div>
         <AnimatePresence>
-          {filteredData.length !== 0 ? (
+          {/* Render filtered tasks */}
+          {filteredData ? (
             filteredData.map((item) => (
               <ChooseTaskCard key={item.id} {...item} />
             ))

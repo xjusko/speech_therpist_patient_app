@@ -1,10 +1,7 @@
 import React, { createContext, useContext } from "react";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 
-type User = {
-  password: "string";
-  authToken: "string";
-};
+// Context to keep and save authentication token.
 
 type AuthContext = {
   user: string;

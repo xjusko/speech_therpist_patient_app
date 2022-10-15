@@ -1,5 +1,5 @@
-import React from "react";
 import { Reorder } from "framer-motion";
+import React from "react";
 import { BsCheckLg, BsXLg } from "react-icons/bs";
 
 type Choice = {
@@ -28,22 +28,27 @@ export function ConnectColumn({
   answer,
 }: ConnectColumnProps) {
   return (
+    // This makes the column orderable
     <Reorder.Group
       axis="y"
       values={choices}
       onReorder={setChoices}
       style={{ padding: "0" }}
     >
+      {/* Rendering the choices */}
       {choices.map((item, index) => (
         <Reorder.Item
           key={item.id}
           value={item}
           style={{
+            // Removing list artifacts
             listStyle: "none",
+            // blending image background with page background
             mixBlendMode: "multiply",
             fontSize: "1rem",
           }}
         >
+          {/* Render image or text box based on recieved type */}
           <Choice isCorrect={answer && answer[index]}>
             {isImage ? (
               <img
@@ -71,6 +76,12 @@ function Choice({
   isCorrect: boolean | null;
   children: React.ReactNode;
 }) {
+  const answerIconStyle: any = {
+    position: "absolute",
+    width: "100%",
+    height: "100%",
+    opacity: "20%",
+  };
   return (
     <div
       className="d-flex align-items-center justify-content-center my-1"
@@ -84,28 +95,14 @@ function Choice({
         position: "relative",
       }}
     >
+      {/* Content of choice */}
       {children}
+      {/* Displays tick or cross after submitting answer */}
       {isCorrect != null &&
         (isCorrect ? (
-          <BsCheckLg
-            color="green"
-            style={{
-              position: "absolute",
-              width: "100%",
-              height: "100%",
-              opacity: "20%",
-            }}
-          />
+          <BsCheckLg color="green" style={answerIconStyle} />
         ) : (
-          <BsXLg
-            color="red"
-            style={{
-              position: "absolute",
-              width: "100%",
-              height: "100%",
-              opacity: "20%",
-            }}
-          />
+          <BsXLg color="red" style={answerIconStyle} />
         ))}
     </div>
   );
