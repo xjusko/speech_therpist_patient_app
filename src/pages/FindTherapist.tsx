@@ -17,9 +17,9 @@ function FindTherapist() {
   useEffect(() => {
     fetchTherapistList(user).then((data) => {
       setTherapistList(data);
+      console.log(data);
     });
   }, []);
-  console.log(therapistList);
 
   return (
     <div className="d-flex flex-column justify-content-center mx-4">

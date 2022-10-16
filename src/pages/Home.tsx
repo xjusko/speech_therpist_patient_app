@@ -13,7 +13,7 @@ import MenuMainButton, {
 } from "../components/MenuMainButton";
 import QuickTaskButton from "../components/QuickTaskButton";
 import { useAuth } from "../contexts/AuthContext";
-import { FireStreakIcon } from "../utils/CommonIcons";
+import { FireStreakIcon, TherapistIcon } from "../utils/CommonIcons";
 
 function Home() {
   const { setUser } = useAuth();
@@ -60,7 +60,7 @@ function Home() {
         </Col>
         <Col>
           <MenuMainButton
-            Icon={BsPersonFill}
+            Icon={TherapistIcon}
             buttonText="MY THERAPIST"
             navigateTo="/findtherapist"
           />
