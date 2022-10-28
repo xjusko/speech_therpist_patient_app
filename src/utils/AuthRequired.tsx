@@ -4,7 +4,7 @@ import { useAuth } from "../contexts/AuthContext";
 // Prevents reaching page without authentication
 function AuthRequired() {
   const { user } = useAuth();
-  return user ? <Outlet /> : <Navigate to="/login" />;
+  return user ? <Outlet /> : <Navigate to="/register" />;
 }
 
 export default AuthRequired;

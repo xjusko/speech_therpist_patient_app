@@ -1,8 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Button,
   Card,
-  Nav,
   OverlayTrigger,
   Stack,
   Tab,
@@ -16,29 +15,30 @@ import {
   BsGeoAltFill,
   BsTelephoneFill,
 } from "react-icons/bs";
-import { NavLink, useParams } from "react-router-dom";
-import therapists from "../data/therapists.json";
-import { BackArrowIcon, HomeIcon } from "../utils/CommonIcons";
+import { useParams } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
+import { fetchTherapistInfo } from "../utils/ApiRequests";
+import { TherapistProfileInfo } from "../utils/CommonTypes";
 
 function TherapistMainInfo() {
   const { id } = useParams();
-  const therapist = therapists.find((i) => i.id === Number(id));
+  const { user } = useAuth();
+  const [therapist, setTherapist] = useState<TherapistProfileInfo>();
+  const [tabKey, settabKey] = useState("bio");
+
+  useEffect(() => {
+    fetchTherapistInfo(id, user).then((data) => {
+      setTherapist(data);
+    });
+  }, []);
+
   if (!therapist) {
     return <div></div>;
   }
-  const [tabKey, settabKey] = useState("bio");
   const contactIconStyle = { width: "2rem", height: "2rem" };
   const contactTextClassName = "fs-3 ms-2 my-1";
   return (
     <div className="mx-4">
-      <div className="d-flex mt-1">
-        <Nav.Link to="/findtherapist" as={NavLink}>
-          <BackArrowIcon />
-        </Nav.Link>
-        <Nav.Link to="/" className="ms-auto" as={NavLink}>
-          <HomeIcon />
-        </Nav.Link>
-      </div>
       <Card
         style={{ background: "none", border: "none" }}
         className="mt-1 text-dark d-flex"
@@ -46,7 +46,7 @@ function TherapistMainInfo() {
         <div className="d-flex justify-content-center align-items-center">
           <Card.Img
             className="d-flex justify-content-center align-items-center"
-            src={therapist.imageUrl}
+            src={therapist.image}
             style={{
               objectFit: "cover",
               borderRadius: "50%",
@@ -59,7 +59,7 @@ function TherapistMainInfo() {
         </div>
         <Card.Body>
           <Card.Title className="d-flex align-items-center justify-content-center fs-1">
-            {therapist.firstName} {therapist.lastName}
+            {therapist.name}
           </Card.Title>
 
           <Card.Subtitle className="mt-4 d-flex align-items-center justify-content-center fs-3">
@@ -74,10 +74,7 @@ function TherapistMainInfo() {
             justify
           >
             <Tab eventKey="bio" title="Bio" tabClassName="text-black">
-              <Card.Text className="fs-4">
-                Some quick example text to build on the card title and make up
-                the bulk of the card's content.
-              </Card.Text>
+              <Card.Text className="fs-4">{therapist.bio}</Card.Text>
             </Tab>
 
             <Tab eventKey="contact" title="Contact" tabClassName="text-black">
@@ -87,9 +84,13 @@ function TherapistMainInfo() {
               ></Contact>
               <Contact text={therapist.phone} Icon={BsTelephoneFill}></Contact>
               <Contact text={therapist.location} Icon={BsGeoAltFill}></Contact>
-              <Contact text={therapist.email} Icon={BsBuilding}></Contact>
+              <Contact text={therapist.company} Icon={BsBuilding}></Contact>
             </Tab>
-            <Tab eventKey="events" title="Events" tabClassName="text-black">
+            <Tab
+              eventKey="events"
+              title="Consultations"
+              tabClassName="text-black"
+            >
               <Card.Text className="fs-2 mb-0">Upcoming events</Card.Text>
               <Stack
                 direction="horizontal"
@@ -111,7 +112,7 @@ function TherapistMainInfo() {
 
   function Contact({ Icon, text }: { Icon: IconType; text: string }) {
     return (
-      <div className="d-flex align-items-center">
+      <div className="d-flex align-items-center" style={{ height: "50px" }}>
         <div>
           <Icon style={contactIconStyle} />
         </div>

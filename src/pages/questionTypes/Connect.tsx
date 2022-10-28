@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Button, Stack } from "react-bootstrap";
+import { BsArrowLeftShort } from "react-icons/bs";
 import { useNavigate, useParams } from "react-router-dom";
 import ConfirmTaskExitModal from "../../components/ConfirmTaskExitModal";
 import { ConnectColumn } from "../../components/ConnectColumn";
@@ -8,13 +9,12 @@ import {
   fetchConnectTask,
   postConnectTaskAnswers,
 } from "../../utils/ApiRequests";
-import { BackArrowIcon, HomeIcon } from "../../utils/CommonIcons";
 import {
   Choice,
   ChoiceAnswer,
   ConnectTask,
   QuestionAnswer,
-} from "../../utils/TaskTypes";
+} from "../../utils/CommonTypes";
 
 function Connect() {
   const { id } = useParams();
@@ -67,14 +67,20 @@ function Connect() {
     <div>
       {/* Display Home and Back buttons */}
       <div className="d-flex mx-4 justify-content-between">
-        <ConfirmTaskExitModal icon={<BackArrowIcon />} to="/taskmenu" />
+        <ConfirmTaskExitModal
+          icon={
+            <BsArrowLeftShort
+              style={{ width: "3rem", height: "3rem", opacity: "50%" }}
+            />
+          }
+          to="/taskmenu"
+        />
         <div className="d-flex justify-content-center align-items-center">{`${
           questionIndex + 1
         } / ${questionsCount}`}</div>
-        <ConfirmTaskExitModal icon={<HomeIcon />} to="/" />
       </div>
       <div className="mx-4 my-5">
-        <div className="fs-1 fw-bold font-monospace text-center ">
+        <div className="fs-1 fw-bold text-uppercase text-center ">
           Pair by dragging
         </div>
         {/* Display each column of choices to be reordered */}

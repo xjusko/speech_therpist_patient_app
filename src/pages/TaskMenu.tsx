@@ -1,12 +1,11 @@
 import { AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
-import { Nav, ToggleButton, ToggleButtonGroup } from "react-bootstrap";
-import { NavLink, useNavigate } from "react-router-dom";
+import { ToggleButton, ToggleButtonGroup } from "react-bootstrap";
 import ChooseTaskCard from "../components/ChooseTaskCard";
+import QuickTaskButton from "../components/QuickTaskButton";
 import { useAuth } from "../contexts/AuthContext";
 import { fetchDefaultTasks } from "../utils/ApiRequests";
-import { BackArrowIcon } from "../utils/CommonIcons";
-import { BasicTaskInfo } from "../utils/TaskTypes";
+import { BasicTaskInfo } from "../utils/CommonTypes";
 
 function TaskMenu() {
   const { user } = useAuth();
@@ -26,13 +25,16 @@ function TaskMenu() {
 
   return (
     <div className="d-flex flex-column gap-4 mx-4">
-      <div className="d-flex">
-        <Nav.Link to="/" as={NavLink}>
-          <BackArrowIcon />
-        </Nav.Link>
-      </div>
-      <div className="text-center text-monospace fs-1 fw-bold text-uppercase mb-5">
-        Choose exercise
+      <div className="text-center fs-1 fw-bold mb-2">
+        <div className="mb-3">Choose Exercise</div>
+        <QuickTaskButton
+          imageStyle={{ width: "4rem", height: "4rem" }}
+          buttonStyle={{
+            width: "8rem",
+            height: "8rem",
+            border: "none",
+          }}
+        />
       </div>
 
       {/* Filter buttons */}
@@ -59,7 +61,6 @@ function TaskMenu() {
           FOUR CHOICES
         </ToggleButton>
       </ToggleButtonGroup>
-
       <div>
         <AnimatePresence>
           {/* Render filtered tasks */}

@@ -35,7 +35,7 @@ function Register() {
   return (
     <div className="d-flex flex-column align-items-center">
       <div
-        className="fs-1 fw-bold my-5 font-monospace text-dark"
+        className="fs-1 fw-bold my-5 font-uppercase text-dark"
         style={{ textAlign: "center" }}
       >
         Speech Therapist
@@ -59,7 +59,7 @@ function Register() {
             });
             // save authentication token to local storage
             loginResponse.json().then((data) => setUser(data.token));
-            navigate("/");
+            navigate("/taskmenu");
           } else {
             // otherwise show error
             registerResponse.json().then((data) => setShow(true));
@@ -144,14 +144,14 @@ function Register() {
               <Button
                 size="lg"
                 type="submit"
-                className="fs-3 mt-4  fw-bold text-dark"
+                className="fs-3 mt-4 fw-bold"
                 variant="outline-dark"
                 style={{ border: "3px solid" }}
               >
                 Create Account
               </Button>
               {/* Routing to Log In page */}
-              <div className="d-flex m-auto gap-2 text-dark">
+              <div className="d-flex m-auto gap-2 text-dark mb-4">
                 Already have an account?
                 <Nav.Link
                   to="/login"

@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { Button, Col, Row } from "react-bootstrap";
+import { BsArrowLeftShort } from "react-icons/bs";
 import { useNavigate, useParams } from "react-router-dom";
 import ConfirmTaskExitModal from "../../components/ConfirmTaskExitModal";
 import data from "../../data/fourchoices.json";
-import { BackArrowIcon, HomeIcon } from "../../utils/CommonIcons";
-import { FourChoicesTask } from "../../utils/TaskTypes";
+import { FourChoicesTask } from "../../utils/CommonTypes";
 
 function FourChoices() {
   const { id } = useParams();
@@ -40,11 +40,17 @@ function FourChoices() {
   return (
     <div>
       <div className="d-flex mx-4 justify-content-between">
-        <ConfirmTaskExitModal icon={<BackArrowIcon />} to="/taskmenu" />
+        <ConfirmTaskExitModal
+          icon={
+            <BsArrowLeftShort
+              style={{ width: "3rem", height: "3rem", opacity: "50%" }}
+            />
+          }
+          to="/taskmenu"
+        />
         <div className="d-flex justify-content-center align-items-center">{`${
           question.index + 1
         } / ${questionsCount}`}</div>
-        <ConfirmTaskExitModal icon={<HomeIcon />} to="/" />
       </div>
       <div className="mx-4 my-5">
         <Row className="text-center mb-3 fs-1 fw-bold">

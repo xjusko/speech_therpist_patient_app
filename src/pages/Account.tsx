@@ -1,27 +1,40 @@
 import { Formik } from "formik";
-import * as yup from "yup";
+import { motion } from "framer-motion";
+import React, { useRef, useState } from "react";
 import {
   Alert,
   Button,
   Col,
-  FloatingLabel,
   Form,
+  Modal,
   Nav,
   Row,
   Stack,
 } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
-import React, { useState } from "react";
+import * as yup from "yup";
 import { useAuth } from "../contexts/AuthContext";
+import { useProfile } from "../contexts/ProfileContext";
+import { patchMyProfile } from "../utils/ApiRequests";
 
 function Account() {
+  const { user, setUser } = useAuth();
+  const { profileData, setProfileData } = useProfile();
   const [show, setShow] = useState(false);
-  const { setUser } = useAuth();
+  const inputRef = useRef(null);
+  const animationProps = {
+    whileHover: { scale: 1.1 },
+    whileTap: { scale: 0.9 },
+  };
 
   const validationSchema = yup.object({
     name: yup.string().required("Required"),
     email: yup.string().email("Invalid email address").required("Required"),
   });
+
+  if (!profileData) {
+    return <div></div>;
+  }
   return (
     <div className="mx-4 my-2">
       <Row className="d-flex me-4 my-3 align-items-center">
@@ -31,10 +44,18 @@ function Account() {
       <Formik
         validationSchema={validationSchema}
         initialValues={{
-          email: "email@email.com",
-          name: "Full Name",
+          email: profileData.email,
+          name: profileData.name,
         }}
         onSubmit={async (values, { setSubmitting }) => {
+          try {
+            await patchMyProfile(user, values).then((profile) => {
+              setProfileData(profile);
+              setShow(false);
+            });
+          } catch (error) {
+            setShow(true);
+          }
           setSubmitting(false);
         }}
       >
@@ -49,14 +70,7 @@ function Account() {
               )}
               {/* Form fields */}
               {/* Validated only after first submit if the field are filled incorrectly, then validated live */}
-              <Stack direction="horizontal" className="gap-5 ">
-                <AccountLabel>Profile Picture</AccountLabel>
-                <Form.Control
-                  type="file"
-                  accept="image/*"
-                  style={{ width: "70%" }}
-                />
-              </Stack>
+
               <Stack direction="horizontal" className="gap-5">
                 <AccountLabel>Full Name</AccountLabel>
                 <Form.Control
@@ -68,10 +82,10 @@ function Account() {
                   name="name"
                   style={{ width: "70%" }}
                 />
-                <Form.Control.Feedback type="invalid">
-                  {errors.name}
-                </Form.Control.Feedback>
               </Stack>
+              <Form.Control.Feedback type="invalid">
+                {errors.name}
+              </Form.Control.Feedback>
               <Stack direction="horizontal" className="gap-5">
                 <AccountLabel>Email</AccountLabel>
                 <Form.Control
@@ -83,10 +97,10 @@ function Account() {
                   name="email"
                   style={{ width: "70%" }}
                 />
-                <Form.Control.Feedback type="invalid">
-                  {errors.email}
-                </Form.Control.Feedback>{" "}
               </Stack>
+              <Form.Control.Feedback type="invalid">
+                {errors.email}
+              </Form.Control.Feedback>
               <Button
                 variant="outline-dark"
                 type="submit"
@@ -101,25 +115,59 @@ function Account() {
       </Formik>
       <Row className="mt-auto mb-3 text-dark fs-2 text-center shadow-sm">
         <Col className="justify-content-center text-muted fw-bold fs-4">
-          Change Password
+          <input
+            style={{ display: "none" }}
+            type="file"
+            accept="image/*"
+            ref={inputRef}
+            onChange={async (e) => {
+              const files = e.target.files;
+              if (!files) {
+                return;
+              }
+              await patchMyProfile(user, { image: files[0] }).then((res) =>
+                setProfileData(res)
+              );
+            }}
+          ></input>
+          <motion.div
+            {...animationProps}
+            style={{ cursor: "pointer" }}
+            onClick={() => inputRef.current?.click()}
+          >
+            Change Profile Picture
+          </motion.div>
+        </Col>
+      </Row>
+      <Row className="mt-auto mb-3 text-dark fs-2 text-center shadow-sm">
+        <Col className="justify-content-center text-muted fw-bold fs-4">
+          <ChangePasswordModal
+            user={user}
+            animationProps={animationProps}
+            setProfileData={setProfileData}
+          />
         </Col>
       </Row>
       {/* Log Out button */}
       <Row className="mt-auto mb-3 text-dark fs-2 text-center shadow-sm">
         <Col className="">
-          <Nav.Link
-            to="/login"
-            onClick={() => setUser("")}
-            as={NavLink}
-            className="text-muted fw-bold fs-4"
-          >
-            Log Out
-          </Nav.Link>
+          <motion.div {...animationProps}>
+            <Nav.Link
+              to="/login"
+              onClick={() => setUser("")}
+              as={NavLink}
+              className="text-muted fw-bold fs-4"
+            >
+              Log Out
+            </Nav.Link>{" "}
+          </motion.div>
         </Col>
       </Row>
       <Row className="mt-auto mb-3 text-dark fs-2 text-center shadow-sm">
         <Col className="justify-content-center text-danger fw-bold fs-4">
-          Delete Account
+          <motion.div style={{ cursor: "pointer" }} {...animationProps}>
+            Delete Account
+          </motion.div>
         </Col>
       </Row>
     </div>
@@ -136,28 +184,94 @@ function AccountLabel({ children }: { children: React.ReactNode }) {
   );
 }
 
-function InfoLabel({
-  Icon,
-  labelNumber,
-  labelText,
-}: {
-  Icon: any;
-  labelNumber: number;
-  labelText: string;
-}) {
+function ChangePasswordModal({ user, setProfileData, animationProps }) {
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  const validationSchema = yup.object({
+    password: yup
+      .string()
+      .required("Required")
+      .matches(
+        /^(?=.*[0-9])(?=.*[A-Z]).{8,20}$/,
+        "Password must be 8-20 characters long, contain an uppercase character and a digit"
+      ),
+    confirm_password: yup
+      .string()
+      .oneOf([yup.ref("password"), null], "Passwords must match"),
+  });
   return (
-    <Col
-      xs={10}
-      sm={5}
-      style={{ border: "2px solid black", borderRadius: "16px" }}
-    >
-      <div className="d-flex mx-2 my-2 align-items-center">
-        <Icon style={{ height: "2rem", width: "2rem" }} />
-        <div className="d-flex flex-column">
-          <div className="ms-2 fs-4 fw-bold">{labelNumber}</div>
-          <div className="ms-2">{labelText}</div>
-        </div>
-      </div>
-    </Col>
+    <>
+      <motion.div
+        style={{ cursor: "pointer" }}
+        {...animationProps}
+        onClick={handleShow}
+      >
+        Change Password
+      </motion.div>
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Create new passowrd</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Formik
+            validationSchema={validationSchema}
+            initialValues={{
+              password: "",
+              confirm_password: "",
+            }}
+            onSubmit={async (values, { setSubmitting }) => {
+              try {
+                await patchMyProfile(user, values).then((profile) => {
+                  setProfileData(profile);
+                });
+              } catch (error) {}
+              handleClose();
+              setSubmitting(false);
+            }}
+          >
+            {({ handleSubmit, handleChange, values, errors, touched }) => (
+              <Form noValidate onSubmit={handleSubmit}>
+                <Stack gap={4}>
+                  <div>
+                    <Form.Control
+                      size="lg"
+                      type="password"
+                      placeholder="Password"
+                      onChange={handleChange}
+                      value={values.password}
+                      isInvalid={touched.password && !!errors.password}
+                      name="password"
+                    />
+                    <Form.Control.Feedback type="invalid">
+                      {errors.password}
+                    </Form.Control.Feedback>
+                  </div>
+                  <div>
+                    <Form.Control
+                      size="lg"
+                      type="password"
+                      placeholder="Confirm Password"
+                      onChange={handleChange}
+                      value={values.confirm_password}
+                      isInvalid={
+                        touched.confirm_password && !!errors.confirm_password
+                      }
+                      name="confirm_password"
+                    />
+                    <Form.Control.Feedback type="invalid">
+                      {errors.confirm_password}
+                    </Form.Control.Feedback>
+                  </div>
+                  <Button type="submit" variant="dark">
+                    Save
+                  </Button>
+                </Stack>
+              </Form>
+            )}
+          </Formik>{" "}
+        </Modal.Body>
+      </Modal>
+    </>
   );
 }

@@ -57,7 +57,7 @@ export function ConnectColumn({
                 draggable={false}
                 height="100%"
                 width="100%"
-                style={{ borderRadius: "10px" }}
+                style={{ borderRadius: "10px", objectFit: "cover" }}
               />
             ) : (
               <div className="fw-bold text-uppercase">{item.text}</div>
@@ -80,7 +80,7 @@ function Choice({
     position: "absolute",
     width: "100%",
     height: "100%",
-    opacity: "20%",
+    opacity: "30%",
   };
   return (
     <div

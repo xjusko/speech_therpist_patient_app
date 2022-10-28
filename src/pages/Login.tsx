@@ -11,7 +11,8 @@ import {
 import { NavLink, useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import { useAuth } from "../contexts/AuthContext";
-import { login } from "../utils/ApiRequests";
+import { useProfile } from "../contexts/ProfileContext";
+import { fetchMyProfile, login } from "../utils/ApiRequests";
 
 const validationSchema = yup.object({
   email: yup.string().email("Invalid email address").required("Required"),
@@ -21,12 +22,13 @@ const validationSchema = yup.object({
 function Login() {
   const navigate = useNavigate();
   const { setUser } = useAuth();
+  const { setProfileData } = useProfile();
   const [show, setShow] = useState(false);
   return (
     <div className="d-flex flex-column align-items-center">
       {/* Title */}
       <div
-        className="fs-1 fw-bold my-5 font-monospace text-dark"
+        className="fs-1 fw-bold my-5 text-dark"
         style={{ textAlign: "center" }}
       >
         Speech Therapist
@@ -38,8 +40,13 @@ function Login() {
           const response = await login(values);
           // save authentication token to local storage if login was succesful
           if (response.status === 200) {
-            response.json().then((data) => setUser(data.token));
-            navigate("/");
+            await response.json().then((data) => {
+              setUser(data.token);
+              fetchMyProfile(data.token).then((profile) =>
+                setProfileData(profile)
+              );
+            });
+            navigate("/taskmenu");
             // otherwise show error
           } else {
             response.json().then((data) => setShow(true));
@@ -90,7 +97,7 @@ function Login() {
               <Button
                 size="lg"
                 type="submit"
-                className="fs-3 mt-5 fw-bold text-dark"
+                className="fs-3 mt-5 fw-bold"
                 variant="outline-dark"
                 style={{ border: "3px solid" }}
               >
