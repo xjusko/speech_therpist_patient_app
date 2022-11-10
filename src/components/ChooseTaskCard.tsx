@@ -41,6 +41,7 @@ function ChooseTaskCard({ id, name, type, difficulty }: BasicTaskInfo) {
           className="d-flex align-items-center text-dark mx-2 my-2"
         >
           <div className="me-auto fs-5">{name}</div>
+          <div className="text-uppercase mx-2">{difficulty}</div>
           <div className="">
             <TbArrowsSort style={{ height: "50px", width: "50px" }} />
           </div>

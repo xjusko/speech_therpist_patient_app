@@ -11,11 +11,19 @@ import {
 import { NavLink, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
-import { login, register } from "../utils/ApiRequests";
+import { fetchMyProfile, login, register } from "../utils/ApiRequests";
+import { useProfile } from "../contexts/ProfileContext";
+import {
+  NameLabel,
+  EmailLabel,
+  PasswordLabel,
+  ConfirmPasswordLabel,
+} from "../components/AccountComponents";
 
 function Register() {
   const navigate = useNavigate();
   const { setUser } = useAuth();
+  const { setProfileData } = useProfile();
   const [show, setShow] = useState(false);
   const validationSchema = yup.object({
     name: yup.string().required("Required"),
@@ -49,20 +57,21 @@ function Register() {
           confirm_password: "",
         }}
         onSubmit={async (values, { setSubmitting }) => {
-          // first register the user
-          const registerResponse = await register(values);
-          if (registerResponse.status === 201) {
-            // if successfull, login and route to main page
-            const loginResponse = await login({
+          try {
+            await register(values);
+            await login({
               email: values.email,
               password: values.password,
+            }).then((data) => {
+              setUser(data.token);
+              fetchMyProfile(data.token).then((profile) =>
+                setProfileData(profile)
+              );
             });
-            // save authentication token to local storage
-            loginResponse.json().then((data) => setUser(data.token));
+
             navigate("/taskmenu");
-          } else {
-            // otherwise show error
-            registerResponse.json().then((data) => setShow(true));
+          } catch (error) {
+            setShow(true);
           }
 
           setSubmitting(false);
@@ -79,67 +88,30 @@ function Register() {
               )}
               {/* Form fields */}
               {/* Validated only after first submit if the field are filled incorrectly, then validated live */}
-              <FloatingLabel controlId="floatingname" label="Full Name">
-                <Form.Control
-                  size="lg"
-                  type="text"
-                  placeholder="Full Name"
-                  onChange={handleChange}
-                  value={values.name}
-                  isInvalid={touched.name && !!errors.name}
-                  name="name"
-                />
-                <Form.Control.Feedback type="invalid">
-                  {errors.name}
-                </Form.Control.Feedback>
-              </FloatingLabel>
-              <FloatingLabel controlId="floatingEmail" label="Email">
-                <Form.Control
-                  size="lg"
-                  type="email"
-                  placeholder="Email"
-                  onChange={handleChange}
-                  value={values.email}
-                  isInvalid={touched.email && !!errors.email}
-                  name="email"
-                />
-                <Form.Control.Feedback type="invalid">
-                  {errors.email}
-                </Form.Control.Feedback>
-              </FloatingLabel>
-              <FloatingLabel controlId="floatingPassword" label="Password">
-                <Form.Control
-                  size="lg"
-                  type="password"
-                  placeholder="Password"
-                  onChange={handleChange}
-                  value={values.password}
-                  isInvalid={touched.password && !!errors.password}
-                  name="password"
-                />
-                <Form.Control.Feedback type="invalid">
-                  {errors.password}
-                </Form.Control.Feedback>
-              </FloatingLabel>
-              <FloatingLabel
-                controlId="floatingConfirmPassword"
-                label="Confirm Password"
-              >
-                <Form.Control
-                  size="lg"
-                  type="password"
-                  placeholder="Confirm Password"
-                  onChange={handleChange}
-                  value={values.confirm_password}
-                  isInvalid={
-                    touched.confirm_password && !!errors.confirm_password
-                  }
-                  name="confirm_password"
-                />
-                <Form.Control.Feedback type="invalid">
-                  {errors.confirm_password}
-                </Form.Control.Feedback>
-              </FloatingLabel>
+              <NameLabel
+                handleChange={handleChange}
+                value={values.name}
+                touched={touched.name}
+                error={errors.name}
+              />
+              <EmailLabel
+                handleChange={handleChange}
+                value={values.email}
+                touched={touched.email}
+                error={errors.email}
+              />
+              <PasswordLabel
+                handleChange={handleChange}
+                value={values.password}
+                touched={touched.password}
+                error={errors.password}
+              />
+              <ConfirmPasswordLabel
+                handleChange={handleChange}
+                value={values.confirm_password}
+                touched={touched.confirm_password}
+                error={errors.confirm_password}
+              />
               {/* Create account button */}
               <Button
                 size="lg"

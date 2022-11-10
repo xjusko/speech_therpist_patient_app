@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import React from "react";
 import { Button } from "react-bootstrap";
 import { BsFillLightningFill } from "react-icons/bs";
@@ -15,10 +16,12 @@ function QuickTaskButton({ imageStyle, buttonStyle }: QuickTaskButtonProps) {
   const navigate = useNavigate();
   const { user } = useAuth();
   return (
-    <Button variant="outline-dark" onClick={handleClick} style={buttonStyle}>
-      <BsFillLightningFill style={imageStyle} />
-      <div className="mt-2">QUICK TASK</div>
-    </Button>
+    <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+      <Button variant="outline-dark" onClick={handleClick} style={buttonStyle}>
+        <BsFillLightningFill style={imageStyle} />
+        <div className="mt-2">QUICK TASK</div>
+      </Button>
+    </motion.div>
   );
 
   async function handleClick() {

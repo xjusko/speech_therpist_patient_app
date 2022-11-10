@@ -49,7 +49,7 @@ function App() {
 
 function PagesWithNavbars() {
   return (
-    <div style={{ marginTop: "80px", marginBottom: "100px" }}>
+    <div style={{ marginTop: "80px", marginBottom: "120px" }}>
       <TopNavbar />
       <BottomNavbar />
       <Outlet />

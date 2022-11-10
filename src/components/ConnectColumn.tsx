@@ -1,12 +1,7 @@
 import { Reorder } from "framer-motion";
 import React from "react";
 import { BsCheckLg, BsXLg } from "react-icons/bs";
-
-type Choice = {
-  id: number;
-  text: string;
-  image: string;
-};
+import { Choice } from "../utils/CommonTypes";
 
 type SetChoices = {
   (value: React.SetStateAction<Choice[] | undefined>): void;
@@ -49,10 +44,10 @@ export function ConnectColumn({
           }}
         >
           {/* Render image or text box based on recieved type */}
-          <Choice isCorrect={answer && answer[index]}>
+          <Pair isCorrect={answer && answer[index]}>
             {isImage ? (
               <img
-                src={item.image}
+                src={item.data2}
                 alt="image"
                 draggable={false}
                 height="100%"
@@ -60,16 +55,16 @@ export function ConnectColumn({
                 style={{ borderRadius: "10px", objectFit: "cover" }}
               />
             ) : (
-              <div className="fw-bold text-uppercase">{item.text}</div>
+              <div className="fw-bold text-uppercase">{item.data1}</div>
             )}
-          </Choice>
+          </Pair>
         </Reorder.Item>
       ))}
     </Reorder.Group>
   );
 }
 
-function Choice({
+function Pair({
   isCorrect,
   children,
 }: {

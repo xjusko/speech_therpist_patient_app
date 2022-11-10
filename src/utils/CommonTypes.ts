@@ -1,7 +1,7 @@
 export type Choice = {
   id: number;
-  text: string;
-  image: string;
+  data1: string;
+  data2: string;
 };
 
 export type Question = {
@@ -64,4 +64,5 @@ export type TherapistProfileInfo = {
   image: string;
   phone: string;
   bio: string;
+  assigned_patients_count: number;
 };

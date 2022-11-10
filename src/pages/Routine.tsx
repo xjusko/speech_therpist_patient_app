@@ -1,20 +1,29 @@
 import { AnimatePresence } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ToggleButton, ToggleButtonGroup } from "react-bootstrap";
 import ChooseTaskCard from "../components/ChooseTaskCard";
-import { useProfile } from "../contexts/ProfileContext";
+import { useAuth } from "../contexts/AuthContext";
+import { fetchMyProfile } from "../utils/ApiRequests";
+import { BasicTaskInfo } from "../utils/CommonTypes";
 
 function Routine() {
-  const { profileData } = useProfile();
   const [types, setTypes] = useState([1, 2]);
   const [difficulties, setDIfficulties] = useState(["easy", "hard"]);
+  const { user } = useAuth();
+  const [myTasks, setMyTasks] = useState<BasicTaskInfo[]>();
+  // Get tasks assigned to the user
+  useEffect(() => {
+    fetchMyProfile(user).then((profile) => {
+      setMyTasks(profile.assigned_tasks);
+    });
+  }, []);
 
-  if (!profileData.assigned_tasks) {
+  if (!myTasks) {
     return <div> </div>;
   }
 
   // Filter tasks based on chosen type
-  const filteredData = profileData.assigned_tasks.filter(
+  const filteredData = myTasks.filter(
     (task) =>
       types.includes(task.type) && difficulties.includes(task.difficulty)
   );

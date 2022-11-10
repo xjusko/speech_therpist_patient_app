@@ -17,12 +17,14 @@ import {
 } from "react-icons/bs";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
+import { useProfile } from "../contexts/ProfileContext";
 import { fetchTherapistInfo } from "../utils/ApiRequests";
 import { TherapistProfileInfo } from "../utils/CommonTypes";
 
 function TherapistMainInfo() {
   const { id } = useParams();
   const { user } = useAuth();
+  const { profileData } = useProfile();
   const [therapist, setTherapist] = useState<TherapistProfileInfo>();
   const [tabKey, settabKey] = useState("bio");
 
@@ -63,21 +65,27 @@ function TherapistMainInfo() {
           </Card.Title>
 
           <Card.Subtitle className="mt-4 d-flex align-items-center justify-content-center fs-3">
-            <span className="fw-bold fs-1 me-1">15</span>
+            <span className="fw-bold fs-1 me-1">
+              {therapist.assigned_patients_count}
+            </span>
             <span>patients</span>
           </Card.Subtitle>
           <Tabs
-            id="controlled-tab-example"
+            id="controlled-tab"
             activeKey={tabKey}
-            onSelect={(key) => settabKey(key)}
+            onSelect={(key) => settabKey(key!)}
             className="mb-3 mt-5"
             justify
           >
-            <Tab eventKey="bio" title="Bio" tabClassName="text-black">
+            <Tab eventKey="bio" title="Bio" tabClassName="text-black fw-bold">
               <Card.Text className="fs-4">{therapist.bio}</Card.Text>
             </Tab>
 
-            <Tab eventKey="contact" title="Contact" tabClassName="text-black">
+            <Tab
+              eventKey="contact"
+              title="Contact"
+              tabClassName="text-black fw-bold"
+            >
               <Contact
                 text={therapist.email}
                 Icon={BsFillEnvelopeFill}
@@ -89,7 +97,12 @@ function TherapistMainInfo() {
             <Tab
               eventKey="events"
               title="Consultations"
-              tabClassName="text-black"
+              tabClassName={
+                profileData.assignment_active
+                  ? "text-black fw-bold"
+                  : "text-gray"
+              }
+              disabled={!profileData.assignment_active}
             >
               <Card.Text className="fs-2 mb-0">Upcoming events</Card.Text>
               <Stack

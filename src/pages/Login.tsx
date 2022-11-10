@@ -10,6 +10,7 @@ import {
 } from "react-bootstrap";
 import { NavLink, useNavigate } from "react-router-dom";
 import * as yup from "yup";
+import { EmailLabel, PasswordLabel } from "../components/AccountComponents";
 import { useAuth } from "../contexts/AuthContext";
 import { useProfile } from "../contexts/ProfileContext";
 import { fetchMyProfile, login } from "../utils/ApiRequests";
@@ -37,19 +38,16 @@ function Login() {
         validationSchema={validationSchema}
         initialValues={{ email: "", password: "" }}
         onSubmit={async (values, { setSubmitting }) => {
-          const response = await login(values);
-          // save authentication token to local storage if login was succesful
-          if (response.status === 200) {
-            await response.json().then((data) => {
+          try {
+            await login(values).then((data) => {
               setUser(data.token);
               fetchMyProfile(data.token).then((profile) =>
                 setProfileData(profile)
               );
             });
             navigate("/taskmenu");
-            // otherwise show error
-          } else {
-            response.json().then((data) => setShow(true));
+          } catch (error) {
+            setShow(true);
           }
           setSubmitting(false);
         }}
@@ -65,34 +63,18 @@ function Login() {
               )}
               {/* Form fields */}
               {/* Validated only after first submit if the field are filled incorrectly, then validated live */}
-              <FloatingLabel controlId="floatingEmail" label="Email">
-                <Form.Control
-                  size="lg"
-                  type="email"
-                  placeholder="Email"
-                  name="email"
-                  onChange={handleChange}
-                  value={values.email}
-                  isInvalid={touched.email && !!errors.email}
-                />
-                <Form.Control.Feedback type="invalid">
-                  {errors.email}
-                </Form.Control.Feedback>
-              </FloatingLabel>
-              <FloatingLabel controlId="floatingPassword" label="Password">
-                <Form.Control
-                  size="lg"
-                  type="password"
-                  placeholder="Password"
-                  name="password"
-                  onChange={handleChange}
-                  value={values.password}
-                  isInvalid={touched.password && !!errors.password}
-                />
-                <Form.Control.Feedback type="invalid">
-                  {errors.password}
-                </Form.Control.Feedback>
-              </FloatingLabel>
+              <EmailLabel
+                handleChange={handleChange}
+                value={values.email}
+                touched={touched.email}
+                error={errors.email}
+              />
+              <PasswordLabel
+                handleChange={handleChange}
+                value={values.password}
+                touched={touched.password}
+                error={errors.password}
+              />
               {/* Log In button */}
               <Button
                 size="lg"

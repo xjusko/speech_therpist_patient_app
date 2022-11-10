@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button, Col, Row } from "react-bootstrap";
 import { BsArrowLeftShort } from "react-icons/bs";
 import { useNavigate, useParams } from "react-router-dom";
-import ConfirmTaskExitModal from "../../components/ConfirmTaskExitModal";
+import ConfrimModal from "../../components/ConfrimModal";
 import data from "../../data/fourchoices.json";
 import { FourChoicesTask } from "../../utils/CommonTypes";
 
@@ -40,13 +40,15 @@ function FourChoices() {
   return (
     <div>
       <div className="d-flex mx-4 justify-content-between">
-        <ConfirmTaskExitModal
-          icon={
+        <ConfrimModal
+          component={
             <BsArrowLeftShort
               style={{ width: "3rem", height: "3rem", opacity: "50%" }}
             />
           }
-          to="/taskmenu"
+          confirmAction={() => navigate(-1)}
+          title="Do you wish to exit the task?"
+          body="Your answers will not be saved."
         />
         <div className="d-flex justify-content-center align-items-center">{`${
           question.index + 1

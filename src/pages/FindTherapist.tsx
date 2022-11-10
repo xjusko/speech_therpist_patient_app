@@ -3,7 +3,7 @@ import { Button, Col, Form, Row, Stack } from "react-bootstrap";
 import { BsLink45Deg } from "react-icons/bs";
 import FindTherapistCard from "../components/FindTherapistCard";
 import { useAuth } from "../contexts/AuthContext";
-import { fetchTherapistList } from "../utils/ApiRequests";
+import { fetchTherapistList, linkRequest } from "../utils/ApiRequests";
 import { TherapistProfileInfo } from "../utils/CommonTypes";
 
 function FindTherapist() {
@@ -12,7 +12,6 @@ function FindTherapist() {
   const [therapistList, setTherapistList] = useState<TherapistProfileInfo[]>(
     []
   );
-
   // Get all therapists
   useEffect(() => {
     fetchTherapistList(user).then((data) => {
@@ -37,7 +36,10 @@ function FindTherapist() {
             value={link}
             onChange={(e) => setLink(e.target.value)}
           />
-          <Button variant="outline-dark">
+          <Button
+            variant="outline-dark"
+            onClick={() => linkRequest(user, { therapist_code: link })}
+          >
             <BsLink45Deg style={{ width: "3rem", height: "3rem" }} />
           </Button>
         </Form>
