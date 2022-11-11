@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Button, Stack } from "react-bootstrap";
 import { BsArrowLeftShort } from "react-icons/bs";
 import { useNavigate, useParams } from "react-router-dom";
+import { Paths } from "../../App";
 import ConfrimModal from "../../components/ConfrimModal";
 import { ConnectColumn } from "../../components/ConnectColumn";
 import { useAuth } from "../../contexts/AuthContext";
@@ -164,7 +165,7 @@ function Connect() {
     if (questionsCount - 1 === questionIndex) {
       postConnectTaskAnswers(user, task.id, taskAnswer);
       // pass total and correct questions to display result on summary screen
-      navigate("/tasksummary", {
+      navigate(Paths.TaskSummary, {
         state: {
           totalQuestions: questionsCount,
           correctQuestions: countCorrect,

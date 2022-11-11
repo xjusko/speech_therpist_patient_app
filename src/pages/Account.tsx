@@ -13,6 +13,7 @@ import {
 } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import * as yup from "yup";
+import { Paths } from "../App";
 import {
   ConfirmPasswordLabel,
   EmailLabel,
@@ -160,7 +161,7 @@ function Account() {
         <Col className="text-muted fw-bold fs-4">
           <motion.div {...animationProps}>
             <Nav.Link
-              to="/login"
+              to={Paths.Login}
               onClick={() => {
                 setProfileData({} as AccountInfo);
                 setUser("");

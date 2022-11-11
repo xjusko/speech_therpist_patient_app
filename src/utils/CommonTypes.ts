@@ -13,7 +13,7 @@ export type Question = {
 export type ConnectTask = {
   id: string;
   name: string;
-  type: number;
+  type: string;
   difficulty: string;
   created_by: number;
   questions: Question[];
@@ -23,7 +23,7 @@ export type ConnectTask = {
 export type FourChoicesTask = {
   id: string;
   name: string;
-  type: number;
+  type: string;
   difficulty: string;
   questions: {
     main: Choice;
@@ -34,7 +34,7 @@ export type FourChoicesTask = {
 export type BasicTaskInfo = {
   id: number;
   name: string;
-  type: number;
+  type: string;
   difficulty: string;
   tags: any[];
   created_by: number;

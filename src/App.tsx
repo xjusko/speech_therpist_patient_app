@@ -17,6 +17,19 @@ import BottomNavbar from "./components/BottomNavbar";
 import TopNavbar from "./components/TopNavbar";
 import { ProfileProvider } from "./contexts/ProfileContext";
 
+export const Paths = {
+  FindTherapist: "/findtherapist",
+  TherapistMainInfo: "/therapist/",
+  TaskMenu: "/taskmenu",
+  Routine: "/routine",
+  TaskSummary: "/tasksummary",
+  Account: "/account",
+  Connect: "/questionconnect/",
+  FourChoices: "/questionfourchoices/",
+  Register: "/register",
+  Login: "/login",
+};
+
 function App() {
   return (
     <AuthProvider>
@@ -24,20 +37,26 @@ function App() {
         <Container style={{ maxWidth: "700px" }}>
           <Routes>
             {/* Pages accessible without authorization */}
-            <Route path="/register" element={<Register />} />
-            <Route path="/login" element={<Login />} />
+            <Route path={Paths.Register} element={<Register />} />
+            <Route path={Paths.Login} element={<Login />} />
             <Route element={<AuthRequired />}>
               {/* Pages accessible only when authorized */}
-              <Route path="/questionconnect/:id" element={<Connect />} />
-              <Route path="/questionfourchoices" element={<FourChoices />} />
+              <Route path={`${Paths.Connect}:id`} element={<Connect />} />
+              <Route
+                path={`${Paths.FourChoices}:id`}
+                element={<FourChoices />}
+              />
               <Route element={<PagesWithNavbars />}>
                 <Route path="/" element={<TaskMenu />} />
-                <Route path="/findtherapist" element={<FindTherapist />} />
-                <Route path="/therapist/:id" element={<TherapistMainInfo />} />
-                <Route path="/taskmenu" element={<TaskMenu />} />
-                <Route path="/routine" element={<Routine />} />
-                <Route path="/tasksummary" element={<TaskSummary />} />
-                <Route path="/account" element={<Account />} />
+                <Route path={Paths.FindTherapist} element={<FindTherapist />} />
+                <Route
+                  path={`${Paths.TherapistMainInfo}:id`}
+                  element={<TherapistMainInfo />}
+                />
+                <Route path={Paths.TaskMenu} element={<TaskMenu />} />
+                <Route path={Paths.Routine} element={<Routine />} />
+                <Route path={Paths.TaskSummary} element={<TaskSummary />} />
+                <Route path={Paths.Account} element={<Account />} />
               </Route>
             </Route>
           </Routes>

@@ -9,21 +9,30 @@ import {
   ToggleButtonGroup,
 } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { Paths } from "../App";
 import ChooseTaskCard from "../components/ChooseTaskCard";
+import FilterToggleButton, {
+  Difficulties,
+  Types,
+} from "../components/FilterToggleButton";
 import { useAuth } from "../contexts/AuthContext";
 import { useProfile } from "../contexts/ProfileContext";
 import { fetchMyProfile } from "../utils/ApiRequests";
 import { BasicTaskInfo } from "../utils/CommonTypes";
 
 function Routine() {
-  const [types, setTypes] = useState([1, 2]);
-  const [difficulties, setDIfficulties] = useState(["easy", "hard"]);
+  const [types, setTypes] = useState([Types.CONNECT_PAIRS, Types.FOUR_CHOICES]);
+  const [difficulties, setDIfficulties] = useState([
+    Difficulties.EASY,
+    Difficulties.HARD,
+  ]);
   const { user } = useAuth();
   const { profileData } = useProfile();
   const [myTasks, setMyTasks] = useState<BasicTaskInfo[]>();
   // Get tasks assigned to the user
   useEffect(() => {
     fetchMyProfile(user).then((profile) => {
+      console.log(profile.assigned_tasks);
       setMyTasks(profile.assigned_tasks);
     });
   }, []);
@@ -52,22 +61,8 @@ function Routine() {
             value={types}
             onChange={(value) => setTypes(value)}
           >
-            <ToggleButton
-              id="type-1"
-              value={1}
-              variant="outline-dark"
-              style={{ width: "40vw", borderRadius: "5px" }}
-            >
-              CONNECT SIX
-            </ToggleButton>
-            <ToggleButton
-              id="type-2"
-              value={2}
-              variant="outline-dark"
-              style={{ width: "40vw", borderRadius: "5px" }}
-            >
-              FOUR CHOICES
-            </ToggleButton>
+            <FilterToggleButton text={Types.CONNECT_PAIRS} />
+            <FilterToggleButton text={Types.FOUR_CHOICES} />
           </ToggleButtonGroup>
           <ToggleButtonGroup
             className="gap-1 my-1"
@@ -75,22 +70,9 @@ function Routine() {
             value={difficulties}
             onChange={(value) => setDIfficulties(value)}
           >
-            <ToggleButton
-              id="easy"
-              value="easy"
-              variant="outline-dark"
-              style={{ width: "40vw", borderRadius: "5px" }}
-            >
-              EASY
-            </ToggleButton>
-            <ToggleButton
-              id="hard"
-              value="hard"
-              variant="outline-dark"
-              style={{ width: "40vw", borderRadius: "5px" }}
-            >
-              HARD
-            </ToggleButton>
+            <FilterToggleButton text={Difficulties.EASY} />
+
+            <FilterToggleButton text={Difficulties.HARD} />
           </ToggleButtonGroup>
         </div>
 
@@ -118,7 +100,7 @@ function NotAssignedOverlay() {
   return (
     <Stack
       gap={2}
-      className="d-flex align-items-center justify-content-center mx-2 my-2"
+      className="d-flex align-items-center justify-content-center"
       style={{
         height: "100%",
         width: "100%",
@@ -127,14 +109,14 @@ function NotAssignedOverlay() {
         top: "0",
       }}
     >
-      <div className="text-center mb-5 fs-1 fw-bold text-uppercase">
+      <div className="text-center mb-5 mx-1 fs-1 fw-bold text-uppercase">
         You are not linked to a therapist
       </div>
       <Button
         size="lg"
         variant="outline-dark"
         className="fs-2 fw-bold text-uppercase"
-        onClick={() => navigate("/findtherapist")}
+        onClick={() => navigate(Paths.FindTherapist)}
       >
         Find a Therapist
       </Button>

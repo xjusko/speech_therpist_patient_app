@@ -10,6 +10,7 @@ import {
 } from "react-bootstrap";
 import { NavLink, useNavigate } from "react-router-dom";
 import * as yup from "yup";
+import { Paths } from "../App";
 import { EmailLabel, PasswordLabel } from "../components/AccountComponents";
 import { useAuth } from "../contexts/AuthContext";
 import { useProfile } from "../contexts/ProfileContext";
@@ -45,7 +46,7 @@ function Login() {
                 setProfileData(profile)
               );
             });
-            navigate("/taskmenu");
+            navigate(Paths.TaskMenu);
           } catch (error) {
             setShow(true);
           }
@@ -89,7 +90,7 @@ function Login() {
               <div className="d-flex m-auto gap-2 text-dark">
                 Don't have an account?
                 <Nav.Link
-                  to="/register"
+                  to={Paths.Register}
                   className="fw-bold text-decoration-underline"
                   as={NavLink}
                 >

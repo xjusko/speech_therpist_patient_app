@@ -3,6 +3,7 @@ import { Nav, Navbar as BsNavbar } from "react-bootstrap";
 import { BsBell } from "react-icons/bs";
 import { HiFire } from "react-icons/hi";
 import { NavLink } from "react-router-dom";
+import { Paths } from "../App";
 import { useProfile } from "../contexts/ProfileContext";
 
 function TopNavbar() {
@@ -26,15 +27,15 @@ function TopNavbar() {
           Speech Therapist
         </BsNavbar.Brand>
       </BsNavbar.Collapse>
-      <Nav.Link to="/taskmenu" as={NavLink} className="d-flex mx-2">
+      <Nav.Link to={Paths.TaskMenu} as={NavLink} className="d-flex mx-2">
         <HiFire color="red" style={{ height: "3rem", width: "3rem" }} />
         <div className="fs-4">3</div>
       </Nav.Link>
-      <Nav.Link to="/routine" as={NavLink} className="d-flex mx-2">
+      <Nav.Link to={Paths.Routine} as={NavLink} className="d-flex mx-2">
         <BsBell style={{ height: "3rem", width: "3rem" }} />
         <div className="fs-4">12</div>
       </Nav.Link>
-      <Nav.Link to="/account" as={NavLink} className="d-flex mx-2">
+      <Nav.Link to={Paths.Account} as={NavLink} className="d-flex mx-2">
         <motion.img
           layout
           whileHover={{

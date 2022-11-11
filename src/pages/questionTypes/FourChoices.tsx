@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Button, Col, Row } from "react-bootstrap";
 import { BsArrowLeftShort } from "react-icons/bs";
 import { useNavigate, useParams } from "react-router-dom";
+import { Paths } from "../../App";
 import ConfrimModal from "../../components/ConfrimModal";
 import data from "../../data/fourchoices.json";
 import { FourChoicesTask } from "../../utils/CommonTypes";
@@ -22,7 +23,7 @@ function FourChoices() {
   function handleNextClick() {
     setIsAnswered(false);
     if (questionsCount - 1 === question.index) {
-      navigate(`/tasksummary`);
+      navigate(Paths.TaskSummary);
       return;
     }
     setQuestion((prev) => ({

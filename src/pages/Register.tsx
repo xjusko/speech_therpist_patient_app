@@ -19,6 +19,7 @@ import {
   PasswordLabel,
   ConfirmPasswordLabel,
 } from "../components/AccountComponents";
+import { Paths } from "../App";
 
 function Register() {
   const navigate = useNavigate();
@@ -69,7 +70,7 @@ function Register() {
               );
             });
 
-            navigate("/taskmenu");
+            navigate(Paths.TaskMenu);
           } catch (error) {
             setShow(true);
           }
@@ -126,7 +127,7 @@ function Register() {
               <div className="d-flex m-auto gap-2 text-dark mb-4">
                 Already have an account?
                 <Nav.Link
-                  to="/login"
+                  to={Paths.Login}
                   className="fw-bold text-decoration-underline"
                   as={NavLink}
                 >

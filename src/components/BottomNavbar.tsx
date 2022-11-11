@@ -5,6 +5,7 @@ import { IconType } from "react-icons";
 import { FaUserMd } from "react-icons/fa";
 import { GiNotebook, GiWhiteBook } from "react-icons/gi";
 import { NavLink, useLocation } from "react-router-dom";
+import { Paths } from "../App";
 import { useProfile } from "../contexts/ProfileContext";
 
 function BottomNavbar() {
@@ -17,7 +18,7 @@ function BottomNavbar() {
   useEffect(() => {
     setSelected(location.pathname);
   }, [location]);
-  const [selected, setSelected] = useState("/taskmenu");
+  const [selected, setSelected] = useState(Paths.TaskMenu);
   return (
     <BsNavbar
       className="d-flex text-center shadow-sm justify-content-around"
@@ -31,21 +32,21 @@ function BottomNavbar() {
     >
       <BottomNavButton
         Icon={GiWhiteBook}
-        navigateTo="/taskmenu"
+        navigateTo={Paths.TaskMenu}
         collapseText="Default Tasks"
       />
 
       <BottomNavButton
         Icon={GiNotebook}
-        navigateTo="/routine"
+        navigateTo={Paths.Routine}
         collapseText="Assigned Tasks"
       />
       <BottomNavButton
         Icon={FaUserMd}
         navigateTo={
           profileData.assignment_active
-            ? `/therapist/${profileData.assigned_to}`
-            : "/findtherapist"
+            ? `${Paths.TherapistMainInfo}${profileData.assigned_to}`
+            : Paths.FindTherapist
         }
         collapseText="Therapist"
       />

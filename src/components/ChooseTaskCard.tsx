@@ -3,6 +3,7 @@ import { Nav, Stack } from "react-bootstrap";
 import { TbArrowsSort } from "react-icons/tb";
 import { NavLink } from "react-router-dom";
 import { BasicTaskInfo } from "../utils/CommonTypes";
+import { Types } from "./FilterToggleButton";
 
 // Basic card to be shown for listing tasks.
 function ChooseTaskCard({ id, name, type, difficulty }: BasicTaskInfo) {
@@ -31,7 +32,11 @@ function ChooseTaskCard({ id, name, type, difficulty }: BasicTaskInfo) {
       }}
     >
       <Nav.Link
-        to={`/${type === 1 ? "questionconnect" : "questionfourchoices"}/${id}`}
+        to={`/${
+          type === Types.CONNECT_PAIRS
+            ? "questionconnect"
+            : "questionfourchoices"
+        }/${id}`}
         as={NavLink}
       >
         {/* Main content */}

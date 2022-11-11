@@ -2,6 +2,7 @@ import { AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
 import { ToggleButton, ToggleButtonGroup } from "react-bootstrap";
 import ChooseTaskCard from "../components/ChooseTaskCard";
+import FilterToggleButton, { Types } from "../components/FilterToggleButton";
 import QuickTaskButton from "../components/QuickTaskButton";
 import { useAuth } from "../contexts/AuthContext";
 import { fetchDefaultTasks } from "../utils/ApiRequests";
@@ -9,7 +10,7 @@ import { BasicTaskInfo } from "../utils/CommonTypes";
 
 function TaskMenu() {
   const { user } = useAuth();
-  const [types, setTypes] = useState([1, 2]);
+  const [types, setTypes] = useState([Types.CONNECT_PAIRS, Types.FOUR_CHOICES]);
   const [tasks, setTasks] = useState<BasicTaskInfo[]>();
 
   useEffect(() => {
@@ -44,22 +45,8 @@ function TaskMenu() {
         value={types}
         onChange={(value) => setTypes(value)}
       >
-        <ToggleButton
-          id="type-1"
-          value={1}
-          variant="outline-dark"
-          style={{ width: "40vw", borderRadius: "5px" }}
-        >
-          CONNECT SIX
-        </ToggleButton>
-        <ToggleButton
-          id="type-2"
-          value={2}
-          variant="outline-dark"
-          style={{ width: "40vw", borderRadius: "5px" }}
-        >
-          FOUR CHOICES
-        </ToggleButton>
+        <FilterToggleButton text={Types.CONNECT_PAIRS} />
+        <FilterToggleButton text={Types.FOUR_CHOICES} />
       </ToggleButtonGroup>
       <div>
         <AnimatePresence>

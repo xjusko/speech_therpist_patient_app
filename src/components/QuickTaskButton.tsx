@@ -3,8 +3,10 @@ import React from "react";
 import { Button } from "react-bootstrap";
 import { BsFillLightningFill } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
+import { Paths } from "../App";
 import { useAuth } from "../contexts/AuthContext";
 import { fetchRandomDefaultTask } from "../utils/ApiRequests";
+import { Types } from "./FilterToggleButton";
 
 type QuickTaskButtonProps = {
   imageStyle: React.CSSProperties;
@@ -29,11 +31,11 @@ function QuickTaskButton({ imageStyle, buttonStyle }: QuickTaskButtonProps) {
       return task;
     });
     // Navigate based on task type
-    if (randomTask.type === 1) {
-      navigate(`/questionconnect/${randomTask.id}`);
+    if (randomTask.type === Types.CONNECT_PAIRS) {
+      navigate(`${Paths.Connect}${randomTask.id}`);
       return;
     } else {
-      navigate(`/questionfourchoices/${randomTask.id}`);
+      navigate(`${Paths.FourChoices}${randomTask.id}`);
       return;
     }
   }
