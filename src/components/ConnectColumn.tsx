@@ -1,16 +1,16 @@
 import { Reorder } from "framer-motion";
 import React from "react";
 import { BsCheckLg, BsXLg } from "react-icons/bs";
-import { Choice } from "../utils/CommonTypes";
+import { Pair } from "../utils/CommonTypes";
 
 type SetChoices = {
-  (value: React.SetStateAction<Choice[] | undefined>): void;
-  (value: React.SetStateAction<Choice[] | undefined>): void;
+  (value: React.SetStateAction<Pair[] | undefined>): void;
+  (value: React.SetStateAction<Pair[] | undefined>): void;
   (newOrder: any[]): void;
 };
 
 type ConnectColumnProps = {
-  choices: Choice[];
+  choices: Pair[];
   setChoices: SetChoices;
   isImage: boolean;
   answer: boolean[] | null;
@@ -44,7 +44,7 @@ export function ConnectColumn({
           }}
         >
           {/* Render image or text box based on recieved type */}
-          <Pair isCorrect={answer && answer[index]}>
+          <PairChoice isCorrect={answer && answer[index]}>
             {isImage ? (
               <img
                 src={item.data2}
@@ -57,14 +57,14 @@ export function ConnectColumn({
             ) : (
               <div className="fw-bold text-uppercase">{item.data1}</div>
             )}
-          </Pair>
+          </PairChoice>
         </Reorder.Item>
       ))}
     </Reorder.Group>
   );
 }
 
-function Pair({
+function PairChoice({
   isCorrect,
   children,
 }: {

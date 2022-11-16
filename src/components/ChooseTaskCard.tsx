@@ -1,12 +1,14 @@
 import { motion, useIsPresent } from "framer-motion";
 import { Nav, Stack } from "react-bootstrap";
+import { BsCheckLg } from "react-icons/bs";
 import { TbArrowsSort } from "react-icons/tb";
 import { NavLink } from "react-router-dom";
+import { Paths } from "../App";
 import { BasicTaskInfo } from "../utils/CommonTypes";
-import { Types } from "./FilterToggleButton";
+import { Types } from "./FilterGroup";
 
 // Basic card to be shown for listing tasks.
-function ChooseTaskCard({ id, name, type, difficulty }: BasicTaskInfo) {
+function ChooseTaskCard({ id, name, type, difficulty, isDone }: BasicTaskInfo) {
   // animations properties
   const isPresent = useIsPresent();
   const animations = {
@@ -25,18 +27,19 @@ function ChooseTaskCard({ id, name, type, difficulty }: BasicTaskInfo) {
 
     <motion.div
       {...animations}
-      className="w-100 my-2  shadow-sm"
+      className="w-100 my-2 shadow-sm"
       style={{
         border: "3px solid rgba(0, 0, 0, .3)",
         borderRadius: "1rem",
       }}
     >
       <Nav.Link
-        to={`/${
-          type === Types.CONNECT_PAIRS
-            ? "questionconnect"
-            : "questionfourchoices"
-        }/${id}`}
+        state={{ taskId: id, taskType: type }}
+        to={
+          type === Types.CONNECT_PAIRS_TI || type === Types.CONNECT_PAIRS_TT
+            ? Paths.Connect
+            : Paths.FourChoices
+        }
         as={NavLink}
       >
         {/* Main content */}
@@ -46,23 +49,13 @@ function ChooseTaskCard({ id, name, type, difficulty }: BasicTaskInfo) {
           className="d-flex align-items-center text-dark mx-2 my-2"
         >
           <div className="me-auto fs-5">{name}</div>
+          {isDone && <BsCheckLg color="green" size="3em" />}
           <div className="text-uppercase mx-2">{difficulty}</div>
           <div className="">
             <TbArrowsSort style={{ height: "50px", width: "50px" }} />
           </div>
         </Stack>
       </Nav.Link>
-      {/* <Stack
-          direction="horizontal"
-          gap={2}
-          className="d-flex align-items-center text-dark mx-2 my-2 text-uppercase"
-        >
-          <div className="me-auto fs-5">{name}</div>
-          <div className="text-center">
-            <div>{type}</div>
-            <div>{difficulty}</div>
-          </div>
-        </Stack> */}
     </motion.div>
   );
 }

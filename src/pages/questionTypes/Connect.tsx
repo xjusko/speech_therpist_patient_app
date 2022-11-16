@@ -1,39 +1,36 @@
 import { useEffect, useState } from "react";
 import { Button, Stack } from "react-bootstrap";
 import { BsArrowLeftShort } from "react-icons/bs";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { Paths } from "../../App";
 import ConfrimModal from "../../components/ConfrimModal";
 import { ConnectColumn } from "../../components/ConnectColumn";
 import { useAuth } from "../../contexts/AuthContext";
+import { fetchTaskById, postTaskAnswer } from "../../utils/ApiRequests";
 import {
-  fetchConnectTask,
-  postConnectTaskAnswers,
-} from "../../utils/ApiRequests";
-import {
-  Choice,
-  ChoiceAnswer,
+  Pair,
+  PairAnswer,
   ConnectTask,
-  QuestionAnswer,
+  ConnectAnswer,
 } from "../../utils/CommonTypes";
+import { shuffle } from "../../utils/TaskUtils";
 
 function Connect() {
-  const { id } = useParams();
+  const { state }: { state: { taskId: string; taskType: string } } =
+    useLocation();
   const { user } = useAuth();
   const navigate = useNavigate();
   const [task, setTask] = useState<ConnectTask>();
   const [isChecked, setIsChecked] = useState(false);
   const [questionIndex, setQuestionIndex] = useState(0);
-  const [leftOptions, setLeftOptions] = useState<Choice[]>();
-  const [rightOptions, setRightOptions] = useState<Choice[]>();
-  const [taskAnswer, setTaskAnswer] = useState<{ answer: QuestionAnswer }[]>(
-    []
-  );
+  const [leftOptions, setLeftOptions] = useState<Pair[]>();
+  const [rightOptions, setRightOptions] = useState<Pair[]>();
+  const [taskAnswer, setTaskAnswer] = useState<{ answer: ConnectAnswer }[]>([]);
   const [isOrdered, setIsOrdered] = useState(true);
   const [countCorrect, setCountCorrect] = useState(0);
 
   useEffect(() => {
-    fetchConnectTask(id, user).then((data) => {
+    fetchTaskById(state.taskId, user, state.taskType).then((data) => {
       // shuffle question order in task
       const shuffledQuestions = shuffle(data.questions);
       setTask({ ...data, questions: shuffledQuestions });
@@ -51,7 +48,7 @@ function Connect() {
 
   // boolean values for displaying correct and incorrect pairs
   const booleanAnswers = taskAnswer[questionIndex]
-    ? taskAnswer[questionIndex].answer.map((answer) => answer.isCorrect)
+    ? taskAnswer[questionIndex].answer.map((answer) => answer.is_correct)
     : null;
 
   // set button handler based on current question state
@@ -117,7 +114,7 @@ function Connect() {
     if (!task || !leftOptions || !rightOptions) {
       return;
     }
-    let questionAnswer: QuestionAnswer = [];
+    let questionAnswer: ConnectAnswer = [];
     let isOrderCorrect = true;
     for (
       let index = 0;
@@ -131,10 +128,10 @@ function Connect() {
           choice.data2 === rightOptions[index].data2
       );
       // save answer in required way
-      const choiceAnswer: ChoiceAnswer = {
+      const choiceAnswer: PairAnswer = {
         data1: leftOptions[index].data1,
         data2: rightOptions[index].data2,
-        isCorrect: isCorrect,
+        is_correct: isCorrect,
       };
       questionAnswer = [...questionAnswer, choiceAnswer];
       isOrderCorrect = isOrderCorrect && isCorrect;
@@ -163,7 +160,7 @@ function Connect() {
     }
     // post answers if it is the last question and navigate to task summary screen
     if (questionsCount - 1 === questionIndex) {
-      postConnectTaskAnswers(user, task.id, taskAnswer);
+      postTaskAnswer(user, task.id, task.type, taskAnswer);
       // pass total and correct questions to display result on summary screen
       navigate(Paths.TaskSummary, {
         state: {
@@ -181,11 +178,6 @@ function Connect() {
       return prev + 1;
     });
   }
-}
-
-function shuffle(array: any[]) {
-  const result = [...array].sort(() => Math.random() - 0.5);
-  return result;
 }
 
 export default Connect;

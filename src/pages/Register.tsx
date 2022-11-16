@@ -69,12 +69,10 @@ function Register() {
                 setProfileData(profile)
               );
             });
-
-            navigate(Paths.TaskMenu);
           } catch (error) {
             setShow(true);
           }
-
+          navigate(Paths.TaskMenu);
           setSubmitting(false);
         }}
       >

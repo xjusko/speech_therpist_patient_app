@@ -3,6 +3,7 @@ import { Nav, Stack } from "react-bootstrap";
 import { BsGeoAltFill } from "react-icons/bs";
 import { FaUserMd } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
+import { Paths } from "../App";
 import { TherapistProfileInfo } from "../utils/CommonTypes";
 
 function FindTherapistCard({
@@ -13,7 +14,11 @@ function FindTherapistCard({
 }: TherapistProfileInfo) {
   return (
     // Clicking anywhere on card navigates to therapist page.
-    <Nav.Link to={`/therapist/${id}`} as={NavLink}>
+    <Nav.Link
+      to={Paths.TherapistMainInfo}
+      state={{ therapistId: id }}
+      as={NavLink}
+    >
       <motion.div
         initial={{ opacity: 0.2 }}
         whileInView={{ opacity: 1 }}

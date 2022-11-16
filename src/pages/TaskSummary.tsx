@@ -1,8 +1,12 @@
-import { useLocation } from "react-router-dom";
+import { Button } from "react-bootstrap";
+import { useLocation, useNavigate } from "react-router-dom";
+import { VscDebugRestart } from "react-icons/vsc";
 import QuickTaskButton from "../components/QuickTaskButton";
+import { motion } from "framer-motion";
 
 function TaskSummary() {
   const { state } = useLocation();
+  const navigate = useNavigate();
   const { totalQuestions, correctQuestions } = state;
   return (
     <div className="d-flex flex-column mx-5">
@@ -13,11 +17,21 @@ function TaskSummary() {
         (correctQuestions / totalQuestions) *
         100
       ).toFixed(1)}%`}</div>
-      <div className="mt-5 d-flex flex-column align-items-center">
+      <div className="mt-5 d-flex align-items-center justify-content-center">
         <QuickTaskButton
           imageStyle={{ width: "4rem", height: "4rem" }}
           buttonStyle={{ width: "8rem", height: "8rem", border: "none" }}
         />
+        <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+          <Button
+            variant="outline-dark"
+            onClick={() => navigate(-1)}
+            style={{ width: "8rem", height: "8rem", border: "none" }}
+          >
+            <VscDebugRestart size="4rem" />
+            <div className="text-center text-uppercase">Restart</div>
+          </Button>
+        </motion.div>
       </div>
     </div>
   );

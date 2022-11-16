@@ -1,15 +1,30 @@
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 import { Nav, Navbar as BsNavbar } from "react-bootstrap";
 import { BsBell } from "react-icons/bs";
 import { HiFire } from "react-icons/hi";
 import { NavLink } from "react-router-dom";
 import { Paths } from "../App";
+import { useAuth } from "../contexts/AuthContext";
 import { useProfile } from "../contexts/ProfileContext";
+import { fetchTaskResults } from "../utils/ApiRequests";
 
 function TopNavbar() {
+  const { user } = useAuth();
   const { profileData } = useProfile();
+  const [completedTaskIds, setCompletedTaskIds] = useState<number[]>();
 
-  if (!profileData) {
+  useEffect(() => {
+    fetchTaskResults(user).then((results) => {
+      setCompletedTaskIds(
+        results
+          .filter((result) => result.answered_by === profileData.id)
+          .map((result) => result.task)
+      );
+    });
+  }, [profileData]);
+
+  if (!profileData || !completedTaskIds) {
     return <div></div>;
   }
   return (
@@ -23,19 +38,24 @@ function TopNavbar() {
       }}
     >
       <BsNavbar.Collapse>
-        <BsNavbar.Brand className="fs-1 fw-bold mx-2">
+        <BsNavbar.Brand className="fs-1 fw-bold mx-3">
           Speech Therapist
         </BsNavbar.Brand>
       </BsNavbar.Collapse>
-      <Nav.Link to={Paths.TaskMenu} as={NavLink} className="d-flex mx-2">
+      <Nav.Link to={Paths.TaskMenu} as={NavLink} className="d-flex mx-3">
         <HiFire color="red" style={{ height: "3rem", width: "3rem" }} />
         <div className="fs-4">3</div>
       </Nav.Link>
-      <Nav.Link to={Paths.Routine} as={NavLink} className="d-flex mx-2">
+      <Nav.Link to={Paths.Routine} as={NavLink} className="d-flex mx-3">
         <BsBell style={{ height: "3rem", width: "3rem" }} />
-        <div className="fs-4">12</div>
+        <div className="fs-4">
+          {Math.max(
+            0,
+            profileData.assigned_tasks.length - completedTaskIds.length
+          )}
+        </div>
       </Nav.Link>
-      <Nav.Link to={Paths.Account} as={NavLink} className="d-flex mx-2">
+      <Nav.Link to={Paths.Account} as={NavLink} className="d-flex mx-3">
         <motion.img
           layout
           whileHover={{

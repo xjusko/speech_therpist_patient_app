@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { Paths } from "../App";
 import { useAuth } from "../contexts/AuthContext";
 import { fetchRandomDefaultTask } from "../utils/ApiRequests";
-import { Types } from "./FilterToggleButton";
+import { Types } from "./FilterGroup";
 
 type QuickTaskButtonProps = {
   imageStyle: React.CSSProperties;
@@ -31,7 +31,7 @@ function QuickTaskButton({ imageStyle, buttonStyle }: QuickTaskButtonProps) {
       return task;
     });
     // Navigate based on task type
-    if (randomTask.type === Types.CONNECT_PAIRS) {
+    if (randomTask.type === Types.CONNECT_PAIRS_TI || Types.CONNECT_PAIRS_TT) {
       navigate(`${Paths.Connect}${randomTask.id}`);
       return;
     } else {

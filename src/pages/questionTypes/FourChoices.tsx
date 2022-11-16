@@ -1,42 +1,54 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Col, Row } from "react-bootstrap";
 import { BsArrowLeftShort } from "react-icons/bs";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { Paths } from "../../App";
 import ConfrimModal from "../../components/ConfrimModal";
-import data from "../../data/fourchoices.json";
-import { FourChoicesTask } from "../../utils/CommonTypes";
+import { useAuth } from "../../contexts/AuthContext";
+import { fetchTaskById, postTaskAnswer } from "../../utils/ApiRequests";
+import {
+  FourChoice,
+  FourChoiceAnswer,
+  FourChoicesTask,
+} from "../../utils/CommonTypes";
+import { shuffle } from "../../utils/TaskUtils";
 
 function FourChoices() {
-  const { id } = useParams();
+  const { state }: { state: { taskId: string; taskType: string } } =
+    useLocation();
+  const { user } = useAuth();
   const navigate = useNavigate();
-  const task: FourChoicesTask = data;
-  const questionsCount = task.questions.length;
-  const [answers, setAnswers] = useState<number[]>([]);
+  const [task, setTask] = useState<FourChoicesTask>();
+  const [questionIndex, setQuestionIndex] = useState(0);
+  const [question, setQuestion] = useState<FourChoice>();
+  const [options, setOptions] = useState<string[]>();
   const [isAnswered, setIsAnswered] = useState(false);
-  const [question, setQuestion] = useState({
-    index: 0,
-    main: task.questions[0].main,
-    choices: task.questions[0].options,
-  });
+  const [picked, setPicked] = useState<string>("");
+  const [taskAnswer, setTaskAnswer] = useState<{ answer: FourChoiceAnswer }[]>(
+    []
+  );
+  const [countCorrect, setCountCorrect] = useState(0);
 
-  function handleNextClick() {
-    setIsAnswered(false);
-    if (questionsCount - 1 === question.index) {
-      navigate(Paths.TaskSummary);
-      return;
-    }
-    setQuestion((prev) => ({
-      index: prev.index + 1,
-      main: task.questions[prev.index + 1].main,
-      choices: task.questions[prev.index + 1].options,
-    }));
+  useEffect(() => {
+    fetchTaskById(state.taskId, user, state.taskType).then((data) => {
+      // shuffle question order in task
+      const shuffledQuestions = shuffle(data.questions);
+      setTask({ ...data, questions: shuffledQuestions });
+      setQuestion(shuffledQuestions[0].choices[0]);
+      setOptions(
+        shuffle(
+          Object.values(shuffledQuestions[0].choices[0]).slice(-4) as string[]
+        )
+      );
+    });
+  }, []);
+
+  if (!task || !question || !options) {
+    return <div></div>;
   }
 
-  function handleChoiceClick(itemId: number) {
-    setAnswers((prev) => [...prev, itemId]);
-    setIsAnswered(true);
-  }
+  const questionsCount: number = task.questions.length;
+  console.log(taskAnswer);
 
   return (
     <div>
@@ -52,7 +64,7 @@ function FourChoices() {
           body="Your answers will not be saved."
         />
         <div className="d-flex justify-content-center align-items-center">{`${
-          question.index + 1
+          questionIndex + 1
         } / ${questionsCount}`}</div>
       </div>
       <div className="mx-4 my-5">
@@ -70,7 +82,7 @@ function FourChoices() {
               }}
             >
               <img
-                src={question.main.image}
+                src={question.question_data}
                 width="100%"
                 height="100%"
                 style={{ objectFit: "cover" }}
@@ -80,29 +92,8 @@ function FourChoices() {
         </Row>
 
         <Row xs={2} className="g-4 text-center mt-2 mx-2">
-          {question.choices.map((item) => (
-            <Col
-              className="fs-2 d-flex justify-content-center align-items-center"
-              key={item.id}
-            >
-              <Button
-                onClick={(event) => handleChoiceClick(item.id)}
-                size="lg"
-                variant="outline-dark"
-                disabled={isAnswered}
-                style={{
-                  height: "15vw",
-                  width: "100%",
-                  maxHeight: "100px",
-                  border:
-                    isAnswered && item.id === 1
-                      ? "5px solid green"
-                      : "1px solid black",
-                }}
-              >
-                {item.text}
-              </Button>
-            </Col>
+          {options.map((data) => (
+            <Option key={data} data={data} />
           ))}
         </Row>
 
@@ -121,6 +112,79 @@ function FourChoices() {
       </div>
     </div>
   );
+
+  function handleNextClick() {
+    if (!task || !question) {
+      return;
+    }
+    if (questionsCount - 1 === questionIndex) {
+      postTaskAnswer(user, task.id, task.type, taskAnswer);
+
+      navigate(Paths.TaskSummary, {
+        state: {
+          totalQuestions: questionsCount,
+          correctQuestions: countCorrect,
+        },
+      });
+      return;
+    }
+    const isCorrect = picked === question.correct_option;
+    if (isCorrect) {
+      setCountCorrect((prev) => prev + 1);
+    }
+    const answer: FourChoiceAnswer = {
+      ...question,
+      chosen_option: picked,
+      is_correct: isCorrect,
+    };
+    setTaskAnswer((prev) => [...prev, { answer: answer }]);
+    setPicked("");
+    setIsAnswered(false);
+    setQuestionIndex((prev) => {
+      setQuestion(task.questions[prev + 1].choices[0] as FourChoice);
+      setOptions(
+        shuffle(
+          Object.values(task.questions[prev + 1].choices[0]).slice(
+            -4
+          ) as string[]
+        )
+      );
+      return prev + 1;
+    });
+  }
+
+  function Option({ data }: { data: string }) {
+    if (!question) {
+      return <div></div>;
+    }
+    return (
+      <Col className="fs-2 d-flex justify-content-center align-items-center">
+        <Button
+          onClick={() => {
+            setPicked(data);
+            setIsAnswered(true);
+          }}
+          disabled={isAnswered}
+          size="lg"
+          variant="outline-dark"
+          style={{
+            height: "15vw",
+            width: "100%",
+            maxHeight: "100px",
+            border:
+              picked === data ||
+              (isAnswered && question.correct_option === data)
+                ? `5px solid ${
+                    data === question.correct_option ? "green" : "red"
+                  }`
+                : "1px solid black",
+          }}
+        >
+          {data}
+        </Button>
+      </Col>
+    );
+  }
 }
 
 export default FourChoices;

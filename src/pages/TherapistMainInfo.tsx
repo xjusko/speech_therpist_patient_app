@@ -15,21 +15,21 @@ import {
   BsGeoAltFill,
   BsTelephoneFill,
 } from "react-icons/bs";
-import { useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import { useProfile } from "../contexts/ProfileContext";
 import { fetchTherapistInfo } from "../utils/ApiRequests";
 import { TherapistProfileInfo } from "../utils/CommonTypes";
 
 function TherapistMainInfo() {
-  const { id } = useParams();
+  const { state }: { state: { therapistId: string } } = useLocation();
   const { user } = useAuth();
   const { profileData } = useProfile();
   const [therapist, setTherapist] = useState<TherapistProfileInfo>();
   const [tabKey, settabKey] = useState("bio");
 
   useEffect(() => {
-    fetchTherapistInfo(id, user).then((data) => {
+    fetchTherapistInfo(state.therapistId, user).then((data) => {
       setTherapist(data);
     });
   }, []);

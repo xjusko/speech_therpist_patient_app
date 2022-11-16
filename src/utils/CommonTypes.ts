@@ -1,13 +1,26 @@
-export type Choice = {
+export type Pair = {
   id: number;
   data1: string;
   data2: string;
 };
 
-export type Question = {
+export type FourChoice = {
   id: number;
-  heading: string;
-  choices: Choice[];
+  question_data: string;
+  correct_option: string;
+  incorrect_option1: string;
+  incorrect_option2: string;
+  incorrect_option3: string;
+};
+
+export type ConnectQuestion = {
+  id: number;
+  choices: Pair[];
+};
+
+export type FourChoiceQuestion = {
+  id: number;
+  choices: FourChoice[];
 };
 
 export type ConnectTask = {
@@ -16,7 +29,7 @@ export type ConnectTask = {
   type: string;
   difficulty: string;
   created_by: number;
-  questions: Question[];
+  questions: ConnectQuestion[];
   tags: string[];
 };
 
@@ -25,10 +38,7 @@ export type FourChoicesTask = {
   name: string;
   type: string;
   difficulty: string;
-  questions: {
-    main: Choice;
-    options: Choice[];
-  }[];
+  questions: FourChoiceQuestion[];
 };
 
 export type BasicTaskInfo = {
@@ -38,11 +48,22 @@ export type BasicTaskInfo = {
   difficulty: string;
   tags: any[];
   created_by: number;
+  isDone?: boolean;
 };
 
-export type QuestionAnswer = ChoiceAnswer[];
+export type ConnectAnswer = PairAnswer[];
 
-export type ChoiceAnswer = { data1: string; data2: string; isCorrect: boolean };
+export type PairAnswer = { data1: string; data2: string; is_correct: boolean };
+
+export type FourChoiceAnswer = {
+  question_data: string;
+  correct_option: string;
+  incorrect_option1: string;
+  incorrect_option2: string;
+  incorrect_option3: string;
+  chosen_option: string;
+  is_correct: boolean;
+};
 
 export type AccountInfo = {
   id: number;
@@ -65,4 +86,10 @@ export type TherapistProfileInfo = {
   phone: string;
   bio: string;
   assigned_patients_count: number;
+};
+
+export type ResultInfo = {
+  id: number;
+  answered_by: number;
+  task: number;
 };

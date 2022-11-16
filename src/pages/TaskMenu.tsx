@@ -2,7 +2,7 @@ import { AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
 import { ToggleButton, ToggleButtonGroup } from "react-bootstrap";
 import ChooseTaskCard from "../components/ChooseTaskCard";
-import FilterToggleButton, { Types } from "../components/FilterToggleButton";
+import { FilterGroup, Types } from "../components/FilterGroup";
 import QuickTaskButton from "../components/QuickTaskButton";
 import { useAuth } from "../contexts/AuthContext";
 import { fetchDefaultTasks } from "../utils/ApiRequests";
@@ -10,7 +10,7 @@ import { BasicTaskInfo } from "../utils/CommonTypes";
 
 function TaskMenu() {
   const { user } = useAuth();
-  const [types, setTypes] = useState([Types.CONNECT_PAIRS, Types.FOUR_CHOICES]);
+  const [types, setTypes] = useState(Object.values(Types));
   const [tasks, setTasks] = useState<BasicTaskInfo[]>();
 
   useEffect(() => {
@@ -39,15 +39,11 @@ function TaskMenu() {
       </div>
 
       {/* Filter buttons */}
-      <ToggleButtonGroup
-        className="gap-1"
-        type="checkbox"
-        value={types}
-        onChange={(value) => setTypes(value)}
-      >
-        <FilterToggleButton text={Types.CONNECT_PAIRS} />
-        <FilterToggleButton text={Types.FOUR_CHOICES} />
-      </ToggleButtonGroup>
+      <FilterGroup
+        values={types}
+        setValues={setTypes}
+        filters={Object.values(Types)}
+      />
       <div>
         <AnimatePresence>
           {/* Render filtered tasks */}

@@ -45,9 +45,10 @@ function BottomNavbar() {
         Icon={FaUserMd}
         navigateTo={
           profileData.assignment_active
-            ? `${Paths.TherapistMainInfo}${profileData.assigned_to}`
+            ? Paths.TherapistMainInfo
             : Paths.FindTherapist
         }
+        navState={{ therapistId: profileData.assigned_to }}
         collapseText="Therapist"
       />
     </BsNavbar>
@@ -57,13 +58,15 @@ function BottomNavbar() {
     Icon,
     navigateTo,
     collapseText,
+    navState,
   }: {
     Icon: IconType;
     navigateTo: string;
     collapseText: string;
+    navState?: any;
   }) {
     return (
-      <Nav.Link as={NavLink} to={navigateTo}>
+      <Nav.Link as={NavLink} to={navigateTo} state={navState}>
         <motion.div
           className="d-flex"
           {...animationProps}

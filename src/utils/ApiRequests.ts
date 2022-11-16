@@ -1,4 +1,11 @@
-import { BasicTaskInfo, ConnectTask, FourChoicesTask } from "./CommonTypes";
+import {
+  BasicTaskInfo,
+  ConnectAnswer,
+  ConnectTask,
+  FourChoiceAnswer,
+  FourChoicesTask,
+  ResultInfo,
+} from "./CommonTypes";
 import axios from "axios";
 
 const axiosBase = axios.create({
@@ -50,12 +57,14 @@ export async function fetchDefaultTasks(
     });
 }
 
-export async function fetchConnectTask(
+export async function fetchTaskById(
   id: string | undefined,
-  user: string
+  user: string,
+  taskType: string
 ): Promise<any> {
   return await axiosBase
     .get(`/api/task/tasks/${id}/`, {
+      params: { task_type: taskType },
       headers: { Authorization: `Token ${user}` },
     })
     .then((res) => {
@@ -63,17 +72,21 @@ export async function fetchConnectTask(
     });
 }
 
-export async function postConnectTaskAnswers(
+export async function postTaskAnswer(
   user: string,
   taskId: string,
+  taskType: string,
   taskAnswer: {
-    answer: { data1: string; data2: string; isCorrect: boolean }[];
+    answer: ConnectAnswer | FourChoiceAnswer;
   }[]
 ) {
   return axiosBase.post(
     "/api/task/results/",
     { task: taskId, answers: taskAnswer },
     {
+      params: {
+        task_type: taskType,
+      },
       headers: {
         Authorization: `Token ${user}`,
       },
@@ -86,6 +99,16 @@ export async function fetchRandomDefaultTask(
 ): Promise<BasicTaskInfo> {
   return await axiosBase
     .get("/api/task/tasks/get_random_task/", {
+      headers: { Authorization: `Token ${user}` },
+    })
+    .then((res) => {
+      return res.data;
+    });
+}
+
+export async function fetchTaskResults(user: string): Promise<ResultInfo[]> {
+  return await axiosBase
+    .get("api/task/results/", {
       headers: { Authorization: `Token ${user}` },
     })
     .then((res) => {

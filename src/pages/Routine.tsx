@@ -1,43 +1,37 @@
 import { AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
-import {
-  Button,
-  Col,
-  Row,
-  Stack,
-  ToggleButton,
-  ToggleButtonGroup,
-} from "react-bootstrap";
+import { Button, Stack, ToggleButtonGroup } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { Paths } from "../App";
 import ChooseTaskCard from "../components/ChooseTaskCard";
-import FilterToggleButton, {
-  Difficulties,
-  Types,
-} from "../components/FilterToggleButton";
+import { Difficulties, FilterGroup, Types } from "../components/FilterGroup";
 import { useAuth } from "../contexts/AuthContext";
 import { useProfile } from "../contexts/ProfileContext";
-import { fetchMyProfile } from "../utils/ApiRequests";
+import { fetchMyProfile, fetchTaskResults } from "../utils/ApiRequests";
 import { BasicTaskInfo } from "../utils/CommonTypes";
 
 function Routine() {
-  const [types, setTypes] = useState([Types.CONNECT_PAIRS, Types.FOUR_CHOICES]);
-  const [difficulties, setDIfficulties] = useState([
-    Difficulties.EASY,
-    Difficulties.HARD,
-  ]);
+  const [types, setTypes] = useState(Object.values(Types));
+  const [difficulties, setDIfficulties] = useState(Object.values(Difficulties));
   const { user } = useAuth();
   const { profileData } = useProfile();
   const [myTasks, setMyTasks] = useState<BasicTaskInfo[]>();
+  const [completedTaskIds, setCompletedTaskIds] = useState<number[]>();
   // Get tasks assigned to the user
   useEffect(() => {
     fetchMyProfile(user).then((profile) => {
-      console.log(profile.assigned_tasks);
       setMyTasks(profile.assigned_tasks);
     });
-  }, []);
+    fetchTaskResults(user).then((results) => {
+      setCompletedTaskIds(
+        results
+          .filter((result) => result.answered_by === profileData.id)
+          .map((result) => result.task)
+      );
+    });
+  }, [profileData]);
 
-  if (!myTasks) {
+  if (!myTasks || !completedTaskIds) {
     return <div> </div>;
   }
 
@@ -55,25 +49,17 @@ function Routine() {
             Assigned tasks
           </div>
           {/* Filter buttons */}
-          <ToggleButtonGroup
-            className="gap-1 my-1"
-            type="checkbox"
-            value={types}
-            onChange={(value) => setTypes(value)}
-          >
-            <FilterToggleButton text={Types.CONNECT_PAIRS} />
-            <FilterToggleButton text={Types.FOUR_CHOICES} />
-          </ToggleButtonGroup>
-          <ToggleButtonGroup
-            className="gap-1 my-1"
-            type="checkbox"
-            value={difficulties}
-            onChange={(value) => setDIfficulties(value)}
-          >
-            <FilterToggleButton text={Difficulties.EASY} />
+          <FilterGroup
+            values={types}
+            setValues={setTypes}
+            filters={Object.values(Types)}
+          />
 
-            <FilterToggleButton text={Difficulties.HARD} />
-          </ToggleButtonGroup>
+          <FilterGroup
+            values={difficulties}
+            setValues={setDIfficulties}
+            filters={Object.values(Difficulties)}
+          />
         </div>
 
         <div>
@@ -82,7 +68,11 @@ function Routine() {
             <AnimatePresence>
               {filteredData &&
                 filteredData.map((item) => (
-                  <ChooseTaskCard key={item.id} {...item} />
+                  <ChooseTaskCard
+                    key={item.id}
+                    isDone={completedTaskIds?.includes(item.id)}
+                    {...item}
+                  />
                 ))}
             </AnimatePresence>
           </div>
