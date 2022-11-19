@@ -4,6 +4,7 @@ import { BsArrowLeftShort } from "react-icons/bs";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { Paths } from "../../App";
 import ConfrimModal from "../../components/ConfrimModal";
+import { Types } from "../../components/FilterGroup";
 import { useAuth } from "../../contexts/AuthContext";
 import { fetchTaskById, postTaskAnswer } from "../../utils/ApiRequests";
 import {
@@ -24,9 +25,9 @@ function FourChoices() {
   const [options, setOptions] = useState<string[]>();
   const [isAnswered, setIsAnswered] = useState(false);
   const [picked, setPicked] = useState<string>("");
-  const [taskAnswer, setTaskAnswer] = useState<{ answer: FourChoiceAnswer }[]>(
-    []
-  );
+  const [taskAnswer, setTaskAnswer] = useState<
+    { answer: FourChoiceAnswer[] }[]
+  >([]);
   const [countCorrect, setCountCorrect] = useState(0);
 
   useEffect(() => {
@@ -48,7 +49,6 @@ function FourChoices() {
   }
 
   const questionsCount: number = task.questions.length;
-  console.log(taskAnswer);
 
   return (
     <div>
@@ -72,29 +72,21 @@ function FourChoices() {
           <Col>Choose Correct Answer</Col>
         </Row>
         <Row className="text-center ">
-          <Col>
-            <div
-              className="d-flex justify-content-center align-items-center"
-              style={{
-                border: "3px solid black",
-                height: "80vw",
-                maxHeight: "500px",
-              }}
-            >
-              <img
-                src={question.question_data}
-                width="100%"
-                height="100%"
-                style={{ objectFit: "cover" }}
-              />
-            </div>
-          </Col>
+          {task.type === Types.FOUR_CHOICES_IT ? (
+            <ImageQuestion />
+          ) : (
+            <TextQuestion />
+          )}
         </Row>
 
         <Row xs={2} className="g-4 text-center mt-2 mx-2">
-          {options.map((data) => (
-            <Option key={data} data={data} />
-          ))}
+          {options.map((data) =>
+            task.type === Types.FOUR_CHOICES_IT ? (
+              <TextOption key={data} data={data} />
+            ) : (
+              <ImageOption key={data} data={data} />
+            )
+          )}
         </Row>
 
         <Row className="text-center mt-5">
@@ -117,6 +109,7 @@ function FourChoices() {
     if (!task || !question) {
       return;
     }
+
     if (questionsCount - 1 === questionIndex) {
       postTaskAnswer(user, task.id, task.type, taskAnswer);
 
@@ -128,16 +121,7 @@ function FourChoices() {
       });
       return;
     }
-    const isCorrect = picked === question.correct_option;
-    if (isCorrect) {
-      setCountCorrect((prev) => prev + 1);
-    }
-    const answer: FourChoiceAnswer = {
-      ...question,
-      chosen_option: picked,
-      is_correct: isCorrect,
-    };
-    setTaskAnswer((prev) => [...prev, { answer: answer }]);
+
     setPicked("");
     setIsAnswered(false);
     setQuestionIndex((prev) => {
@@ -153,37 +137,122 @@ function FourChoices() {
     });
   }
 
-  function Option({ data }: { data: string }) {
+  function handleOptionClick(data: string) {
     if (!question) {
-      return <div></div>;
+      return;
     }
+    setPicked(data);
+    setIsAnswered(true);
+    const isCorrect = data === question.correct_option;
+    if (isCorrect) {
+      setCountCorrect((prev) => prev + 1);
+    }
+    const answer: FourChoiceAnswer[] = [
+      {
+        ...question,
+        chosen_option: data,
+        is_correct: isCorrect,
+      },
+    ];
+    setTaskAnswer((prev) => [...prev, { answer: answer }]);
+  }
+
+  function TextOption({ data }: { data: string }) {
     return (
       <Col className="fs-2 d-flex justify-content-center align-items-center">
         <Button
-          onClick={() => {
-            setPicked(data);
-            setIsAnswered(true);
-          }}
+          onClick={() => handleOptionClick(data)}
           disabled={isAnswered}
-          size="lg"
           variant="outline-dark"
           style={{
             height: "15vw",
             width: "100%",
             maxHeight: "100px",
-            border:
-              picked === data ||
-              (isAnswered && question.correct_option === data)
-                ? `5px solid ${
-                    data === question.correct_option ? "green" : "red"
-                  }`
-                : "1px solid black",
+            border: getOptionBorder(data),
           }}
         >
           {data}
         </Button>
       </Col>
     );
+  }
+
+  function ImageOption({ data }: { data: string }) {
+    return (
+      <Col className="fs-2 d-flex justify-content-center align-items-center">
+        <Button
+          onClick={() => handleOptionClick(data)}
+          disabled={isAnswered}
+          variant="outline-dark"
+          style={{
+            height: "40vw",
+            width: "100%",
+            maxHeight: "250px",
+            border: getOptionBorder(data),
+          }}
+        >
+          <img
+            src={data}
+            width="100%"
+            height="100%"
+            style={{ objectFit: "cover" }}
+          />
+        </Button>
+      </Col>
+    );
+  }
+
+  function ImageQuestion() {
+    if (!question) {
+      return <div></div>;
+    }
+    return (
+      <Col>
+        <div
+          className="d-flex justify-content-center align-items-center"
+          style={{
+            border: "3px solid black",
+            height: "80vw",
+            maxHeight: "500px",
+          }}
+        >
+          <img
+            src={question.question_data}
+            width="100%"
+            height="100%"
+            style={{ objectFit: "cover" }}
+          />
+        </div>
+      </Col>
+    );
+  }
+
+  function TextQuestion() {
+    if (!question) {
+      return <div></div>;
+    }
+    return (
+      <Col>
+        <div
+          className="d-flex justify-content-center align-items-center fw-bold"
+          style={{
+            border: "3px solid black",
+            fontSize: "2rem",
+          }}
+        >
+          {question.question_data}
+        </div>
+      </Col>
+    );
+  }
+
+  function getOptionBorder(data: string) {
+    if (!question) {
+      return "";
+    }
+    return picked === data || (isAnswered && question.correct_option === data)
+      ? `5px solid ${data === question.correct_option ? "green" : "red"}`
+      : "1px solid black";
   }
 }
 

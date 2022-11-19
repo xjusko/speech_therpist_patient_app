@@ -73,6 +73,14 @@ export type AccountInfo = {
   assigned_tasks: BasicTaskInfo[];
   assigned_to: string;
   assignment_active: boolean;
+  my_meetings: Meeting[];
+};
+
+export type Meeting = {
+  id: number;
+  name: string;
+  start_time: string;
+  end_time: string;
 };
 
 export type TherapistProfileInfo = {

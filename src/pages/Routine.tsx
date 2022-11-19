@@ -1,10 +1,11 @@
 import { AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
-import { Button, Stack, ToggleButtonGroup } from "react-bootstrap";
+import { Button, Stack } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { Paths } from "../App";
 import ChooseTaskCard from "../components/ChooseTaskCard";
 import { Difficulties, FilterGroup, Types } from "../components/FilterGroup";
+import FilterOffcanvas from "../components/FilterOffcanvas";
 import { useAuth } from "../contexts/AuthContext";
 import { useProfile } from "../contexts/ProfileContext";
 import { fetchMyProfile, fetchTaskResults } from "../utils/ApiRequests";
@@ -14,13 +15,14 @@ function Routine() {
   const [types, setTypes] = useState(Object.values(Types));
   const [difficulties, setDIfficulties] = useState(Object.values(Difficulties));
   const { user } = useAuth();
-  const { profileData } = useProfile();
+  const { profileData, setProfileData } = useProfile();
   const [myTasks, setMyTasks] = useState<BasicTaskInfo[]>();
   const [completedTaskIds, setCompletedTaskIds] = useState<number[]>();
   // Get tasks assigned to the user
   useEffect(() => {
     fetchMyProfile(user).then((profile) => {
       setMyTasks(profile.assigned_tasks);
+      setProfileData(profile);
     });
     fetchTaskResults(user).then((results) => {
       setCompletedTaskIds(
@@ -29,7 +31,7 @@ function Routine() {
           .map((result) => result.task)
       );
     });
-  }, [profileData]);
+  }, []);
 
   if (!myTasks || !completedTaskIds) {
     return <div> </div>;
@@ -44,38 +46,40 @@ function Routine() {
   return (
     <div>
       <div style={{ opacity: profileData.assignment_active ? "100%" : "10%" }}>
-        <div className="d-flex flex-column mx-4 my-5">
+        <div className="d-flex flex-column mx-4 mt-5">
           <div className="d-flex fs-1 font-uppercase fw-bold justify-content-center mb-5">
             Assigned tasks
           </div>
-          {/* Filter buttons */}
-          <FilterGroup
-            values={types}
-            setValues={setTypes}
-            filters={Object.values(Types)}
-          />
-
-          <FilterGroup
-            values={difficulties}
-            setValues={setDIfficulties}
-            filters={Object.values(Difficulties)}
-          />
+          <FilterOffcanvas>
+            {/* Filter buttons */}
+            <div className="fs-2 fw-bold mb-2">Type</div>
+            <FilterGroup
+              values={types}
+              setValues={setTypes}
+              filters={Object.values(Types)}
+            />
+            <hr />
+            <div className="fs-2 fw-bold my-2">Difficulty</div>
+            <FilterGroup
+              values={difficulties}
+              setValues={setDIfficulties}
+              filters={Object.values(Difficulties)}
+            />
+          </FilterOffcanvas>
         </div>
 
-        <div>
-          <div>
-            {/* Render assigned tasks */}
-            <AnimatePresence>
-              {filteredData &&
-                filteredData.map((item) => (
-                  <ChooseTaskCard
-                    key={item.id}
-                    isDone={completedTaskIds?.includes(item.id)}
-                    {...item}
-                  />
-                ))}
-            </AnimatePresence>
-          </div>
+        <div className="mx-4">
+          {/* Render assigned tasks */}
+          <AnimatePresence>
+            {filteredData &&
+              filteredData.map((item) => (
+                <ChooseTaskCard
+                  key={item.id}
+                  isDone={completedTaskIds?.includes(item.id)}
+                  {...item}
+                />
+              ))}
+          </AnimatePresence>
         </div>
       </div>
       {!profileData.assignment_active && <NotAssignedOverlay />}

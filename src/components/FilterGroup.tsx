@@ -10,15 +10,14 @@ export function FilterGroup({
   filters: string[];
 }) {
   return (
-    <Row className="justify-content-center text-center">
+    <Row>
       {filters.map((filter) => (
-        <Col xs={6} className="my-1" key={filter}>
+        <Col xs={12} className="my-1" key={filter}>
           <ToggleButtonGroup
             type="checkbox"
             value={values}
             onChange={(value) => setValues(value)}
-            style={{ width: "100%", height: "100%" }}
-            className=""
+            style={{ width: "80vw", maxWidth: "400px", opacity: "100%" }}
           >
             <ToggleButton id={filter} value={filter} variant="outline-dark">
               {filter}

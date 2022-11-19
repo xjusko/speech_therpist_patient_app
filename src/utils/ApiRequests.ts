@@ -77,7 +77,7 @@ export async function postTaskAnswer(
   taskId: string,
   taskType: string,
   taskAnswer: {
-    answer: ConnectAnswer | FourChoiceAnswer;
+    answer: ConnectAnswer | FourChoiceAnswer[];
   }[]
 ) {
   return axiosBase.post(

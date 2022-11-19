@@ -47,10 +47,11 @@ function ChooseTaskCard({ id, name, type, difficulty, isDone }: BasicTaskInfo) {
           direction="horizontal"
           gap={2}
           className="d-flex align-items-center text-dark mx-2 my-2"
+          style={{ overflow: "scroll" }}
         >
-          <div className="me-auto fs-5">{name}</div>
-          {isDone && <BsCheckLg color="green" size="3em" />}
-          <div className="text-uppercase mx-2">{difficulty}</div>
+          <div>{name}</div>
+          {isDone && <BsCheckLg color="green" size="30px" />}
+          <div className="ms-auto text-uppercase mx-2">{difficulty}</div>
           <div className="">
             <TbArrowsSort style={{ height: "50px", width: "50px" }} />
           </div>

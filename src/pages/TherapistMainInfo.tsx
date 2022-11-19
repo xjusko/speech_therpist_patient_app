@@ -110,11 +110,12 @@ function TherapistMainInfo() {
                 className="d-flex gap-3"
                 style={{ flexWrap: "nowrap", overflowX: "auto" }}
               >
-                <EventButton />
-                <EventButton />
-                <EventButton />
-                <EventButton />
-                <EventButton />
+                {profileData.my_meetings.map((meeting) => (
+                  <EventButton
+                    start={new Date(meeting.start_time)}
+                    end={new Date(meeting.end_time)}
+                  />
+                ))}
               </Stack>
             </Tab>
           </Tabs>
@@ -141,7 +142,7 @@ const renderTooltip = (props: any) => (
     Simple tooltip
   </Tooltip>
 );
-const EventButton = () => {
+const EventButton = ({ start, end }: { start: Date; end: Date }) => {
   return (
     <OverlayTrigger
       placement="top"
@@ -149,8 +150,8 @@ const EventButton = () => {
       overlay={renderTooltip}
     >
       <Button variant="success" className="text-center gap-2 my-3">
-        <div>DD.MM.YYYY</div>
-        <div>12:00 AM</div>
+        <div>{start.toLocaleDateString("sv")}</div>
+        <div>{start.toLocaleTimeString("sv")}</div>
       </Button>
     </OverlayTrigger>
   );
