@@ -49,7 +49,7 @@ function Login() {
           } catch (error) {
             setShow(true);
           }
-          navigate(Paths.TaskMenu);
+          navigate(Paths.DefaultExercisesTab);
           setSubmitting(false);
         }}
       >

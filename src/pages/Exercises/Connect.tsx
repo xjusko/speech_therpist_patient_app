@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Button, Stack } from "react-bootstrap";
 import { BsArrowLeftShort } from "react-icons/bs";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Paths } from "../../App";
 import ConfrimModal from "../../components/ConfrimModal";
 import { ConnectColumn } from "../../components/ConnectColumn";
@@ -16,8 +16,8 @@ import {
 import { shuffle } from "../../utils/TaskUtils";
 
 function Connect() {
-  const { state }: { state: { taskId: string; taskType: string } } =
-    useLocation();
+  const { state } = useLocation();
+  const { taskType, taskId }: { taskId: string; taskType: string } = state;
   const { user } = useAuth();
   const navigate = useNavigate();
   const [task, setTask] = useState<ConnectTask>();
@@ -30,7 +30,7 @@ function Connect() {
   const [countCorrect, setCountCorrect] = useState(0);
 
   useEffect(() => {
-    fetchTaskById(state.taskId, user, state.taskType).then((data) => {
+    fetchTaskById(taskId, user, taskType).then((data) => {
       // shuffle question order in task
       const shuffledQuestions = shuffle(data.questions);
       setTask({ ...data, questions: shuffledQuestions });
@@ -72,7 +72,7 @@ function Connect() {
             />
           }
           confirmAction={() => navigate(-1)}
-          title="Do you wish to exit the task?"
+          title="Do you wish to exit the exercise?"
           body="Your answers will not be saved."
         />
         <div className="d-flex justify-content-center align-items-center">{`${
@@ -162,7 +162,7 @@ function Connect() {
     if (questionsCount - 1 === questionIndex) {
       postTaskAnswer(user, task.id, task.type, taskAnswer);
       // pass total and correct questions to display result on summary screen
-      navigate(Paths.TaskSummary, {
+      navigate(Paths.ExerciseSummary, {
         state: {
           totalQuestions: questionsCount,
           correctQuestions: countCorrect,

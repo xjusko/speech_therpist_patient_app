@@ -1,30 +1,26 @@
-import React, { useEffect } from "react";
 import { Container } from "react-bootstrap";
-import Register from "./pages/Register";
-import { Routes, Route, Outlet, useLocation } from "react-router-dom";
-import Login from "./pages/Login";
-import FindTherapist from "./pages/FindTherapist";
-import TherapistMainInfo from "./pages/TherapistMainInfo";
-import TaskMenu from "./pages/TaskMenu";
-import Connect from "./pages/questionTypes/Connect";
-import TaskSummary from "./pages/TaskSummary";
-import FourChoices from "./pages/questionTypes/FourChoices";
-import Routine from "./pages/Routine";
-import AuthRequired from "./utils/AuthRequired";
-import Account from "./pages/Account";
+import { Outlet, Route, Routes } from "react-router-dom";
 import BottomNavbar from "./components/BottomNavbar";
 import TopNavbar from "./components/TopNavbar";
-import { useProfile } from "./contexts/ProfileContext";
-import { fetchMyProfile } from "./utils/ApiRequests";
-import { useAuth } from "./contexts/AuthContext";
+import AssignedExercisesTab from "./pages/AssignedExercisesTab";
+import DefaultExercisesTab from "./pages/DefaultExercisesTab";
+import Connect from "./pages/Exercises/Connect";
+import FourChoices from "./pages/Exercises/FourChoices";
+import ExerciseSummary from "./pages/ExerciseSummary";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import TherapistProfile from "./pages/TherapistProfile";
+import TherapistsTab from "./pages/TherapistsTab";
+import UserSettings from "./pages/UserSettings";
+import AuthRequired from "./utils/AuthRequired";
 
 export const Paths = {
-  FindTherapist: "/findtherapist",
-  TherapistMainInfo: "/therapist",
-  TaskMenu: "/taskmenu",
-  Routine: "/routine",
-  TaskSummary: "/tasksummary",
-  Account: "/account",
+  TherapistsTab: "/therapists",
+  TherapistProfile: "/therapist",
+  DefaultExercisesTab: "/defaultexercises",
+  AssignedExercisesTab: "/assignedexercises",
+  ExerciseSummary: "/exercisesummary",
+  UserSettings: "/usersettings",
   Connect: "/questionconnect",
   FourChoices: "/questionfourchoices",
   Register: "/register",
@@ -32,9 +28,6 @@ export const Paths = {
 };
 
 function App() {
-  const { profileData, setProfileData } = useProfile();
-  const { user } = useAuth();
-
   return (
     <Container style={{ maxWidth: "700px" }}>
       <Routes>
@@ -46,16 +39,22 @@ function App() {
           <Route path={Paths.Connect} element={<Connect />} />
           <Route path={Paths.FourChoices} element={<FourChoices />} />
           <Route element={<PagesWithNavbars />}>
-            <Route path="/" element={<TaskMenu />} />
-            <Route path={Paths.FindTherapist} element={<FindTherapist />} />
+            <Route path="/" element={<DefaultExercisesTab />} />
+            <Route path={Paths.TherapistsTab} element={<TherapistsTab />} />
             <Route
-              path={Paths.TherapistMainInfo}
-              element={<TherapistMainInfo />}
+              path={Paths.TherapistProfile}
+              element={<TherapistProfile />}
             />
-            <Route path={Paths.TaskMenu} element={<TaskMenu />} />
-            <Route path={Paths.Routine} element={<Routine />} />
-            <Route path={Paths.TaskSummary} element={<TaskSummary />} />
-            <Route path={Paths.Account} element={<Account />} />
+            <Route
+              path={Paths.DefaultExercisesTab}
+              element={<DefaultExercisesTab />}
+            />
+            <Route
+              path={Paths.AssignedExercisesTab}
+              element={<AssignedExercisesTab />}
+            />
+            <Route path={Paths.ExerciseSummary} element={<ExerciseSummary />} />
+            <Route path={Paths.UserSettings} element={<UserSettings />} />
           </Route>
         </Route>
       </Routes>

@@ -6,7 +6,7 @@ import { useAuth } from "../contexts/AuthContext";
 import { fetchTherapistList, linkRequest } from "../utils/ApiRequests";
 import { TherapistProfileInfo } from "../utils/CommonTypes";
 
-function FindTherapist() {
+function TherapistsTab() {
   const { user } = useAuth();
   const [link, setLink] = useState("");
   const [therapistList, setTherapistList] = useState<TherapistProfileInfo[]>(
@@ -60,4 +60,4 @@ function FindTherapist() {
   );
 }
 
-export default FindTherapist;
+export default TherapistsTab;

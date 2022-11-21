@@ -24,7 +24,7 @@ function FilterOffcanvas({ children }: { children: JSX.Element[] }) {
       >
         <Offcanvas.Header>
           <Offcanvas.Title className="fs-1 fw-bold">
-            Task Filter
+            Exercise Filter
           </Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body className="text-center">{children}</Offcanvas.Body>

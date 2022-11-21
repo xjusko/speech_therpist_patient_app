@@ -15,7 +15,7 @@ function FindTherapistCard({
   return (
     // Clicking anywhere on card navigates to therapist page.
     <Nav.Link
-      to={Paths.TherapistMainInfo}
+      to={Paths.TherapistProfile}
       state={{ therapistId: id }}
       as={NavLink}
     >

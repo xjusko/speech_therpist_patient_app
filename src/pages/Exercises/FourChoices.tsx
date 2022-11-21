@@ -15,8 +15,8 @@ import {
 import { shuffle } from "../../utils/TaskUtils";
 
 function FourChoices() {
-  const { state }: { state: { taskId: string; taskType: string } } =
-    useLocation();
+  const { state } = useLocation();
+  const { taskType, taskId }: { taskId: string; taskType: string } = state;
   const { user } = useAuth();
   const navigate = useNavigate();
   const [task, setTask] = useState<FourChoicesTask>();
@@ -31,7 +31,7 @@ function FourChoices() {
   const [countCorrect, setCountCorrect] = useState(0);
 
   useEffect(() => {
-    fetchTaskById(state.taskId, user, state.taskType).then((data) => {
+    fetchTaskById(taskId, user, taskType).then((data) => {
       // shuffle question order in task
       const shuffledQuestions = shuffle(data.questions);
       setTask({ ...data, questions: shuffledQuestions });
@@ -60,7 +60,7 @@ function FourChoices() {
             />
           }
           confirmAction={() => navigate(-1)}
-          title="Do you wish to exit the task?"
+          title="Do you wish to exit the exercise?"
           body="Your answers will not be saved."
         />
         <div className="d-flex justify-content-center align-items-center">{`${
@@ -113,7 +113,7 @@ function FourChoices() {
     if (questionsCount - 1 === questionIndex) {
       postTaskAnswer(user, task.id, task.type, taskAnswer);
 
-      navigate(Paths.TaskSummary, {
+      navigate(Paths.ExerciseSummary, {
         state: {
           totalQuestions: questionsCount,
           correctQuestions: countCorrect,

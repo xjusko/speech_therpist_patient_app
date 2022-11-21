@@ -11,7 +11,7 @@ import { useProfile } from "../contexts/ProfileContext";
 import { fetchMyProfile, fetchTaskResults } from "../utils/ApiRequests";
 import { BasicTaskInfo } from "../utils/CommonTypes";
 
-function Routine() {
+function AssignedExercisesTab() {
   const [types, setTypes] = useState(Object.values(Types));
   const [difficulties, setDIfficulties] = useState(Object.values(Difficulties));
   const { user } = useAuth();
@@ -48,7 +48,7 @@ function Routine() {
       <div style={{ opacity: profileData.assignment_active ? "100%" : "10%" }}>
         <div className="d-flex flex-column mx-4 mt-5">
           <div className="d-flex fs-1 font-uppercase fw-bold justify-content-center mb-5">
-            Assigned tasks
+            Assigned Exercises
           </div>
           <FilterOffcanvas>
             {/* Filter buttons */}
@@ -87,7 +87,7 @@ function Routine() {
   );
 }
 
-export default Routine;
+export default AssignedExercisesTab;
 
 function NotAssignedOverlay() {
   const navigate = useNavigate();
@@ -110,7 +110,7 @@ function NotAssignedOverlay() {
         size="lg"
         variant="outline-dark"
         className="fs-2 fw-bold text-uppercase"
-        onClick={() => navigate(Paths.FindTherapist)}
+        onClick={() => navigate(Paths.TherapistsTab)}
       >
         Find a Therapist
       </Button>

@@ -7,6 +7,7 @@ import { NavLink } from "react-router-dom";
 import { Paths } from "../App";
 import { useAuth } from "../contexts/AuthContext";
 import { useProfile } from "../contexts/ProfileContext";
+import { animateClick } from "../utils/AnimationSettings";
 import { fetchTaskResults } from "../utils/ApiRequests";
 
 function TopNavbar() {
@@ -42,11 +43,19 @@ function TopNavbar() {
           Speech Therapist
         </BsNavbar.Brand>
       </BsNavbar.Collapse>
-      <Nav.Link to={Paths.TaskMenu} as={NavLink} className="d-flex mx-3">
+      <Nav.Link
+        to={Paths.DefaultExercisesTab}
+        as={NavLink}
+        className="d-flex mx-3"
+      >
         <HiFire color="red" style={{ height: "3rem", width: "3rem" }} />
         <div className="fs-4">3</div>
       </Nav.Link>
-      <Nav.Link to={Paths.Routine} as={NavLink} className="d-flex mx-3">
+      <Nav.Link
+        to={Paths.AssignedExercisesTab}
+        as={NavLink}
+        className="d-flex mx-3"
+      >
         <BsBell style={{ height: "3rem", width: "3rem" }} />
         <div className="fs-4">
           {Math.max(
@@ -55,13 +64,10 @@ function TopNavbar() {
           )}
         </div>
       </Nav.Link>
-      <Nav.Link to={Paths.Account} as={NavLink} className="d-flex mx-3">
+      <Nav.Link to={Paths.UserSettings} as={NavLink} className="d-flex mx-3">
         <motion.img
           layout
-          whileHover={{
-            scale: 1.2,
-          }}
-          whileTap={{ scale: 0.7 }}
+          {...animateClick}
           src={profileData.image}
           style={{
             height: "3rem",

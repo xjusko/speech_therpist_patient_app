@@ -23,18 +23,15 @@ import {
 import ConfrimModal from "../components/ConfrimModal";
 import { useAuth } from "../contexts/AuthContext";
 import { useProfile } from "../contexts/ProfileContext";
+import { animateClick } from "../utils/AnimationSettings";
 import { fetchMyProfile, patchMyProfile, unlink } from "../utils/ApiRequests";
 import { AccountInfo } from "../utils/CommonTypes";
 
-function Account() {
+function UserSettings() {
   const { user, setUser } = useAuth();
   const { profileData, setProfileData } = useProfile();
   const [show, setShow] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
-  const animationProps = {
-    whileHover: { scale: 1.1 },
-    whileTap: { scale: 0.9 },
-  };
 
   const validationSchema = yup.object({
     name: yup.string().required("Required"),
@@ -122,7 +119,7 @@ function Account() {
             }}
           ></input>
           <motion.div
-            {...animationProps}
+            {...animateClick}
             style={{ cursor: "pointer" }}
             onClick={() => inputRef.current?.click()}
           >
@@ -132,18 +129,14 @@ function Account() {
       </Row>
       <Row className="mt-auto mb-3 text-dark fs-2 text-center shadow-sm">
         <Col className="justify-content-center text-muted fw-bold fs-4">
-          <ChangePasswordModal
-            user={user}
-            animationProps={animationProps}
-            setProfileData={setProfileData}
-          />
+          <ChangePasswordModal user={user} setProfileData={setProfileData} />
         </Col>
       </Row>
       <Row className="mt-auto mb-3 text-dark fs-2 text-center shadow-sm">
         <Col className="text-muted fw-bold fs-4">
           <ConfrimModal
             component={
-              <motion.div {...animationProps} style={{ cursor: "pointer" }}>
+              <motion.div {...animateClick} style={{ cursor: "pointer" }}>
                 Disconnect from my therapist
               </motion.div>
             }
@@ -152,14 +145,14 @@ function Account() {
               fetchMyProfile(user).then((profile) => setProfileData(profile));
             }}
             title="Do you wish to disconnect from your therapist?"
-            body="All your assigned tasks and meetings will be deleted."
+            body="All your assigned exercises and meetings will be deleted."
           />
         </Col>
       </Row>
       {/* Log Out button */}
       <Row className="mt-auto mb-3 text-dark fs-2 text-center shadow-sm">
         <Col className="text-muted fw-bold fs-4">
-          <motion.div {...animationProps}>
+          <motion.div {...animateClick}>
             <Nav.Link
               to={Paths.Login}
               onClick={() => {
@@ -177,7 +170,7 @@ function Account() {
         <Col className="justify-content-center text-danger fw-bold fs-4">
           <ConfrimModal
             component={
-              <motion.div style={{ cursor: "pointer" }} {...animationProps}>
+              <motion.div style={{ cursor: "pointer" }} {...animateClick}>
                 Delete Account
               </motion.div>
             }
@@ -191,22 +184,13 @@ function Account() {
   );
 }
 
-export default Account;
+export default UserSettings;
 
 function ChangePasswordModal({
   user,
   setProfileData,
-  animationProps,
 }: {
   user: string;
-  animationProps: {
-    whileHover: {
-      scale: number;
-    };
-    whileTap: {
-      scale: number;
-    };
-  };
   setProfileData: React.Dispatch<React.SetStateAction<AccountInfo>>;
 }) {
   const [show, setShow] = useState(false);
@@ -228,7 +212,7 @@ function ChangePasswordModal({
     <>
       <motion.div
         style={{ cursor: "pointer" }}
-        {...animationProps}
+        {...animateClick}
         onClick={handleShow}
       >
         Change Password

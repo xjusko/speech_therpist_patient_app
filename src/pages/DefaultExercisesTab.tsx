@@ -8,7 +8,7 @@ import { useAuth } from "../contexts/AuthContext";
 import { fetchDefaultTasks } from "../utils/ApiRequests";
 import { BasicTaskInfo } from "../utils/CommonTypes";
 
-function TaskMenu() {
+function DefaultExercisesTab() {
   const { user } = useAuth();
   const [types, setTypes] = useState(Object.values(Types));
   const [tasks, setTasks] = useState<BasicTaskInfo[]>();
@@ -63,4 +63,4 @@ function TaskMenu() {
     </div>
   );
 }
-export default TaskMenu;
+export default DefaultExercisesTab;

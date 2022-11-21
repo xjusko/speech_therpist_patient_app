@@ -21,7 +21,7 @@ import { useProfile } from "../contexts/ProfileContext";
 import { fetchTherapistInfo } from "../utils/ApiRequests";
 import { TherapistProfileInfo } from "../utils/CommonTypes";
 
-function TherapistMainInfo() {
+function TherapistProfile() {
   const { state }: { state: { therapistId: string } } = useLocation();
   const { user } = useAuth();
   const { profileData } = useProfile();
@@ -111,10 +111,7 @@ function TherapistMainInfo() {
                 style={{ flexWrap: "nowrap", overflowX: "auto" }}
               >
                 {profileData.my_meetings.map((meeting) => (
-                  <EventButton
-                    start={new Date(meeting.start_time)}
-                    end={new Date(meeting.end_time)}
-                  />
+                  <EventButton start={new Date(meeting.start_time)} />
                 ))}
               </Stack>
             </Tab>
@@ -136,13 +133,14 @@ function TherapistMainInfo() {
   }
 }
 
-export default TherapistMainInfo;
+export default TherapistProfile;
+
 const renderTooltip = (props: any) => (
   <Tooltip id="button-tooltip" {...props}>
     Simple tooltip
   </Tooltip>
 );
-const EventButton = ({ start, end }: { start: Date; end: Date }) => {
+const EventButton = ({ start }: { start: Date }) => {
   return (
     <OverlayTrigger
       placement="top"

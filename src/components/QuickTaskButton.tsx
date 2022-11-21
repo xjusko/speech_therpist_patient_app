@@ -5,6 +5,7 @@ import { BsFillLightningFill } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import { Paths } from "../App";
 import { useAuth } from "../contexts/AuthContext";
+import { animateClick } from "../utils/AnimationSettings";
 import { fetchRandomDefaultTask } from "../utils/ApiRequests";
 import { Types } from "./FilterGroup";
 
@@ -18,7 +19,7 @@ function QuickTaskButton({ imageStyle, buttonStyle }: QuickTaskButtonProps) {
   const navigate = useNavigate();
   const { user } = useAuth();
   return (
-    <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+    <motion.div {...animateClick}>
       <Button variant="outline-dark" onClick={handleClick} style={buttonStyle}>
         <BsFillLightningFill style={imageStyle} />
         <div className="mt-2">QUICK TASK</div>

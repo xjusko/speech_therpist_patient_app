@@ -47,7 +47,6 @@ function ChooseTaskCard({ id, name, type, difficulty, isDone }: BasicTaskInfo) {
           direction="horizontal"
           gap={2}
           className="d-flex align-items-center text-dark mx-2 my-2"
-          style={{ overflow: "scroll" }}
         >
           <div>{name}</div>
           {isDone && <BsCheckLg color="green" size="30px" />}
