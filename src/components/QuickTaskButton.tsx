@@ -32,12 +32,19 @@ function QuickTaskButton({ imageStyle, buttonStyle }: QuickTaskButtonProps) {
       return task;
     });
     // Navigate based on task type
-    if (randomTask.type === Types.CONNECT_PAIRS_TI || Types.CONNECT_PAIRS_TT) {
-      navigate(`${Paths.Connect}${randomTask.id}`);
-      return;
+    if (
+      randomTask.type === Types.CONNECT_PAIRS_TI ||
+      randomTask.type === Types.CONNECT_PAIRS_TT
+    ) {
+      console.log(randomTask.type);
+      navigate(Paths.Connect, {
+        state: { taskId: randomTask.id, taskType: randomTask.type },
+      });
     } else {
-      navigate(`${Paths.FourChoices}${randomTask.id}`);
-      return;
+      console.log(randomTask);
+      navigate(Paths.FourChoices, {
+        state: { taskId: randomTask.id, taskType: randomTask.type },
+      });
     }
   }
 }

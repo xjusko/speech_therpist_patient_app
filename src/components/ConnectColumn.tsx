@@ -1,16 +1,15 @@
 import { Reorder } from "framer-motion";
 import React from "react";
 import { BsCheckLg, BsXLg } from "react-icons/bs";
-import { Pair } from "../utils/CommonTypes";
 
 type SetChoices = {
-  (value: React.SetStateAction<Pair[] | undefined>): void;
-  (value: React.SetStateAction<Pair[] | undefined>): void;
+  (value: React.SetStateAction<string[] | undefined>): void;
+  (value: React.SetStateAction<string[] | undefined>): void;
   (newOrder: any[]): void;
 };
 
 type ConnectColumnProps = {
-  choices: Pair[];
+  choices: string[];
   setChoices: SetChoices;
   isImage: boolean;
   answer: boolean[] | null;
@@ -33,7 +32,7 @@ export function ConnectColumn({
       {/* Rendering the choices */}
       {choices.map((item, index) => (
         <Reorder.Item
-          key={item.id}
+          key={item}
           value={item}
           style={{
             // Removing list artifacts
@@ -47,7 +46,7 @@ export function ConnectColumn({
           <PairChoice isCorrect={answer && answer[index]}>
             {isImage ? (
               <img
-                src={item.data2}
+                src={item}
                 alt="image"
                 draggable={false}
                 height="100%"
@@ -55,7 +54,7 @@ export function ConnectColumn({
                 style={{ borderRadius: "10px", objectFit: "cover" }}
               />
             ) : (
-              <div className="fw-bold text-uppercase">{item.data1}</div>
+              <div className="fw-bold text-uppercase">{item}</div>
             )}
           </PairChoice>
         </Reorder.Item>

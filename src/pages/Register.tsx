@@ -71,9 +71,10 @@ function Register() {
             });
           } catch (error) {
             setShow(true);
+            setSubmitting(false);
+            return;
           }
           navigate(Paths.DefaultExercisesTab);
-          setSubmitting(false);
         }}
       >
         {({ handleSubmit, handleChange, values, errors, touched }) => (
@@ -82,7 +83,7 @@ function Register() {
               {/* Alert to be shown when registration failed */}
               {show && (
                 <Alert variant="danger" className="text-center">
-                  User with this email address already exists
+                  User with this email address already exists.
                 </Alert>
               )}
               {/* Form fields */}

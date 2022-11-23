@@ -1,9 +1,9 @@
 import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
 import { Nav, Navbar as BsNavbar } from "react-bootstrap";
 import { BsBell } from "react-icons/bs";
 import { HiFire } from "react-icons/hi";
 import { NavLink } from "react-router-dom";
+import useSWR from "swr";
 import { Paths } from "../App";
 import { useAuth } from "../contexts/AuthContext";
 import { useProfile } from "../contexts/ProfileContext";
@@ -13,21 +13,19 @@ import { fetchTaskResults } from "../utils/ApiRequests";
 function TopNavbar() {
   const { user } = useAuth();
   const { profileData } = useProfile();
-  const [completedTaskIds, setCompletedTaskIds] = useState<number[]>();
 
-  useEffect(() => {
-    fetchTaskResults(user).then((results) => {
-      setCompletedTaskIds(
-        results
-          .filter((result) => result.answered_by === profileData.id)
-          .map((result) => result.task)
-      );
-    });
-  }, [profileData]);
+  const { data: results, error } = useSWR("navbar", () =>
+    fetchTaskResults(user)
+  );
 
-  if (!profileData || !completedTaskIds) {
+  if (!results) {
     return <div></div>;
   }
+
+  const completedTaskIds = results
+    .filter((result) => result.answered_by === profileData.id)
+    .map((result) => result.task);
+
   return (
     <BsNavbar
       fixed="top"

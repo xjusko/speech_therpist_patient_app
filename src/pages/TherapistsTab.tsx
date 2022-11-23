@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { Button, Col, Form, Row, Stack } from "react-bootstrap";
 import { BsLink45Deg } from "react-icons/bs";
+import useSWR from "swr";
 import FindTherapistCard from "../components/FindTherapistCard";
+import Notification from "../components/Notification";
 import { useAuth } from "../contexts/AuthContext";
 import { fetchTherapistList, linkRequest } from "../utils/ApiRequests";
 import { TherapistProfileInfo } from "../utils/CommonTypes";
@@ -9,15 +11,13 @@ import { TherapistProfileInfo } from "../utils/CommonTypes";
 function TherapistsTab() {
   const { user } = useAuth();
   const [link, setLink] = useState("");
-  const [therapistList, setTherapistList] = useState<TherapistProfileInfo[]>(
-    []
-  );
+
   // Get all therapists
-  useEffect(() => {
-    fetchTherapistList(user).then((data) => {
-      setTherapistList(data);
-    });
-  }, []);
+  const { data: therapistList, error } = useSWR(user, fetchTherapistList);
+
+  if (!therapistList) {
+    return <div></div>;
+  }
 
   return (
     <div className="d-flex flex-column justify-content-center mx-4">
@@ -26,7 +26,16 @@ function TherapistsTab() {
         <div className="fs-1 text-center text-dark fw-bold font-uppercase mb-3 my-1">
           Enter Link Here
         </div>
-        <Form className="d-flex text-center">
+        <Form
+          className="d-flex text-center"
+          onSubmit={(e) => {
+            linkRequest(user, { therapist_code: link })
+              .then(() => console.log("ok"))
+              .catch(() => console.log("error"));
+
+            e.preventDefault();
+          }}
+        >
           <Form.Control
             className="text-center fs-3 text-uppercase"
             size="lg"
@@ -36,10 +45,7 @@ function TherapistsTab() {
             value={link}
             onChange={(e) => setLink(e.target.value)}
           />
-          <Button
-            variant="outline-dark"
-            onClick={() => linkRequest(user, { therapist_code: link })}
-          >
+          <Button variant="outline-dark" type="submit">
             <BsLink45Deg style={{ width: "3rem", height: "3rem" }} />
           </Button>
         </Form>

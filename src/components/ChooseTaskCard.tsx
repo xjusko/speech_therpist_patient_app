@@ -48,7 +48,15 @@ function ChooseTaskCard({ id, name, type, difficulty, isDone }: BasicTaskInfo) {
           gap={2}
           className="d-flex align-items-center text-dark mx-2 my-2"
         >
-          <div>{name}</div>
+          <div
+            style={{
+              textOverflow: "ellipsis",
+              overflow: "hidden",
+              whiteSpace: "nowrap",
+            }}
+          >
+            {name}
+          </div>
           {isDone && <BsCheckLg color="green" size="30px" />}
           <div className="ms-auto text-uppercase mx-2">{difficulty}</div>
           <div className="">

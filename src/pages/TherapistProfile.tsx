@@ -1,3 +1,4 @@
+import { AxiosError } from "axios";
 import { useEffect, useState } from "react";
 import {
   Button,
@@ -16,6 +17,7 @@ import {
   BsTelephoneFill,
 } from "react-icons/bs";
 import { useLocation } from "react-router-dom";
+import useSWR from "swr";
 import { useAuth } from "../contexts/AuthContext";
 import { useProfile } from "../contexts/ProfileContext";
 import { fetchTherapistInfo } from "../utils/ApiRequests";
@@ -25,14 +27,12 @@ function TherapistProfile() {
   const { state }: { state: { therapistId: string } } = useLocation();
   const { user } = useAuth();
   const { profileData } = useProfile();
-  const [therapist, setTherapist] = useState<TherapistProfileInfo>();
   const [tabKey, settabKey] = useState("bio");
 
-  useEffect(() => {
-    fetchTherapistInfo(state.therapistId, user).then((data) => {
-      setTherapist(data);
-    });
-  }, []);
+  const { data: therapist, error } = useSWR<TherapistProfileInfo, AxiosError>(
+    [state.therapistId, user],
+    fetchTherapistInfo
+  );
 
   if (!therapist) {
     return <div></div>;

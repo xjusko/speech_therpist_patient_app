@@ -48,9 +48,10 @@ function Login() {
             });
           } catch (error) {
             setShow(true);
+            setSubmitting(false);
+            return;
           }
           navigate(Paths.DefaultExercisesTab);
-          setSubmitting(false);
         }}
       >
         {({ handleSubmit, handleChange, values, errors, touched }) => (

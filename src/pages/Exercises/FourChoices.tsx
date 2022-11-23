@@ -1,7 +1,9 @@
+import { AxiosError } from "axios";
 import { useEffect, useState } from "react";
 import { Button, Col, Row } from "react-bootstrap";
 import { BsArrowLeftShort } from "react-icons/bs";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
+import useSWRImmutable from "swr/immutable";
 import { Paths } from "../../App";
 import ConfrimModal from "../../components/ConfrimModal";
 import { Types } from "../../components/FilterGroup";
@@ -10,6 +12,7 @@ import { fetchTaskById, postTaskAnswer } from "../../utils/ApiRequests";
 import {
   FourChoice,
   FourChoiceAnswer,
+  FourChoiceQuestion,
   FourChoicesTask,
 } from "../../utils/CommonTypes";
 import { shuffle } from "../../utils/TaskUtils";
@@ -19,10 +22,10 @@ function FourChoices() {
   const { taskType, taskId }: { taskId: string; taskType: string } = state;
   const { user } = useAuth();
   const navigate = useNavigate();
-  const [task, setTask] = useState<FourChoicesTask>();
+  const [shuffledQuestions, setShuffledQuestions] =
+    useState<FourChoiceQuestion[]>();
+  const [shuffledOptions, setShuffledOptions] = useState<string[][]>();
   const [questionIndex, setQuestionIndex] = useState(0);
-  const [question, setQuestion] = useState<FourChoice>();
-  const [options, setOptions] = useState<string[]>();
   const [isAnswered, setIsAnswered] = useState(false);
   const [picked, setPicked] = useState<string>("");
   const [taskAnswer, setTaskAnswer] = useState<
@@ -30,25 +33,30 @@ function FourChoices() {
   >([]);
   const [countCorrect, setCountCorrect] = useState(0);
 
-  useEffect(() => {
-    fetchTaskById(taskId, user, taskType).then((data) => {
-      // shuffle question order in task
-      const shuffledQuestions = shuffle(data.questions);
-      setTask({ ...data, questions: shuffledQuestions });
-      setQuestion(shuffledQuestions[0].choices[0]);
-      setOptions(
-        shuffle(
-          Object.values(shuffledQuestions[0].choices[0]).slice(-4) as string[]
-        )
-      );
-    });
-  }, []);
+  const { data: task, error } = useSWRImmutable<FourChoicesTask, AxiosError>(
+    [taskId, user, taskType],
+    fetchTaskById
+  );
 
-  if (!task || !question || !options) {
-    return <div></div>;
+  useEffect(() => {
+    if (!task) {
+      return;
+    }
+    const shuffledQuestions = shuffle(task.questions);
+    const shuffledOptions = shuffledQuestions.map((question) =>
+      shuffle(Object.values(question.choices[0]).slice(-4) as string[])
+    );
+    setShuffledQuestions(shuffledQuestions);
+    setShuffledOptions(shuffledOptions);
+  }, [task]);
+
+  if (!task || !shuffledQuestions || !shuffledOptions) {
+    return <></>;
   }
 
-  const questionsCount: number = task.questions.length;
+  const question: FourChoice = shuffledQuestions[questionIndex].choices[0];
+  const options: string[] = shuffledOptions[questionIndex];
+  const questionsCount: number = shuffledQuestions.length;
 
   return (
     <div>
@@ -67,7 +75,7 @@ function FourChoices() {
           questionIndex + 1
         } / ${questionsCount}`}</div>
       </div>
-      <div className="mx-4 my-5">
+      <div className="mx-4 my-3">
         <Row className="text-center mb-3 fs-1 fw-bold">
           <Col>Choose Correct Answer</Col>
         </Row>
@@ -79,7 +87,7 @@ function FourChoices() {
           )}
         </Row>
 
-        <Row xs={2} className="g-4 text-center mt-2 mx-2">
+        <Row className="g-1 text-center mt-2">
           {options.map((data) =>
             task.type === Types.FOUR_CHOICES_IT ? (
               <TextOption key={data} data={data} />
@@ -124,17 +132,7 @@ function FourChoices() {
 
     setPicked("");
     setIsAnswered(false);
-    setQuestionIndex((prev) => {
-      setQuestion(task.questions[prev + 1].choices[0] as FourChoice);
-      setOptions(
-        shuffle(
-          Object.values(task.questions[prev + 1].choices[0]).slice(
-            -4
-          ) as string[]
-        )
-      );
-      return prev + 1;
-    });
+    setQuestionIndex((prev) => prev + 1);
   }
 
   function handleOptionClick(data: string) {
@@ -159,13 +157,17 @@ function FourChoices() {
 
   function TextOption({ data }: { data: string }) {
     return (
-      <Col className="fs-2 d-flex justify-content-center align-items-center">
+      <Col
+        xs={12}
+        sm={6}
+        className="fs-2 d-flex justify-content-center align-items-center"
+      >
         <Button
           onClick={() => handleOptionClick(data)}
           disabled={isAnswered}
           variant="outline-dark"
           style={{
-            height: "15vw",
+            minHeight: "15vw",
             width: "100%",
             maxHeight: "100px",
             border: getOptionBorder(data),
@@ -179,23 +181,27 @@ function FourChoices() {
 
   function ImageOption({ data }: { data: string }) {
     return (
-      <Col className="fs-2 d-flex justify-content-center align-items-center">
+      <Col
+        xs={6}
+        className="fs-2 d-flex justify-content-center align-items-center"
+      >
         <Button
           onClick={() => handleOptionClick(data)}
           disabled={isAnswered}
           variant="outline-dark"
           style={{
             height: "40vw",
-            width: "100%",
+            width: "40vw",
             maxHeight: "250px",
-            border: getOptionBorder(data),
+            maxWidth: "250px",
+            border: "none",
           }}
         >
           <img
             src={data}
             width="100%"
             height="100%"
-            style={{ objectFit: "cover" }}
+            style={{ objectFit: "cover", border: getOptionBorder(data) }}
           />
         </Button>
       </Col>

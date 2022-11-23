@@ -3,6 +3,7 @@ import { Button, Stack } from "react-bootstrap";
 import { BsArrowLeftShort } from "react-icons/bs";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Paths } from "../../App";
+import useSWRImmutable from "swr/immutable";
 import ConfrimModal from "../../components/ConfrimModal";
 import { ConnectColumn } from "../../components/ConnectColumn";
 import { useAuth } from "../../contexts/AuthContext";
@@ -12,39 +13,52 @@ import {
   PairAnswer,
   ConnectTask,
   ConnectAnswer,
+  ConnectQuestion,
 } from "../../utils/CommonTypes";
 import { shuffle } from "../../utils/TaskUtils";
+import { AxiosError } from "axios";
 
 function Connect() {
   const { state } = useLocation();
   const { taskType, taskId }: { taskId: string; taskType: string } = state;
   const { user } = useAuth();
   const navigate = useNavigate();
-  const [task, setTask] = useState<ConnectTask>();
   const [isChecked, setIsChecked] = useState(false);
   const [questionIndex, setQuestionIndex] = useState(0);
-  const [leftOptions, setLeftOptions] = useState<Pair[]>();
-  const [rightOptions, setRightOptions] = useState<Pair[]>();
+  const [shuffledQuestions, setShuffledQuestions] =
+    useState<ConnectQuestion[]>();
+  const [leftOptions, setLeftOptions] = useState<string[]>();
+  const [rightOptions, setRightOptions] = useState<string[]>();
   const [taskAnswer, setTaskAnswer] = useState<{ answer: ConnectAnswer }[]>([]);
   const [isOrdered, setIsOrdered] = useState(true);
   const [countCorrect, setCountCorrect] = useState(0);
 
+  const { data, error } = useSWRImmutable<ConnectTask, AxiosError>(
+    [taskId, user, taskType],
+    fetchTaskById
+  );
+
   useEffect(() => {
-    fetchTaskById(taskId, user, taskType).then((data) => {
-      // shuffle question order in task
-      const shuffledQuestions = shuffle(data.questions);
-      setTask({ ...data, questions: shuffledQuestions });
-      // set each column with shuffled question choices
-      setLeftOptions(shuffle(shuffledQuestions[0].choices));
-      setRightOptions(shuffle(shuffledQuestions[0].choices));
-    });
-  }, []);
+    if (!data) {
+      return;
+    }
+    // shuffle question order in task
+    const shuffledQuestions: ConnectQuestion[] = shuffle(data.questions);
+    setShuffledQuestions(shuffledQuestions);
+    // set each column with shuffled question choices
+    setLeftOptions(
+      shuffle(shuffledQuestions[0].choices.map((pair) => pair.data1))
+    );
+    setRightOptions(
+      shuffle(shuffledQuestions[0].choices.map((pair) => pair.data2))
+    );
+  }, [data]);
 
   // prevent error when rendering page before fetching data from api
-  if (!task || !leftOptions || !rightOptions) {
+  if (!data || !shuffledQuestions || !leftOptions || !rightOptions) {
     return <div></div>;
   }
-  const questionsCount: number = task.questions.length;
+  const questionsCount: number = shuffledQuestions.length;
 
   // boolean values for displaying correct and incorrect pairs
   const booleanAnswers = taskAnswer[questionIndex]
@@ -79,7 +93,7 @@ function Connect() {
           questionIndex + 1
         } / ${questionsCount}`}</div>
       </div>
-      <div className="mx-4 my-5">
+      <div className="mx-4 my-3">
         <div className="fs-1 fw-bold text-uppercase text-center ">
           Pair by dragging
         </div>
@@ -111,26 +125,26 @@ function Connect() {
   );
 
   function handleCheckButtonClick(): void {
-    if (!task || !leftOptions || !rightOptions) {
+    if (!shuffledQuestions || !leftOptions || !rightOptions) {
       return;
     }
     let questionAnswer: ConnectAnswer = [];
     let isOrderCorrect = true;
     for (
       let index = 0;
-      index < task.questions[questionIndex].choices.length;
+      index < shuffledQuestions[questionIndex].choices.length;
       index++
     ) {
       // comapre patient answer with correct answer
-      const isCorrect = task.questions[questionIndex].choices.some(
+      const isCorrect = shuffledQuestions[questionIndex].choices.some(
         (choice) =>
-          choice.data1 === leftOptions[index].data1 &&
-          choice.data2 === rightOptions[index].data2
+          choice.data1 === leftOptions[index] &&
+          choice.data2 === rightOptions[index]
       );
       // save answer in required way
       const choiceAnswer: PairAnswer = {
-        data1: leftOptions[index].data1,
-        data2: rightOptions[index].data2,
+        data1: leftOptions[index],
+        data2: rightOptions[index],
         is_correct: isCorrect,
       };
       questionAnswer = [...questionAnswer, choiceAnswer];
@@ -146,21 +160,25 @@ function Connect() {
 
   // reorder columns only if answer is incorrect
   function handleOrderButtonClick(): void {
-    if (!task) {
+    if (!shuffledQuestions) {
       return;
     }
     setIsOrdered(true);
-    setLeftOptions(task.questions[questionIndex].choices);
-    setRightOptions(task.questions[questionIndex].choices);
+    setLeftOptions(
+      shuffledQuestions[questionIndex].choices.map((pair) => pair.data1)
+    );
+    setRightOptions(
+      shuffledQuestions[questionIndex].choices.map((pair) => pair.data2)
+    );
   }
 
   function handleNextButtonClick(): void {
-    if (!task) {
+    if (!data || !shuffledQuestions) {
       return;
     }
     // post answers if it is the last question and navigate to task summary screen
     if (questionsCount - 1 === questionIndex) {
-      postTaskAnswer(user, task.id, task.type, taskAnswer);
+      postTaskAnswer(user, data.id, data.type, taskAnswer);
       // pass total and correct questions to display result on summary screen
       navigate(Paths.ExerciseSummary, {
         state: {
@@ -173,8 +191,12 @@ function Connect() {
     // otherwise display next question
     setQuestionIndex((prev) => {
       setIsChecked(false);
-      setLeftOptions(shuffle(task.questions[prev + 1].choices));
-      setRightOptions(shuffle(task.questions[prev + 1].choices));
+      setLeftOptions(
+        shuffle(shuffledQuestions[prev + 1].choices.map((pair) => pair.data1))
+      );
+      setRightOptions(
+        shuffle(shuffledQuestions[prev + 1].choices.map((pair) => pair.data2))
+      );
       return prev + 1;
     });
   }

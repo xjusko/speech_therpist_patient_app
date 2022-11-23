@@ -1,7 +1,9 @@
+import { AxiosError } from "axios";
 import { AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
 import { Button, Stack } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import useSWR from "swr";
 import { Paths } from "../App";
 import ChooseTaskCard from "../components/ChooseTaskCard";
 import { Difficulties, FilterGroup, Types } from "../components/FilterGroup";
@@ -9,36 +11,35 @@ import FilterOffcanvas from "../components/FilterOffcanvas";
 import { useAuth } from "../contexts/AuthContext";
 import { useProfile } from "../contexts/ProfileContext";
 import { fetchMyProfile, fetchTaskResults } from "../utils/ApiRequests";
-import { BasicTaskInfo } from "../utils/CommonTypes";
+import { AccountInfo } from "../utils/CommonTypes";
 
 function AssignedExercisesTab() {
   const [types, setTypes] = useState(Object.values(Types));
   const [difficulties, setDIfficulties] = useState(Object.values(Difficulties));
   const { user } = useAuth();
   const { profileData, setProfileData } = useProfile();
-  const [myTasks, setMyTasks] = useState<BasicTaskInfo[]>();
-  const [completedTaskIds, setCompletedTaskIds] = useState<number[]>();
   // Get tasks assigned to the user
-  useEffect(() => {
-    fetchMyProfile(user).then((profile) => {
-      setMyTasks(profile.assigned_tasks);
-      setProfileData(profile);
-    });
-    fetchTaskResults(user).then((results) => {
-      setCompletedTaskIds(
-        results
-          .filter((result) => result.answered_by === profileData.id)
-          .map((result) => result.task)
-      );
-    });
-  }, []);
+  const { data: profile, error: profileError } = useSWR<
+    AccountInfo,
+    AxiosError
+  >("profile", () => fetchMyProfile(user), {
+    onSuccess(data) {
+      setProfileData(data);
+    },
+  });
+  const { data: results, error: resultsError } = useSWR("results", () =>
+    fetchTaskResults(user)
+  );
 
-  if (!myTasks || !completedTaskIds) {
+  if (!profile || !results) {
     return <div> </div>;
   }
+  const completedTaskIds = results
+    .filter((result) => result.answered_by === profileData.id)
+    .map((result) => result.task);
 
   // Filter tasks based on chosen type
-  const filteredData = myTasks.filter(
+  const filteredTasks = profile.assigned_tasks.filter(
     (task) =>
       types.includes(task.type) && difficulties.includes(task.difficulty)
   );
@@ -71,8 +72,8 @@ function AssignedExercisesTab() {
         <div className="mx-4">
           {/* Render assigned tasks */}
           <AnimatePresence>
-            {filteredData &&
-              filteredData.map((item) => (
+            {filteredTasks &&
+              filteredTasks.map((item) => (
                 <ChooseTaskCard
                   key={item.id}
                   isDone={completedTaskIds?.includes(item.id)}

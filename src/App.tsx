@@ -4,6 +4,7 @@ import BottomNavbar from "./components/BottomNavbar";
 import TopNavbar from "./components/TopNavbar";
 import AssignedExercisesTab from "./pages/AssignedExercisesTab";
 import DefaultExercisesTab from "./pages/DefaultExercisesTab";
+import ErrorPage from "./pages/ErrorPage";
 import Connect from "./pages/Exercises/Connect";
 import FourChoices from "./pages/Exercises/FourChoices";
 import ExerciseSummary from "./pages/ExerciseSummary";
@@ -57,6 +58,7 @@ function App() {
             <Route path={Paths.UserSettings} element={<UserSettings />} />
           </Route>
         </Route>
+        <Route path="/*" element={<ErrorPage />} />
       </Routes>
     </Container>
   );

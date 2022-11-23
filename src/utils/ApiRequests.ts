@@ -5,8 +5,9 @@ import {
   FourChoiceAnswer,
   FourChoicesTask,
   ResultInfo,
+  TherapistProfileInfo,
 } from "./CommonTypes";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 
 const axiosBase = axios.create({
   baseURL: "http://172.26.5.2",
@@ -14,18 +15,20 @@ const axiosBase = axios.create({
     "Content-Type": "application/json",
   },
   withCredentials: false,
+  timeout: 5000,
 });
 
-export async function fetchTherapistList(user: string): Promise<any> {
-  return await axiosBase
-    .get("/api/user/list/therapists/", {
+export const fetchTherapistList = async (user: string) =>
+  await axiosBase
+    .get<TherapistProfileInfo[]>("/api/user/list/therapists/", {
       headers: { Authorization: `Token ${user}` },
     })
     .then((res) => {
       return res.data;
+    })
+    .catch((error: AxiosError) => {
+      throw error;
     });
-}
-
 export async function login(values: { email: string; password: string }) {
   return await axiosBase.post("/api/user/login/", values).then((res) => {
     return res.data;
@@ -45,42 +48,44 @@ export async function register(values: {
     });
 }
 
-export async function fetchDefaultTasks(
-  user: string
-): Promise<BasicTaskInfo[]> {
-  return await axiosBase
-    .get("/api/task/tasks/?default=true", {
+export const fetchDefaultTasks = async (user: string) =>
+  await axiosBase
+    .get<BasicTaskInfo[]>("/api/task/tasks/?default=true", {
       headers: { Authorization: `Token ${user}` },
     })
     .then((res) => {
       return res.data;
+    })
+    .catch((error: AxiosError) => {
+      throw error;
     });
-}
 
-export async function fetchTaskById(
+export const fetchTaskById = async (
   id: string | undefined,
   user: string,
   taskType: string
-): Promise<any> {
-  return await axiosBase
+) =>
+  await axiosBase
     .get(`/api/task/tasks/${id}/`, {
       params: { task_type: taskType },
       headers: { Authorization: `Token ${user}` },
     })
     .then((res) => {
       return res.data;
+    })
+    .catch((error: AxiosError) => {
+      throw error;
     });
-}
 
-export async function postTaskAnswer(
+export const postTaskAnswer = async (
   user: string,
   taskId: string,
   taskType: string,
   taskAnswer: {
     answer: ConnectAnswer | FourChoiceAnswer[];
   }[]
-) {
-  return axiosBase.post(
+) =>
+  await axiosBase.post(
     "/api/task/results/",
     { task: taskId, answers: taskAnswer },
     {
@@ -92,39 +97,33 @@ export async function postTaskAnswer(
       },
     }
   );
-}
 
-export async function fetchRandomDefaultTask(
-  user: string
-): Promise<BasicTaskInfo> {
-  return await axiosBase
-    .get("/api/task/tasks/get_random_task/", {
+export const fetchRandomDefaultTask = async (user: string) =>
+  await axiosBase
+    .get<BasicTaskInfo>("/api/task/tasks/get_random_task/", {
       headers: { Authorization: `Token ${user}` },
     })
     .then((res) => {
       return res.data;
     });
-}
 
-export async function fetchTaskResults(user: string): Promise<ResultInfo[]> {
-  return await axiosBase
-    .get("api/task/results/", {
+export const fetchTaskResults = async (user: string) =>
+  await axiosBase
+    .get<ResultInfo[]>("api/task/results/", {
       headers: { Authorization: `Token ${user}` },
     })
     .then((res) => {
       return res.data;
     });
-}
 
-export async function fetchMyProfile(user: string): Promise<any> {
-  return await axiosBase
+export const fetchMyProfile = async (user: string) =>
+  await axiosBase
     .get("/api/user/patient/myprofile/", {
       headers: { Authorization: `Token ${user}` },
     })
     .then((res) => {
       return res.data;
     });
-}
 
 export async function patchMyProfile(
   user: string,
@@ -148,18 +147,17 @@ export async function patchMyProfile(
     });
 }
 
-export async function fetchTherapistInfo(
+export const fetchTherapistInfo = async (
   id: string | undefined,
   user: string
-): Promise<any> {
-  return await axiosBase
+) =>
+  await axiosBase
     .get(`/api/user/list/therapist/${id}/`, {
       headers: { Authorization: `Token ${user}` },
     })
     .then((res) => {
       return res.data;
     });
-}
 
 export async function linkRequest(
   user: string,

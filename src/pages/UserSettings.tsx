@@ -132,23 +132,25 @@ function UserSettings() {
           <ChangePasswordModal user={user} setProfileData={setProfileData} />
         </Col>
       </Row>
-      <Row className="mt-auto mb-3 text-dark fs-2 text-center shadow-sm">
-        <Col className="text-muted fw-bold fs-4">
-          <ConfrimModal
-            component={
-              <motion.div {...animateClick} style={{ cursor: "pointer" }}>
-                Disconnect from my therapist
-              </motion.div>
-            }
-            confirmAction={async () => {
-              await unlink(user);
-              fetchMyProfile(user).then((profile) => setProfileData(profile));
-            }}
-            title="Do you wish to disconnect from your therapist?"
-            body="All your assigned exercises and meetings will be deleted."
-          />
-        </Col>
-      </Row>
+      {profileData.assignment_active && (
+        <Row className="mt-auto mb-3 text-dark fs-2 text-center shadow-sm">
+          <Col className="text-muted fw-bold fs-4">
+            <ConfrimModal
+              component={
+                <motion.div {...animateClick} style={{ cursor: "pointer" }}>
+                  Disconnect from my therapist
+                </motion.div>
+              }
+              confirmAction={async () => {
+                await unlink(user);
+                fetchMyProfile(user).then((profile) => setProfileData(profile));
+              }}
+              title="Do you wish to disconnect from your therapist?"
+              body="All your assigned exercises and meetings will be deleted."
+            />
+          </Col>
+        </Row>
+      )}
       {/* Log Out button */}
       <Row className="mt-auto mb-3 text-dark fs-2 text-center shadow-sm">
         <Col className="text-muted fw-bold fs-4">
