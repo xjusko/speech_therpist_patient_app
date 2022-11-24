@@ -25,7 +25,10 @@ function TopNavbar() {
   const completedTaskIds = results
     .filter((result) => result.answered_by === profileData.id)
     .map((result) => result.task);
-
+  const assignedTasksIds = profileData.assigned_tasks.map((task) => task.id);
+  const countTasksToDo = assignedTasksIds.filter(
+    (id) => !completedTaskIds.includes(id)
+  ).length;
   return (
     <BsNavbar
       fixed="top"
@@ -55,12 +58,7 @@ function TopNavbar() {
         className="d-flex mx-3"
       >
         <BsBell style={{ height: "3rem", width: "3rem" }} />
-        <div className="fs-4">
-          {Math.max(
-            0,
-            profileData.assigned_tasks.length - completedTaskIds.length
-          )}
-        </div>
+        <div className="fs-4">{countTasksToDo}</div>
       </Nav.Link>
       <Nav.Link to={Paths.UserSettings} as={NavLink} className="d-flex mx-3">
         <motion.img

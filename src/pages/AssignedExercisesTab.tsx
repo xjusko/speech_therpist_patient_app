@@ -8,6 +8,7 @@ import { Paths } from "../App";
 import ChooseTaskCard from "../components/ChooseTaskCard";
 import { Difficulties, FilterGroup, Types } from "../components/FilterGroup";
 import FilterOffcanvas from "../components/FilterOffcanvas";
+import Notification from "../components/Notification";
 import { useAuth } from "../contexts/AuthContext";
 import { useProfile } from "../contexts/ProfileContext";
 import { fetchMyProfile, fetchTaskResults } from "../utils/ApiRequests";
@@ -16,20 +17,27 @@ import { AccountInfo } from "../utils/CommonTypes";
 function AssignedExercisesTab() {
   const [types, setTypes] = useState(Object.values(Types));
   const [difficulties, setDIfficulties] = useState(Object.values(Difficulties));
+  const navigate = useNavigate();
   const { user } = useAuth();
   const { profileData, setProfileData } = useProfile();
   // Get tasks assigned to the user
-  const { data: profile, error: profileError } = useSWR<
-    AccountInfo,
-    AxiosError
-  >("profile", () => fetchMyProfile(user), {
-    onSuccess(data) {
-      setProfileData(data);
+  const { data: profile } = useSWR<AccountInfo>(
+    "profile",
+    () => fetchMyProfile(user),
+    {
+      onSuccess(data) {
+        setProfileData(data);
+      },
+      onError() {
+        navigate(Paths.OfflinePage);
+      },
+    }
+  );
+  const { data: results } = useSWR("results", () => fetchTaskResults(user), {
+    onError() {
+      navigate(Paths.OfflinePage);
     },
   });
-  const { data: results, error: resultsError } = useSWR("results", () =>
-    fetchTaskResults(user)
-  );
 
   if (!profile || !results) {
     return <div> </div>;

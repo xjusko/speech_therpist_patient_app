@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { Button, Col, Form, Row, Stack } from "react-bootstrap";
 import { BsLink45Deg } from "react-icons/bs";
+import { useNavigate } from "react-router-dom";
 import useSWR from "swr";
+import { Paths } from "../App";
 import FindTherapistCard from "../components/FindTherapistCard";
 import Notification from "../components/Notification";
 import { useAuth } from "../contexts/AuthContext";
@@ -11,9 +13,19 @@ import { TherapistProfileInfo } from "../utils/CommonTypes";
 function TherapistsTab() {
   const { user } = useAuth();
   const [link, setLink] = useState("");
+  const navigate = useNavigate();
+  const [notification, setNotification] = useState({
+    notify: false,
+    success: true,
+    text: "",
+  });
 
   // Get all therapists
-  const { data: therapistList, error } = useSWR(user, fetchTherapistList);
+  const { data: therapistList } = useSWR(user, fetchTherapistList, {
+    onError() {
+      navigate(Paths.OfflinePage);
+    },
+  });
 
   if (!therapistList) {
     return <div></div>;
@@ -21,6 +33,7 @@ function TherapistsTab() {
 
   return (
     <div className="d-flex flex-column justify-content-center mx-4">
+      <Notification {...notification} setNotification={setNotification} />
       {/* Link with therapist field and submit button */}
       <Stack className="d-flex align-items-center my-4">
         <div className="fs-1 text-center text-dark fw-bold font-uppercase mb-3 my-1">
@@ -30,8 +43,20 @@ function TherapistsTab() {
           className="d-flex text-center"
           onSubmit={(e) => {
             linkRequest(user, { therapist_code: link })
-              .then(() => console.log("ok"))
-              .catch(() => console.log("error"));
+              .then(() =>
+                setNotification({
+                  notify: true,
+                  success: true,
+                  text: "Successfully sent the request.",
+                })
+              )
+              .catch(() =>
+                setNotification({
+                  notify: true,
+                  success: false,
+                  text: "Invalid therapist code.",
+                })
+              );
 
             e.preventDefault();
           }}

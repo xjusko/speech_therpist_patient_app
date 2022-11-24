@@ -22,6 +22,10 @@ function ChooseTaskCard({ id, name, type, difficulty, isDone }: BasicTaskInfo) {
     transition: { ease: [0.17, 0.55, 0.55, 1], duration: 0.2 },
     whileTap: { scale: 0.9 },
   };
+  const shortenedType =
+    type === Types.FOUR_CHOICES_IT || type === Types.FOUR_CHOICES_TI
+      ? "Choose"
+      : "Connect";
   return (
     // Navigating based on task type
 
@@ -50,6 +54,7 @@ function ChooseTaskCard({ id, name, type, difficulty, isDone }: BasicTaskInfo) {
         >
           <div
             style={{
+              fontSize: "1.2rem",
               textOverflow: "ellipsis",
               overflow: "hidden",
               whiteSpace: "nowrap",
@@ -57,10 +62,18 @@ function ChooseTaskCard({ id, name, type, difficulty, isDone }: BasicTaskInfo) {
           >
             {name}
           </div>
-          {isDone && <BsCheckLg color="green" size="30px" />}
-          <div className="ms-auto text-uppercase mx-2">{difficulty}</div>
-          <div className="">
-            <TbArrowsSort style={{ height: "50px", width: "50px" }} />
+
+          <div className="ms-auto text-center d-flex align-items-center">
+            {isDone && (
+              <BsCheckLg
+                color="green"
+                style={{ minWidth: "30px", minHeight: "30px" }}
+              />
+            )}
+            <Stack style={{ fontSize: "0.9rem" }}>
+              <div>{difficulty}</div>
+              <div>{shortenedType}</div>
+            </Stack>
           </div>
         </Stack>
       </Nav.Link>

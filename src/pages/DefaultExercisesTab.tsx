@@ -1,6 +1,8 @@
 import { AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import useSWR from "swr";
+import { Paths } from "../App";
 import ChooseTaskCard from "../components/ChooseTaskCard";
 import { FilterGroup, Types } from "../components/FilterGroup";
 import FilterOffcanvas from "../components/FilterOffcanvas";
@@ -8,21 +10,22 @@ import Notification from "../components/Notification";
 import QuickTaskButton from "../components/QuickTaskButton";
 import { useAuth } from "../contexts/AuthContext";
 import { fetchDefaultTasks } from "../utils/ApiRequests";
-import { BasicTaskInfo } from "../utils/CommonTypes";
 
 function DefaultExercisesTab() {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const [types, setTypes] = useState(Object.values(Types));
-  const [notify, setNotify] = useState(false);
 
-  const { data: tasks, error } = useSWR("defaultTasks", () =>
-    fetchDefaultTasks(user)
+  const { data: tasks, error } = useSWR(
+    "defaultTasks",
+    () => fetchDefaultTasks(user),
+    {
+      onError() {
+        navigate(Paths.OfflinePage);
+      },
+    }
   );
 
-  if (error) {
-    console.log(error.message);
-    return <Notification text="kek" />;
-  }
   if (!tasks) {
     return <div></div>;
   }

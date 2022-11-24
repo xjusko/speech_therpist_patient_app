@@ -21,6 +21,7 @@ import {
   PasswordLabel,
 } from "../components/AccountComponents";
 import ConfrimModal from "../components/ConfrimModal";
+import Notification from "../components/Notification";
 import { useAuth } from "../contexts/AuthContext";
 import { useProfile } from "../contexts/ProfileContext";
 import { animateClick } from "../utils/AnimationSettings";
@@ -30,7 +31,11 @@ import { AccountInfo } from "../utils/CommonTypes";
 function UserSettings() {
   const { user, setUser } = useAuth();
   const { profileData, setProfileData } = useProfile();
-  const [show, setShow] = useState(false);
+  const [notification, setNotification] = useState({
+    notify: false,
+    success: true,
+    text: "",
+  });
   const inputRef = useRef<HTMLInputElement>(null);
 
   const validationSchema = yup.object({
@@ -57,10 +62,18 @@ function UserSettings() {
           try {
             await patchMyProfile(user, values).then((profile) => {
               setProfileData(profile);
-              setShow(false);
+              setNotification({
+                notify: true,
+                success: true,
+                text: "Changes saved.",
+              });
             });
-          } catch (error) {
-            setShow(true);
+          } catch (error: any) {
+            setNotification({
+              notify: true,
+              success: false,
+              text: error.message,
+            });
           }
           setSubmitting(false);
         }}
@@ -68,12 +81,10 @@ function UserSettings() {
         {({ handleSubmit, handleChange, values, errors, touched }) => (
           <Form noValidate onSubmit={handleSubmit}>
             <Stack className="gap-3 mx-2 my-5">
-              {/* Alert to be shown when registration failed */}
-              {show && (
-                <Alert variant="danger" className="text-center">
-                  User with this email address already exists
-                </Alert>
-              )}
+              <Notification
+                {...notification}
+                setNotification={setNotification}
+              />
               {/* Form fields */}
               {/* Validated only after first submit if the field are filled incorrectly, then validated live */}
 
@@ -143,7 +154,22 @@ function UserSettings() {
               }
               confirmAction={async () => {
                 await unlink(user);
-                fetchMyProfile(user).then((profile) => setProfileData(profile));
+                fetchMyProfile(user)
+                  .then((profile) => {
+                    setProfileData(profile);
+                    setNotification({
+                      notify: true,
+                      success: true,
+                      text: "Disconnected from your therapist.",
+                    });
+                  })
+                  .catch((error) => {
+                    setNotification({
+                      notify: true,
+                      success: false,
+                      text: "Did not manage to disconnect from your therapist. Check your internet connection.",
+                    });
+                  });
               }}
               title="Do you wish to disconnect from your therapist?"
               body="All your assigned exercises and meetings will be deleted."

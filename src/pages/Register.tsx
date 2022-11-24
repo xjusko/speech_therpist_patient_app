@@ -20,12 +20,17 @@ import {
   ConfirmPasswordLabel,
 } from "../components/AccountComponents";
 import { Paths } from "../App";
+import Notification from "../components/Notification";
 
 function Register() {
   const navigate = useNavigate();
   const { setUser } = useAuth();
   const { setProfileData } = useProfile();
-  const [show, setShow] = useState(false);
+  const [notification, setNotification] = useState({
+    notify: false,
+    success: true,
+    text: "",
+  });
   const validationSchema = yup.object({
     name: yup.string().required("Required"),
     email: yup.string().email("Invalid email address").required("Required"),
@@ -63,14 +68,18 @@ function Register() {
             await login({
               email: values.email,
               password: values.password,
-            }).then((data) => {
+            }).then(async (data) => {
               setUser(data.token);
-              fetchMyProfile(data.token).then((profile) =>
+              await fetchMyProfile(data.token).then((profile) =>
                 setProfileData(profile)
               );
             });
-          } catch (error) {
-            setShow(true);
+          } catch (error: any) {
+            setNotification({
+              notify: true,
+              success: false,
+              text: error.response.data.email[0],
+            });
             setSubmitting(false);
             return;
           }
@@ -81,11 +90,10 @@ function Register() {
           <Form noValidate onSubmit={handleSubmit}>
             <Stack className="gap-3 mx-4" style={{ maxWidth: "300px" }}>
               {/* Alert to be shown when registration failed */}
-              {show && (
-                <Alert variant="danger" className="text-center">
-                  User with this email address already exists.
-                </Alert>
-              )}
+              <Notification
+                {...notification}
+                setNotification={setNotification}
+              />
               {/* Form fields */}
               {/* Validated only after first submit if the field are filled incorrectly, then validated live */}
               <NameLabel

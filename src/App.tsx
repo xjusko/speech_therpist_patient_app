@@ -9,6 +9,7 @@ import Connect from "./pages/Exercises/Connect";
 import FourChoices from "./pages/Exercises/FourChoices";
 import ExerciseSummary from "./pages/ExerciseSummary";
 import Login from "./pages/Login";
+import OfflinePage from "./pages/OfflinePage";
 import Register from "./pages/Register";
 import TherapistProfile from "./pages/TherapistProfile";
 import TherapistsTab from "./pages/TherapistsTab";
@@ -26,6 +27,7 @@ export const Paths = {
   FourChoices: "/questionfourchoices",
   Register: "/register",
   Login: "/login",
+  OfflinePage: "/offline",
 };
 
 function App() {
@@ -58,6 +60,7 @@ function App() {
             <Route path={Paths.UserSettings} element={<UserSettings />} />
           </Route>
         </Route>
+        <Route path="offline" element={<OfflinePage />} />
         <Route path="/*" element={<ErrorPage />} />
       </Routes>
     </Container>

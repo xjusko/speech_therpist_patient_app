@@ -12,6 +12,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import { Paths } from "../App";
 import { EmailLabel, PasswordLabel } from "../components/AccountComponents";
+import Notification from "../components/Notification";
 import { useAuth } from "../contexts/AuthContext";
 import { useProfile } from "../contexts/ProfileContext";
 import { fetchMyProfile, login } from "../utils/ApiRequests";
@@ -25,7 +26,11 @@ function Login() {
   const navigate = useNavigate();
   const { setUser } = useAuth();
   const { setProfileData } = useProfile();
-  const [show, setShow] = useState(false);
+  const [notification, setNotification] = useState({
+    notify: false,
+    success: true,
+    text: "",
+  });
   return (
     <div className="d-flex flex-column align-items-center">
       {/* Title */}
@@ -40,14 +45,18 @@ function Login() {
         initialValues={{ email: "", password: "" }}
         onSubmit={async (values, { setSubmitting }) => {
           try {
-            await login(values).then((data) => {
+            await login(values).then(async (data) => {
               setUser(data.token);
-              fetchMyProfile(data.token).then((profile) =>
+              await fetchMyProfile(data.token).then((profile) =>
                 setProfileData(profile)
               );
             });
-          } catch (error) {
-            setShow(true);
+          } catch (error: any) {
+            setNotification({
+              notify: true,
+              success: false,
+              text: error.response.data.non_field_errors[0],
+            });
             setSubmitting(false);
             return;
           }
@@ -58,11 +67,10 @@ function Login() {
           <Form noValidate onSubmit={handleSubmit}>
             <Stack className="gap-3 mx-4" style={{ maxWidth: "300px" }}>
               {/* Alert to be shown when registration failed */}
-              {show && (
-                <Alert variant="danger" className="text-center">
-                  Invalid email or password
-                </Alert>
-              )}
+              <Notification
+                {...notification}
+                setNotification={setNotification}
+              />
               {/* Form fields */}
               {/* Validated only after first submit if the field are filled incorrectly, then validated live */}
               <EmailLabel

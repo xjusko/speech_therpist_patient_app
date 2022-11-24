@@ -17,6 +17,7 @@ import {
 } from "../../utils/CommonTypes";
 import { shuffle } from "../../utils/TaskUtils";
 import { AxiosError } from "axios";
+import { Types } from "../../components/FilterGroup";
 
 function Connect() {
   const { state } = useLocation();
@@ -111,7 +112,7 @@ function Connect() {
           <ConnectColumn
             choices={rightOptions}
             setChoices={setRightOptions}
-            isImage={true}
+            isImage={data.type === Types.CONNECT_PAIRS_TI}
             answer={booleanAnswers}
           />
         </Stack>

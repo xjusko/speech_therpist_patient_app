@@ -16,8 +16,10 @@ import {
   BsGeoAltFill,
   BsTelephoneFill,
 } from "react-icons/bs";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import useSWR from "swr";
+import { Paths } from "../App";
+import Notification from "../components/Notification";
 import { useAuth } from "../contexts/AuthContext";
 import { useProfile } from "../contexts/ProfileContext";
 import { fetchTherapistInfo } from "../utils/ApiRequests";
@@ -28,10 +30,16 @@ function TherapistProfile() {
   const { user } = useAuth();
   const { profileData } = useProfile();
   const [tabKey, settabKey] = useState("bio");
+  const navigate = useNavigate();
 
-  const { data: therapist, error } = useSWR<TherapistProfileInfo, AxiosError>(
+  const { data: therapist } = useSWR<TherapistProfileInfo>(
     [state.therapistId, user],
-    fetchTherapistInfo
+    fetchTherapistInfo,
+    {
+      onError() {
+        navigate(Paths.OfflinePage);
+      },
+    }
   );
 
   if (!therapist) {

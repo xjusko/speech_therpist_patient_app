@@ -1,25 +1,41 @@
 import React, { useState } from "react";
 import { Toast, ToastContainer } from "react-bootstrap";
+import { Prev } from "react-bootstrap/esm/PageItem";
 
-function Notification({ text }: { text: string }) {
-  const [show, setShow] = useState(true);
-  const closeNotification = () => setShow(false);
-
+function Notification({
+  text,
+  notify,
+  setNotification,
+  success,
+}: {
+  text: string;
+  notify: boolean;
+  setNotification: React.Dispatch<
+    React.SetStateAction<{
+      notify: boolean;
+      success: boolean;
+      text: string;
+    }>
+  >;
+  success: boolean;
+}) {
   return (
     <>
-      <ToastContainer containerPosition="fixed" position="middle-center">
+      <ToastContainer
+        position="bottom-center"
+        style={{ marginBottom: "100px", opacity: "0.8" }}
+      >
         <Toast
-          delay={5000}
-          bg="success"
-          show={show}
-          onClose={closeNotification}
+          delay={3000}
+          bg={success ? "success" : "danger"}
+          show={notify}
+          onClose={() =>
+            setNotification((prev) => ({ ...prev, notify: false }))
+          }
           autohide
         >
-          <Toast.Header>
-            <div className="me-auto">Notification</div>
-          </Toast.Header>
-          <Toast.Body>
-            <strong className="fs-5">Successfully sent the notification</strong>
+          <Toast.Body className="text-center text-uppercase">
+            <strong className="fs-5">{text}</strong>
           </Toast.Body>
         </Toast>
       </ToastContainer>
