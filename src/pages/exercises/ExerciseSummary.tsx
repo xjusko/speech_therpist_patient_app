@@ -1,9 +1,9 @@
 import { Button } from "react-bootstrap";
 import { useLocation, useNavigate } from "react-router-dom";
 import { VscDebugRestart } from "react-icons/vsc";
-import QuickTaskButton from "../components/QuickTaskButton";
+import QuickTaskButton from "../../components/QuickTaskButton";
 import { motion } from "framer-motion";
-import { animateClick } from "../utils/AnimationSettings";
+import { animateClick } from "../../utils/AnimationSettings";
 
 function ExerciseSummary() {
   const { state } = useLocation();

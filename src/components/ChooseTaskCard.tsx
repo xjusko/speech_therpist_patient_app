@@ -5,7 +5,7 @@ import { TbArrowsSort } from "react-icons/tb";
 import { NavLink } from "react-router-dom";
 import { Paths } from "../App";
 import { BasicTaskInfo } from "../utils/CommonTypes";
-import { Types } from "./FilterGroup";
+import { Types } from "./ExerciseFilter";
 
 // Basic card to be shown for listing tasks.
 function ChooseTaskCard({ id, name, type, difficulty, isDone }: BasicTaskInfo) {

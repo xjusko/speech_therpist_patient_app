@@ -2,14 +2,13 @@ import { AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useSWR from "swr";
-import { Paths } from "../App";
-import ChooseTaskCard from "../components/ChooseTaskCard";
-import { FilterGroup, Types } from "../components/FilterGroup";
-import FilterOffcanvas from "../components/FilterOffcanvas";
-import Notification from "../components/Notification";
-import QuickTaskButton from "../components/QuickTaskButton";
-import { useAuth } from "../contexts/AuthContext";
-import { fetchDefaultTasks } from "../utils/ApiRequests";
+import { Paths } from "../../App";
+import ChooseTaskCard from "../../components/ChooseTaskCard";
+import { ExerciseFilter, Types } from "../../components/ExerciseFilter";
+import FilterOffcanvas from "../../components/FilterOffcanvas";
+import QuickTaskButton from "../../components/QuickTaskButton";
+import { useAuth } from "../../contexts/AuthContext";
+import { fetchDefaultTasks } from "../../utils/ApiRequests";
 
 function DefaultExercisesTab() {
   const { user } = useAuth();
@@ -50,7 +49,7 @@ function DefaultExercisesTab() {
       <FilterOffcanvas>
         {/* Filter buttons */}
         <div className="fs-2 fw-bold mb-2">Types</div>
-        <FilterGroup
+        <ExerciseFilter
           values={types}
           setValues={setTypes}
           filters={Object.values(Types)}

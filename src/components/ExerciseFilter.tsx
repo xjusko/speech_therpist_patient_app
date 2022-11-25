@@ -1,6 +1,6 @@
 import { Row, Col, ToggleButton, ToggleButtonGroup } from "react-bootstrap";
 
-export function FilterGroup({
+export function ExerciseFilter({
   values,
   setValues,
   filters,

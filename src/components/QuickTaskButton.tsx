@@ -7,7 +7,7 @@ import { Paths } from "../App";
 import { useAuth } from "../contexts/AuthContext";
 import { animateClick } from "../utils/AnimationSettings";
 import { fetchRandomDefaultTask } from "../utils/ApiRequests";
-import { Types } from "./FilterGroup";
+import { Types } from "./ExerciseFilter";
 
 type QuickTaskButtonProps = {
   imageStyle: React.CSSProperties;

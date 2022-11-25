@@ -6,7 +6,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import useSWRImmutable from "swr/immutable";
 import { Paths } from "../../App";
 import ConfrimModal from "../../components/ConfrimModal";
-import { Types } from "../../components/FilterGroup";
+import { Types } from "../../components/ExerciseFilter";
 import { useAuth } from "../../contexts/AuthContext";
 import { fetchTaskById, postTaskAnswer } from "../../utils/ApiRequests";
 import {

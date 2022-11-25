@@ -3,12 +3,11 @@ import { Button, Col, Form, Row, Stack } from "react-bootstrap";
 import { BsLink45Deg } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import useSWR from "swr";
-import { Paths } from "../App";
-import FindTherapistCard from "../components/FindTherapistCard";
-import Notification from "../components/Notification";
-import { useAuth } from "../contexts/AuthContext";
-import { fetchTherapistList, linkRequest } from "../utils/ApiRequests";
-import { TherapistProfileInfo } from "../utils/CommonTypes";
+import { Paths } from "../../App";
+import FindTherapistCard from "../../components/FindTherapistCard";
+import Notification from "../../components/Notification";
+import { useAuth } from "../../contexts/AuthContext";
+import { fetchTherapistList, linkRequest } from "../../utils/ApiRequests";
 
 function TherapistsTab() {
   const { user } = useAuth();

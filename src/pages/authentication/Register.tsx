@@ -1,5 +1,5 @@
 import { Formik } from "formik";
-import { useState } from "react";
+import * as yup from "yup";
 import {
   Alert,
   Button,
@@ -9,20 +9,20 @@ import {
   Stack,
 } from "react-bootstrap";
 import { NavLink, useNavigate } from "react-router-dom";
-import * as yup from "yup";
-import { Paths } from "../App";
-import { EmailLabel, PasswordLabel } from "../components/AccountComponents";
-import Notification from "../components/Notification";
-import { useAuth } from "../contexts/AuthContext";
-import { useProfile } from "../contexts/ProfileContext";
-import { fetchMyProfile, login } from "../utils/ApiRequests";
+import { useState } from "react";
+import { useAuth } from "../../contexts/AuthContext";
+import { fetchMyProfile, login, register } from "../../utils/ApiRequests";
+import { useProfile } from "../../contexts/ProfileContext";
+import {
+  NameLabel,
+  EmailLabel,
+  PasswordLabel,
+  ConfirmPasswordLabel,
+} from "../../components/AccountComponents";
+import { Paths } from "../../App";
+import Notification from "../../components/Notification";
 
-const validationSchema = yup.object({
-  email: yup.string().email("Invalid email address").required("Required"),
-  password: yup.string().required("Required"),
-});
-
-function Login() {
+function Register() {
   const navigate = useNavigate();
   const { setUser } = useAuth();
   const { setProfileData } = useProfile();
@@ -31,21 +31,44 @@ function Login() {
     success: true,
     text: "",
   });
+  const validationSchema = yup.object({
+    name: yup.string().required("Required"),
+    email: yup.string().email("Invalid email address").required("Required"),
+    password: yup
+      .string()
+      .required("Required")
+      .matches(
+        /^(?=.*[0-9])(?=.*[A-Z]).{8,20}$/,
+        "Password must be 8-20 characters long, contain an uppercase character and a digit"
+      ),
+    confirm_password: yup
+      .string()
+      .oneOf([yup.ref("password"), null], "Passwords must match"),
+  });
+
   return (
     <div className="d-flex flex-column align-items-center">
-      {/* Title */}
       <div
-        className="fs-1 fw-bold my-5 text-dark"
+        className="fs-1 fw-bold my-5 font-uppercase text-dark"
         style={{ textAlign: "center" }}
       >
         Speech Therapist
       </div>
       <Formik
         validationSchema={validationSchema}
-        initialValues={{ email: "", password: "" }}
+        initialValues={{
+          email: "",
+          name: "",
+          password: "",
+          confirm_password: "",
+        }}
         onSubmit={async (values, { setSubmitting }) => {
           try {
-            await login(values).then(async (data) => {
+            await register(values);
+            await login({
+              email: values.email,
+              password: values.password,
+            }).then(async (data) => {
               setUser(data.token);
               await fetchMyProfile(data.token).then((profile) =>
                 setProfileData(profile)
@@ -55,7 +78,7 @@ function Login() {
             setNotification({
               notify: true,
               success: false,
-              text: error.response.data.non_field_errors[0],
+              text: error.response.data.email[0],
             });
             setSubmitting(false);
             return;
@@ -73,6 +96,12 @@ function Login() {
               />
               {/* Form fields */}
               {/* Validated only after first submit if the field are filled incorrectly, then validated live */}
+              <NameLabel
+                handleChange={handleChange}
+                value={values.name}
+                touched={touched.name}
+                error={errors.name}
+              />
               <EmailLabel
                 handleChange={handleChange}
                 value={values.email}
@@ -85,25 +114,31 @@ function Login() {
                 touched={touched.password}
                 error={errors.password}
               />
-              {/* Log In button */}
+              <ConfirmPasswordLabel
+                handleChange={handleChange}
+                value={values.confirm_password}
+                touched={touched.confirm_password}
+                error={errors.confirm_password}
+              />
+              {/* Create account button */}
               <Button
                 size="lg"
                 type="submit"
-                className="fs-3 mt-5 fw-bold"
+                className="fs-3 mt-4 fw-bold"
                 variant="outline-dark"
                 style={{ border: "3px solid" }}
               >
-                Log In
+                Create Account
               </Button>
-              {/* Routing to registration page */}
-              <div className="d-flex m-auto gap-2 text-dark">
-                Don't have an account?
+              {/* Routing to Log In page */}
+              <div className="d-flex m-auto gap-2 text-dark mb-4">
+                Already have an account?
                 <Nav.Link
-                  to={Paths.Register}
+                  to={Paths.Login}
                   className="fw-bold text-decoration-underline"
                   as={NavLink}
                 >
-                  Sign In
+                  Log In
                 </Nav.Link>
               </div>
             </Stack>
@@ -114,4 +149,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default Register;

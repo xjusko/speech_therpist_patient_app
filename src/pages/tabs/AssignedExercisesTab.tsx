@@ -4,15 +4,18 @@ import { useEffect, useState } from "react";
 import { Button, Stack } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import useSWR from "swr";
-import { Paths } from "../App";
-import ChooseTaskCard from "../components/ChooseTaskCard";
-import { Difficulties, FilterGroup, Types } from "../components/FilterGroup";
-import FilterOffcanvas from "../components/FilterOffcanvas";
-import Notification from "../components/Notification";
-import { useAuth } from "../contexts/AuthContext";
-import { useProfile } from "../contexts/ProfileContext";
-import { fetchMyProfile, fetchTaskResults } from "../utils/ApiRequests";
-import { AccountInfo } from "../utils/CommonTypes";
+import { Paths } from "../../App";
+import ChooseTaskCard from "../../components/ChooseTaskCard";
+import {
+  Difficulties,
+  ExerciseFilter,
+  Types,
+} from "../../components/ExerciseFilter";
+import FilterOffcanvas from "../../components/FilterOffcanvas";
+import { useAuth } from "../../contexts/AuthContext";
+import { useProfile } from "../../contexts/ProfileContext";
+import { fetchMyProfile, fetchTaskResults } from "../../utils/ApiRequests";
+import { AccountInfo } from "../../utils/CommonTypes";
 
 function AssignedExercisesTab() {
   const [types, setTypes] = useState(Object.values(Types));
@@ -62,14 +65,14 @@ function AssignedExercisesTab() {
           <FilterOffcanvas>
             {/* Filter buttons */}
             <div className="fs-2 fw-bold mb-2">Type</div>
-            <FilterGroup
+            <ExerciseFilter
               values={types}
               setValues={setTypes}
               filters={Object.values(Types)}
             />
             <hr />
             <div className="fs-2 fw-bold my-2">Difficulty</div>
-            <FilterGroup
+            <ExerciseFilter
               values={difficulties}
               setValues={setDIfficulties}
               filters={Object.values(Difficulties)}

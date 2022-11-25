@@ -17,7 +17,7 @@ import {
 } from "../../utils/CommonTypes";
 import { shuffle } from "../../utils/TaskUtils";
 import { AxiosError } from "axios";
-import { Types } from "../../components/FilterGroup";
+import { Types } from "../../components/ExerciseFilter";
 
 function Connect() {
   const { state } = useLocation();
