@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
 import { Button, Stack } from "react-bootstrap";
-import { BsArrowLeftShort } from "react-icons/bs";
+import { BsArrowLeftShort, BsCheckLg, BsXLg } from "react-icons/bs";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Paths } from "../../App";
 import useSWRImmutable from "swr/immutable";
 import ConfrimModal from "../../components/ConfrimModal";
-import { ConnectColumn } from "../../components/ConnectColumn";
 import { useAuth } from "../../contexts/AuthContext";
 import { fetchTaskById, postTaskAnswer } from "../../utils/ApiRequests";
 import {
@@ -18,6 +17,7 @@ import {
 import { shuffle } from "../../utils/TaskUtils";
 import { AxiosError } from "axios";
 import { Types } from "../../components/ExerciseFilter";
+import { Reorder } from "framer-motion";
 
 function Connect() {
   const { state } = useLocation();
@@ -201,6 +201,106 @@ function Connect() {
       return prev + 1;
     });
   }
+}
+
+type SetChoices = {
+  (value: React.SetStateAction<string[] | undefined>): void;
+  (value: React.SetStateAction<string[] | undefined>): void;
+  (newOrder: any[]): void;
+};
+
+type ConnectColumnProps = {
+  choices: string[];
+  setChoices: SetChoices;
+  isImage: boolean;
+  answer: boolean[] | null;
+};
+
+export function ConnectColumn({
+  choices,
+  setChoices,
+  isImage,
+  answer,
+}: ConnectColumnProps) {
+  return (
+    // This makes the column orderable
+    <Reorder.Group
+      axis="y"
+      values={choices}
+      onReorder={setChoices}
+      style={{ padding: "0" }}
+    >
+      {/* Rendering the choices */}
+      {choices.map((item, index) => (
+        <Reorder.Item
+          key={item}
+          value={item}
+          style={{
+            // Removing list artifacts
+            listStyle: "none",
+            // blending image background with page background
+            mixBlendMode: "multiply",
+            fontSize: "1rem",
+          }}
+        >
+          {/* Render image or text box based on recieved type */}
+          <PairChoice isCorrect={answer && answer[index]}>
+            {isImage ? (
+              <img
+                src={item}
+                alt="image"
+                draggable={false}
+                height="100%"
+                width="100%"
+                style={{ borderRadius: "10px", objectFit: "cover" }}
+              />
+            ) : (
+              <div className="fw-bold text-uppercase">{item}</div>
+            )}
+          </PairChoice>
+        </Reorder.Item>
+      ))}
+    </Reorder.Group>
+  );
+}
+
+function PairChoice({
+  isCorrect,
+  children,
+}: {
+  isCorrect: boolean | null;
+  children: React.ReactNode;
+}) {
+  const answerIconStyle: any = {
+    position: "absolute",
+    width: "100%",
+    height: "100%",
+    opacity: "30%",
+  };
+  return (
+    <div
+      className="d-flex align-items-center justify-content-center my-1"
+      style={{
+        height: "35vw",
+        width: "40vw",
+        border: "1px solid black",
+        borderRadius: "10px",
+        maxWidth: "290px",
+        maxHeight: "250px",
+        position: "relative",
+      }}
+    >
+      {/* Content of choice */}
+      {children}
+      {/* Displays tick or cross after submitting answer */}
+      {isCorrect != null &&
+        (isCorrect ? (
+          <BsCheckLg color="green" style={answerIconStyle} />
+        ) : (
+          <BsXLg color="red" style={answerIconStyle} />
+        ))}
+    </div>
+  );
 }
 
 export default Connect;
