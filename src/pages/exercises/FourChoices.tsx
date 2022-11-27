@@ -167,10 +167,11 @@ function FourChoices() {
           disabled={isAnswered}
           variant="outline-dark"
           style={{
-            minHeight: "15vw",
+            height: "15vw",
             width: "100%",
             maxHeight: "100px",
             border: getOptionBorder(data),
+            fontSize: "1.3rem",
           }}
         >
           {data}

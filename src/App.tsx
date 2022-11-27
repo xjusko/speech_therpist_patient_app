@@ -9,7 +9,7 @@ import Connect from "./pages/exercises/Connect";
 import FourChoices from "./pages/exercises/FourChoices";
 import ExerciseSummary from "./pages/exercises/ExerciseSummary";
 import Login from "./pages/authentication/Login";
-import OfflinePage from "./pages/UnexpectedError";
+import UnexpectedError from "./pages/UnexpectedError";
 import Register from "./pages/authentication/Register";
 import TherapistProfile from "./pages/TherapistProfile";
 import TherapistsTab from "./pages/tabs/TherapistsTab";
@@ -27,7 +27,7 @@ export const Paths = {
   FourChoices: "/questionfourchoices",
   Register: "/register",
   Login: "/login",
-  OfflinePage: "/offline",
+  UnexpectedError: "/unexpectederror",
 };
 
 function App() {
@@ -42,7 +42,6 @@ function App() {
           <Route path={Paths.Connect} element={<Connect />} />
           <Route path={Paths.FourChoices} element={<FourChoices />} />
           <Route element={<PagesWithNavbars />}>
-            <Route path="/" element={<DefaultExercisesTab />} />
             <Route path={Paths.TherapistsTab} element={<TherapistsTab />} />
             <Route
               path={Paths.TherapistProfile}
@@ -60,7 +59,7 @@ function App() {
             <Route path={Paths.UserSettings} element={<UserSettings />} />
           </Route>
         </Route>
-        <Route path="offline" element={<OfflinePage />} />
+        <Route path={Paths.UnexpectedError} element={<UnexpectedError />} />
         <Route path="/*" element={<ErrorPage />} />
       </Routes>
     </Container>

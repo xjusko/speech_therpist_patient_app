@@ -44,22 +44,14 @@ function TopNavbar() {
           Speech Therapist
         </BsNavbar.Brand>
       </BsNavbar.Collapse>
-      <Nav.Link
-        to={Paths.DefaultExercisesTab}
-        as={NavLink}
-        className="d-flex mx-3"
-      >
+      <div className="d-flex mx-3">
         <HiFire color="red" style={{ height: "3rem", width: "3rem" }} />
-        <div className="fs-4">3</div>
-      </Nav.Link>
-      <Nav.Link
-        to={Paths.AssignedExercisesTab}
-        as={NavLink}
-        className="d-flex mx-3"
-      >
+        <div className="fs-4">{profileData.day_streak}</div>
+      </div>
+      <div className="d-flex mx-3">
         <BsBell style={{ height: "3rem", width: "3rem" }} />
         <div className="fs-4">{countTasksToDo}</div>
-      </Nav.Link>
+      </div>
       <Nav.Link to={Paths.UserSettings} as={NavLink} className="d-flex mx-3">
         <motion.img
           layout

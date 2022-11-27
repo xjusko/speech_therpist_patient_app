@@ -28,8 +28,8 @@ function Connect() {
   const [questionIndex, setQuestionIndex] = useState(0);
   const [shuffledQuestions, setShuffledQuestions] =
     useState<ConnectQuestion[]>();
-  const [leftOptions, setLeftOptions] = useState<string[]>();
-  const [rightOptions, setRightOptions] = useState<string[]>();
+  const [leftColumn, setLeftColumn] = useState<string[]>();
+  const [rightColumn, setRightColumn] = useState<string[]>();
   const [taskAnswer, setTaskAnswer] = useState<{ answer: ConnectAnswer }[]>([]);
   const [isOrdered, setIsOrdered] = useState(true);
   const [countCorrect, setCountCorrect] = useState(0);
@@ -47,16 +47,16 @@ function Connect() {
     const shuffledQuestions: ConnectQuestion[] = shuffle(data.questions);
     setShuffledQuestions(shuffledQuestions);
     // set each column with shuffled question choices
-    setLeftOptions(
+    setLeftColumn(
       shuffle(shuffledQuestions[0].choices.map((pair) => pair.data1))
     );
-    setRightOptions(
+    setRightColumn(
       shuffle(shuffledQuestions[0].choices.map((pair) => pair.data2))
     );
   }, [data]);
 
   // prevent error when rendering page before fetching data from api
-  if (!data || !shuffledQuestions || !leftOptions || !rightOptions) {
+  if (!data || !shuffledQuestions || !leftColumn || !rightColumn) {
     return <div></div>;
   }
   const questionsCount: number = shuffledQuestions.length;
@@ -104,14 +104,14 @@ function Connect() {
           className="gap-2 my-4 text-center justify-content-center"
         >
           <ConnectColumn
-            choices={leftOptions}
-            setChoices={setLeftOptions}
+            choices={leftColumn}
+            setChoices={setLeftColumn}
             isImage={false}
             answer={booleanAnswers}
           />
           <ConnectColumn
-            choices={rightOptions}
-            setChoices={setRightOptions}
+            choices={rightColumn}
+            setChoices={setRightColumn}
             isImage={data.type === Types.CONNECT_PAIRS_TI}
             answer={booleanAnswers}
           />
@@ -126,7 +126,7 @@ function Connect() {
   );
 
   function handleCheckButtonClick(): void {
-    if (!shuffledQuestions || !leftOptions || !rightOptions) {
+    if (!shuffledQuestions || !leftColumn || !rightColumn) {
       return;
     }
     let questionAnswer: ConnectAnswer = [];
@@ -139,13 +139,13 @@ function Connect() {
       // comapre patient answer with correct answer
       const isCorrect = shuffledQuestions[questionIndex].choices.some(
         (choice) =>
-          choice.data1 === leftOptions[index] &&
-          choice.data2 === rightOptions[index]
+          choice.data1 === leftColumn[index] &&
+          choice.data2 === rightColumn[index]
       );
       // save answer in required way
       const choiceAnswer: PairAnswer = {
-        data1: leftOptions[index],
-        data2: rightOptions[index],
+        data1: leftColumn[index],
+        data2: rightColumn[index],
         is_correct: isCorrect,
       };
       questionAnswer = [...questionAnswer, choiceAnswer];
@@ -165,10 +165,10 @@ function Connect() {
       return;
     }
     setIsOrdered(true);
-    setLeftOptions(
+    setLeftColumn(
       shuffledQuestions[questionIndex].choices.map((pair) => pair.data1)
     );
-    setRightOptions(
+    setRightColumn(
       shuffledQuestions[questionIndex].choices.map((pair) => pair.data2)
     );
   }
@@ -192,10 +192,10 @@ function Connect() {
     // otherwise display next question
     setQuestionIndex((prev) => {
       setIsChecked(false);
-      setLeftOptions(
+      setLeftColumn(
         shuffle(shuffledQuestions[prev + 1].choices.map((pair) => pair.data1))
       );
-      setRightOptions(
+      setRightColumn(
         shuffle(shuffledQuestions[prev + 1].choices.map((pair) => pair.data2))
       );
       return prev + 1;

@@ -70,6 +70,7 @@ export type AccountInfo = {
   name: string;
   email: string;
   image: string;
+  day_streak: number;
   assigned_tasks: BasicTaskInfo[];
   assigned_to: string;
   assignment_active: boolean;
