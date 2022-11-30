@@ -2,7 +2,7 @@ import { RiQuestionLine } from "react-icons/ri";
 import { MdOutlineRefresh } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 
-function OfflinePage() {
+function UnexpectedError() {
   const navigate = useNavigate();
   return (
     <div
@@ -24,4 +24,4 @@ function OfflinePage() {
   );
 }
 
-export default OfflinePage;
+export default UnexpectedError;

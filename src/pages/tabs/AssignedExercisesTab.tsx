@@ -32,13 +32,13 @@ function AssignedExercisesTab() {
         setProfileData(data);
       },
       onError() {
-        navigate(Paths.OfflinePage);
+        navigate(Paths.UnexpectedError);
       },
     }
   );
   const { data: results } = useSWR("results", () => fetchTaskResults(user), {
     onError() {
-      navigate(Paths.OfflinePage);
+      navigate(Paths.UnexpectedError);
     },
   });
 

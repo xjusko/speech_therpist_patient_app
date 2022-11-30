@@ -20,7 +20,7 @@ function DefaultExercisesTab() {
     () => fetchDefaultTasks(user),
     {
       onError() {
-        navigate(Paths.OfflinePage);
+        navigate(Paths.UnexpectedError);
       },
     }
   );

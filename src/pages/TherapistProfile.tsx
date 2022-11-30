@@ -37,7 +37,7 @@ function TherapistProfile() {
     fetchTherapistInfo,
     {
       onError() {
-        navigate(Paths.OfflinePage);
+        navigate(Paths.UnexpectedError);
       },
     }
   );
