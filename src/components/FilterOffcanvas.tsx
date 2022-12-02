@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Offcanvas } from "react-bootstrap";
 import { IoOptions } from "react-icons/io5";
 
+// Offcanvas filter opening to 50% of height from top
 function FilterOffcanvas({ children }: { children: JSX.Element[] }) {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);

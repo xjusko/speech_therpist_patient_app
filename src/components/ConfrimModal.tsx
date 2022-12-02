@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Modal, Button } from "react-bootstrap";
 
+// Pop up confirm action window
 function ConfrimModal({
   component,
   title,

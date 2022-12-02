@@ -15,7 +15,7 @@ function DefaultExercisesTab() {
   const navigate = useNavigate();
   const [types, setTypes] = useState(Object.values(Types));
 
-  const { data: tasks, error } = useSWR(
+  const { data: tasks } = useSWR(
     "defaultTasks",
     () => fetchDefaultTasks(user),
     {

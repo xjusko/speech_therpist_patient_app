@@ -86,7 +86,7 @@ function UserSettings() {
                 setNotification={setNotification}
               />
               {/* Form fields */}
-              {/* Validated only after first submit if the field are filled incorrectly, then validated live */}
+              {/* Validated only after first submit if the fields are filled incorrectly, then validated live */}
 
               <NameLabel
                 handleChange={handleChange}
@@ -112,6 +112,7 @@ function UserSettings() {
           </Form>
         )}
       </Formik>
+      {/* Change profile picture button */}
       <Row className="mt-auto mb-3 text-dark fs-2 text-center shadow-sm">
         <Col className="justify-content-center text-muted fw-bold fs-4">
           <input
@@ -138,10 +139,12 @@ function UserSettings() {
           </motion.div>
         </Col>
       </Row>
+      {/* Change password */}
       <Row className="mt-auto mb-3 text-dark fs-2 text-center shadow-sm">
         <Col className="justify-content-center text-muted fw-bold fs-4">
           <ChangePasswordModal user={user} setProfileData={setProfileData} />
         </Col>
+        {/* Disconnect from therapist */}
       </Row>
       {profileData.assignment_active && (
         <Row className="mt-auto mb-3 text-dark fs-2 text-center shadow-sm">
@@ -177,7 +180,7 @@ function UserSettings() {
           </Col>
         </Row>
       )}
-      {/* Log Out button */}
+      {/* Log out  */}
       <Row className="mt-auto mb-3 text-dark fs-2 text-center shadow-sm">
         <Col className="text-muted fw-bold fs-4">
           <motion.div {...animateClick}>
@@ -194,6 +197,7 @@ function UserSettings() {
           </motion.div>
         </Col>
       </Row>
+      {/* Delete account */}
       <Row className="mt-auto mb-3 text-dark fs-2 text-center shadow-sm">
         <Col className="justify-content-center text-danger fw-bold fs-4">
           <ConfrimModal

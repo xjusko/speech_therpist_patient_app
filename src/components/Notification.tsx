@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Toast, ToastContainer } from "react-bootstrap";
-import { Prev } from "react-bootstrap/esm/PageItem";
 
+// Notification used to inform the user after his actions.
 function Notification({
   text,
   notify,

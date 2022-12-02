@@ -62,6 +62,7 @@ function Register() {
           password: "",
           confirm_password: "",
         }}
+        // create account and try to login using the same data
         onSubmit={async (values, { setSubmitting }) => {
           try {
             await register(values);

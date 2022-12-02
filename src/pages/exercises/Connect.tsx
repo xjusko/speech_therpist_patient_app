@@ -14,7 +14,7 @@ import {
   ConnectAnswer,
   ConnectQuestion,
 } from "../../utils/CommonTypes";
-import { shuffle } from "../../utils/TaskUtils";
+import { navigateToSummaryScreen, shuffle } from "../../utils/TaskUtils";
 import { AxiosError } from "axios";
 import { Types } from "../../components/ExerciseFilter";
 import { Reorder } from "framer-motion";
@@ -34,7 +34,7 @@ function Connect() {
   const [isOrdered, setIsOrdered] = useState(true);
   const [countCorrect, setCountCorrect] = useState(0);
 
-  const { data, error } = useSWRImmutable<ConnectTask, AxiosError>(
+  const { data } = useSWRImmutable<ConnectTask, AxiosError>(
     [taskId, user, taskType],
     fetchTaskById
   );
@@ -181,12 +181,8 @@ function Connect() {
     if (questionsCount - 1 === questionIndex) {
       postTaskAnswer(user, data.id, data.type, taskAnswer);
       // pass total and correct questions to display result on summary screen
-      navigate(Paths.ExerciseSummary, {
-        state: {
-          totalQuestions: questionsCount,
-          correctQuestions: countCorrect,
-        },
-      });
+      navigateToSummaryScreen(questionsCount, countCorrect);
+
       return;
     }
     // otherwise display next question

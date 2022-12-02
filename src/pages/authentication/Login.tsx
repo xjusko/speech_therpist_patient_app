@@ -43,6 +43,7 @@ function Login() {
       <Formik
         validationSchema={validationSchema}
         initialValues={{ email: "", password: "" }}
+        // login with provided data on click
         onSubmit={async (values, { setSubmitting }) => {
           try {
             await login(values).then(async (data) => {

@@ -39,19 +39,21 @@ function TopNavbar() {
         borderBottom: "1px solid grey",
       }}
     >
+      {/* Collapse navbar on small screen */}
       <BsNavbar.Collapse>
         <BsNavbar.Brand className="fs-1 fw-bold mx-3">
           Speech Therapist
         </BsNavbar.Brand>
       </BsNavbar.Collapse>
-      <div className="d-flex mx-3">
-        <HiFire color="red" style={{ height: "3rem", width: "3rem" }} />
-        <div className="fs-4">{profileData.day_streak}</div>
-      </div>
-      <div className="d-flex mx-3">
-        <BsBell style={{ height: "3rem", width: "3rem" }} />
-        <div className="fs-4">{countTasksToDo}</div>
-      </div>
+      <DayStreak />
+      <AssignedTasksToDo />
+      <ProfilePicture />
+    </BsNavbar>
+  );
+
+  // navigate to user settings
+  function ProfilePicture() {
+    return (
       <Nav.Link to={Paths.UserSettings} as={NavLink} className="d-flex mx-3">
         <motion.img
           layout
@@ -65,8 +67,26 @@ function TopNavbar() {
           }}
         />
       </Nav.Link>
-    </BsNavbar>
-  );
+    );
+  }
+
+  function AssignedTasksToDo() {
+    return (
+      <div className="d-flex mx-3">
+        <BsBell style={{ height: "3rem", width: "3rem" }} />
+        <div className="fs-4">{countTasksToDo}</div>
+      </div>
+    );
+  }
+
+  function DayStreak() {
+    return (
+      <div className="d-flex mx-3">
+        <HiFire color="red" style={{ height: "3rem", width: "3rem" }} />
+        <div className="fs-4">{profileData.day_streak}</div>
+      </div>
+    );
+  }
 }
 
 export default TopNavbar;

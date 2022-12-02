@@ -20,6 +20,7 @@ function FindTherapistCard({
       as={NavLink}
     >
       <motion.div
+        // animation properties
         initial={{ opacity: 0.2 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
@@ -27,7 +28,6 @@ function FindTherapistCard({
         style={{
           border: "1px solid rgba(0, 0, 0, .3)",
           borderRadius: "1rem",
-          // animation properties
         }}
       >
         {/* Main content */}

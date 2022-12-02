@@ -1,5 +1,6 @@
 import { BiErrorCircle } from "react-icons/bi";
 
+// Invalid url page
 function ErrorPage() {
   return (
     <div

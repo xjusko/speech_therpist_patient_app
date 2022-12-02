@@ -19,7 +19,6 @@ function TherapistsTab() {
     text: "",
   });
 
-  // Get all therapists
   const { data: therapistList } = useSWR(user, fetchTherapistList, {
     onError() {
       navigate(Paths.UnexpectedError);

@@ -2,6 +2,7 @@ import { RiQuestionLine } from "react-icons/ri";
 import { MdOutlineRefresh } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 
+// App redirects to this page whenever an unexpected API error occurs
 function UnexpectedError() {
   const navigate = useNavigate();
   return (

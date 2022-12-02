@@ -15,7 +15,7 @@ import {
   FourChoiceQuestion,
   FourChoicesTask,
 } from "../../utils/CommonTypes";
-import { shuffle } from "../../utils/TaskUtils";
+import { navigateToSummaryScreen, shuffle } from "../../utils/TaskUtils";
 
 function FourChoices() {
   const { state } = useLocation();
@@ -33,7 +33,7 @@ function FourChoices() {
   >([]);
   const [countCorrect, setCountCorrect] = useState(0);
 
-  const { data: task, error } = useSWRImmutable<FourChoicesTask, AxiosError>(
+  const { data: task } = useSWRImmutable<FourChoicesTask, AxiosError>(
     [taskId, user, taskType],
     fetchTaskById
   );
@@ -61,6 +61,7 @@ function FourChoices() {
   return (
     <div>
       <div className="d-flex mx-4 justify-content-between">
+        {/* Task exit pop-up */}
         <ConfrimModal
           component={
             <BsArrowLeftShort
@@ -79,6 +80,7 @@ function FourChoices() {
         <Row className="text-center mb-3 fs-1 fw-bold">
           <Col>Choose Correct Answer</Col>
         </Row>
+        {/* Render question */}
         <Row className="text-center ">
           {task.type === Types.FOUR_CHOICES_IT ? (
             <ImageQuestion />
@@ -87,6 +89,7 @@ function FourChoices() {
           )}
         </Row>
 
+        {/* Render options based on data type */}
         <Row className="g-1 text-center mt-2">
           {options.map((data) =>
             task.type === Types.FOUR_CHOICES_IT ? (
@@ -113,6 +116,7 @@ function FourChoices() {
     </div>
   );
 
+  // renders next question or navigates to summary screen and post answers
   function handleNextClick() {
     if (!task || !question) {
       return;
@@ -121,12 +125,7 @@ function FourChoices() {
     if (questionsCount - 1 === questionIndex) {
       postTaskAnswer(user, task.id, task.type, taskAnswer);
 
-      navigate(Paths.ExerciseSummary, {
-        state: {
-          totalQuestions: questionsCount,
-          correctQuestions: countCorrect,
-        },
-      });
+      navigateToSummaryScreen(questionsCount, countCorrect);
       return;
     }
 
@@ -135,6 +134,7 @@ function FourChoices() {
     setQuestionIndex((prev) => prev + 1);
   }
 
+  // disables options, saves answer and shows correct answer
   function handleOptionClick(data: string) {
     if (!question) {
       return;
@@ -253,6 +253,7 @@ function FourChoices() {
     );
   }
 
+  // Border change for answered and correct options
   function getOptionBorder(data: string) {
     if (!question) {
       return "";

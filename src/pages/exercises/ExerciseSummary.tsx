@@ -25,19 +25,25 @@ function ExerciseSummary() {
           imageStyle={{ width: "4rem", height: "4rem" }}
           buttonStyle={{ width: "8rem", height: "8rem", border: "none" }}
         />
-        <motion.div {...animateClick}>
-          <Button
-            variant="outline-dark"
-            onClick={() => navigate(-1)}
-            style={{ width: "8rem", height: "8rem", border: "none" }}
-          >
-            <VscDebugRestart size="4rem" />
-            <div className="text-center text-uppercase">Restart Exercise</div>
-          </Button>
-        </motion.div>
+        <RestartButton />
       </div>
     </div>
   );
+
+  function RestartButton() {
+    return (
+      <motion.div {...animateClick}>
+        <Button
+          variant="outline-dark"
+          onClick={() => navigate(-1)}
+          style={{ width: "8rem", height: "8rem", border: "none" }}
+        >
+          <VscDebugRestart size="4rem" />
+          <div className="text-center text-uppercase">Restart Exercise</div>
+        </Button>
+      </motion.div>
+    );
+  }
 }
 
 export default ExerciseSummary;

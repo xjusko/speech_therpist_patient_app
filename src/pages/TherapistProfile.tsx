@@ -119,7 +119,10 @@ function TherapistProfile() {
                 style={{ flexWrap: "nowrap", overflowX: "auto" }}
               >
                 {profileData.my_meetings.map((meeting) => (
-                  <EventButton start={new Date(meeting.start_time)} />
+                  <EventButton
+                    start={new Date(meeting.start_time)}
+                    name={meeting.name}
+                  />
                 ))}
               </Stack>
             </Tab>
@@ -143,19 +146,19 @@ function TherapistProfile() {
 
 export default TherapistProfile;
 
-const renderTooltip = (props: any) => (
-  <Tooltip id="button-tooltip" {...props}>
-    Simple tooltip
-  </Tooltip>
+const renderTooltip = (name: string) => (
+  <Tooltip id="button-tooltip">{name}</Tooltip>
 );
-const EventButton = ({ start }: { start: Date }) => {
+
+// Meeting component
+const EventButton = ({ start, name }: { start: Date; name: string }) => {
   return (
     <OverlayTrigger
       placement="top"
       delay={{ show: 250, hide: 400 }}
-      overlay={renderTooltip}
+      overlay={renderTooltip(name)}
     >
-      <Button variant="success" className="text-center gap-2 my-3">
+      <Button variant="dark" className="text-center gap-2 my-3">
         <div>{start.toLocaleDateString("sv")}</div>
         <div>{start.toLocaleTimeString("sv")}</div>
       </Button>

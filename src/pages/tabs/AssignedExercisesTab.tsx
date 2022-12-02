@@ -83,14 +83,14 @@ function AssignedExercisesTab() {
         <div className="mx-4">
           {/* Render assigned tasks */}
           <AnimatePresence>
-            {filteredTasks &&
+            {/* Render filtered tasks */}
+            {filteredTasks ? (
               filteredTasks.map((item) => (
-                <ChooseTaskCard
-                  key={item.id}
-                  isDone={completedTaskIds?.includes(item.id)}
-                  {...item}
-                />
-              ))}
+                <ChooseTaskCard key={item.id} {...item} />
+              ))
+            ) : (
+              <div>Unfortunately, you do not have any assigned tasks</div>
+            )}
           </AnimatePresence>
         </div>
       </div>
@@ -101,6 +101,7 @@ function AssignedExercisesTab() {
 
 export default AssignedExercisesTab;
 
+// Shows overlay in case the user does not have an assigned therapist
 function NotAssignedOverlay() {
   const navigate = useNavigate();
   return (
