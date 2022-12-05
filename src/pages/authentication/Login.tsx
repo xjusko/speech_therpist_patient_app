@@ -1,13 +1,6 @@
 import { Formik } from "formik";
 import { useState } from "react";
-import {
-  Alert,
-  Button,
-  FloatingLabel,
-  Form,
-  Nav,
-  Stack,
-} from "react-bootstrap";
+import { Button, Form, Nav, Stack } from "react-bootstrap";
 import { NavLink, useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import { Paths } from "../../App";

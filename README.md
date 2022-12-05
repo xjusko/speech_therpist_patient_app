@@ -4,15 +4,15 @@ Speech Therapist is a React application that allows patients with aphasia to sta
 
 ## Getting Started
 
-1. Install Node.js: https://nodejs.org/en/
+1. Install Node.js: <https://nodejs.org/en/>
 2. Clone the repository:
    - `git clone https://github.com/xjusko/speech_therpist_patient_app.git`
    - or using SSH `git clone git@github.com:xjusko/speech_therpist_patient_app.git`
 3. Install the dependencies: `npm install` or `yarn install`
-4. Connect to the faculty VPN server: https://www.fi.muni.cz/tech/unix/vpn.html.cs
+4. Connect to the faculty VPN server: <https://www.fi.muni.cz/tech/unix/vpn.html.cs>
 5. Start the app: `npm run dev` or `yarn run dev`
 
-The app will be running at http://localhost:5173/defaultexercises.
+The app will be running at <http://localhost:5173/defaultexercises>.
 
 ## Usage
 

@@ -1,23 +1,21 @@
+import { AxiosError } from "axios";
+import { Reorder } from "framer-motion";
 import { useEffect, useState } from "react";
 import { Button, Stack } from "react-bootstrap";
 import { BsArrowLeftShort, BsCheckLg, BsXLg } from "react-icons/bs";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Paths } from "../../App";
 import useSWRImmutable from "swr/immutable";
 import ConfrimModal from "../../components/ConfrimModal";
+import { Types } from "../../components/ExerciseFilter";
 import { useAuth } from "../../contexts/AuthContext";
 import { fetchTaskById, postTaskAnswer } from "../../utils/ApiRequests";
 import {
-  Pair,
-  PairAnswer,
-  ConnectTask,
   ConnectAnswer,
   ConnectQuestion,
+  ConnectTask,
+  PairAnswer,
 } from "../../utils/CommonTypes";
 import { navigateToSummaryScreen, shuffle } from "../../utils/TaskUtils";
-import { AxiosError } from "axios";
-import { Types } from "../../components/ExerciseFilter";
-import { Reorder } from "framer-motion";
 
 function Connect() {
   const { state } = useLocation();

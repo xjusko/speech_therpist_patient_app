@@ -1,7 +1,6 @@
 import { motion, useIsPresent } from "framer-motion";
 import { Nav, Stack } from "react-bootstrap";
 import { BsCheckLg } from "react-icons/bs";
-import { TbArrowsSort } from "react-icons/tb";
 import { NavLink } from "react-router-dom";
 import { Paths } from "../App";
 import { BasicTaskInfo } from "../utils/CommonTypes";

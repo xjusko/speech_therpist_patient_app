@@ -1,13 +1,11 @@
+import axios, { AxiosError } from "axios";
 import {
   BasicTaskInfo,
   ConnectAnswer,
-  ConnectTask,
   FourChoiceAnswer,
-  FourChoicesTask,
   ResultInfo,
   TherapistProfileInfo,
 } from "./CommonTypes";
-import axios, { AxiosError } from "axios";
 
 const axiosBase = axios.create({
   baseURL: "http://172.26.5.2",

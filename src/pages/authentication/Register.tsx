@@ -1,26 +1,19 @@
 import { Formik } from "formik";
-import * as yup from "yup";
-import {
-  Alert,
-  Button,
-  FloatingLabel,
-  Form,
-  Nav,
-  Stack,
-} from "react-bootstrap";
-import { NavLink, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { useAuth } from "../../contexts/AuthContext";
-import { fetchMyProfile, login, register } from "../../utils/ApiRequests";
-import { useProfile } from "../../contexts/ProfileContext";
-import {
-  NameLabel,
-  EmailLabel,
-  PasswordLabel,
-  ConfirmPasswordLabel,
-} from "../../components/AccountComponents";
+import { Button, Form, Nav, Stack } from "react-bootstrap";
+import { NavLink, useNavigate } from "react-router-dom";
+import * as yup from "yup";
 import { Paths } from "../../App";
+import {
+  ConfirmPasswordLabel,
+  EmailLabel,
+  NameLabel,
+  PasswordLabel,
+} from "../../components/AccountComponents";
 import Notification from "../../components/Notification";
+import { useAuth } from "../../contexts/AuthContext";
+import { useProfile } from "../../contexts/ProfileContext";
+import { fetchMyProfile, login, register } from "../../utils/ApiRequests";
 
 function Register() {
   const navigate = useNavigate();

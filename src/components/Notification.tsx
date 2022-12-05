@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Toast, ToastContainer } from "react-bootstrap";
 
 // Notification used to inform the user after his actions.

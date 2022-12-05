@@ -1,5 +1,4 @@
-import { AxiosError } from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   Button,
   Card,
@@ -19,7 +18,6 @@ import {
 import { useLocation, useNavigate } from "react-router-dom";
 import useSWR from "swr";
 import { Paths } from "../App";
-import Notification from "../components/Notification";
 import { useAuth } from "../contexts/AuthContext";
 import { useProfile } from "../contexts/ProfileContext";
 import { fetchTherapistInfo } from "../utils/ApiRequests";
@@ -119,7 +117,7 @@ function TherapistProfile() {
                 style={{ flexWrap: "nowrap", overflowX: "auto" }}
               >
                 {profileData.my_meetings.map((meeting) => (
-                  <EventButton
+                  <MeetingLabel
                     start={new Date(meeting.start_time)}
                     name={meeting.name}
                   />
@@ -151,7 +149,7 @@ const renderTooltip = (name: string) => (
 );
 
 // Meeting component
-const EventButton = ({ start, name }: { start: Date; name: string }) => {
+const MeetingLabel = ({ start, name }: { start: Date; name: string }) => {
   return (
     <OverlayTrigger
       placement="top"

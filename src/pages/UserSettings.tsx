@@ -1,16 +1,7 @@
 import { Formik } from "formik";
 import { motion } from "framer-motion";
 import React, { useRef, useState } from "react";
-import {
-  Alert,
-  Button,
-  Col,
-  Form,
-  Modal,
-  Nav,
-  Row,
-  Stack,
-} from "react-bootstrap";
+import { Button, Col, Form, Modal, Nav, Row, Stack } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import * as yup from "yup";
 import { Paths } from "../App";

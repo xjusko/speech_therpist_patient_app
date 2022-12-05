@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Modal, Button } from "react-bootstrap";
+import { useState } from "react";
+import { Button, Modal } from "react-bootstrap";
 
 // Pop up confirm action window
 function ConfrimModal({
