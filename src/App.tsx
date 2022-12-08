@@ -47,10 +47,12 @@ function App() {
               path={Paths.TherapistProfile}
               element={<TherapistProfile />}
             />
+            {/* Duplicate landing page path to work on default url on the first load of the page */}
             <Route
               path={Paths.DefaultExercisesTab}
               element={<DefaultExercisesTab />}
             />
+            <Route path="/" element={<DefaultExercisesTab />} />
             <Route
               path={Paths.AssignedExercisesTab}
               element={<AssignedExercisesTab />}

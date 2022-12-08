@@ -12,11 +12,16 @@ Speech Therapist is a React application that allows patients with aphasia to sta
 4. Connect to the faculty VPN server: <https://www.fi.muni.cz/tech/unix/vpn.html.cs>
 5. Start the app: `npm run dev` or `yarn run dev`
 
-The app will be running at <http://localhost:5173/defaultexercises>.
+The app will be running at <http://localhost:5173/>.
 
 ## Usage
 
-TODO: Add usage instructions and examples
+Exercise and therapist data are not part of this application, thus I am not responsible for that content.
+
+To try out a test account connected to a test therapist account, login using the following data:
+
+- email: `example@email.com`
+- password: `Passw0rd`
 
 ## Contributing
 

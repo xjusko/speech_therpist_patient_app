@@ -63,7 +63,7 @@ function UserSettings() {
             setNotification({
               notify: true,
               success: false,
-              text: error.message,
+              text: error.response.data.email[0],
             });
           }
           setSubmitting(false);
