@@ -4,6 +4,7 @@ import { Button, Col, Row } from "react-bootstrap";
 import { BsArrowLeftShort } from "react-icons/bs";
 import { useLocation, useNavigate } from "react-router-dom";
 import useSWRImmutable from "swr/immutable";
+import { Paths } from "../../App";
 import ConfrimModal from "../../components/ConfrimModal";
 import { Types } from "../../components/ExerciseFilter";
 import { useAuth } from "../../contexts/AuthContext";
@@ -14,7 +15,7 @@ import {
   FourChoiceQuestion,
   FourChoicesTask,
 } from "../../utils/CommonTypes";
-import { navigateToSummaryScreen, shuffle } from "../../utils/TaskUtils";
+import { shuffle } from "../../utils/TaskUtils";
 
 function FourChoices() {
   const { state } = useLocation();
@@ -124,7 +125,12 @@ function FourChoices() {
     if (questionsCount - 1 === questionIndex) {
       postTaskAnswer(user, task.id, task.type, taskAnswer);
 
-      navigateToSummaryScreen(questionsCount, countCorrect);
+      navigate(Paths.ExerciseSummary, {
+        state: {
+          totalQuestions: questionsCount,
+          correctQuestions: countCorrect,
+        },
+      });
       return;
     }
 

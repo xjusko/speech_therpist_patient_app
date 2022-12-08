@@ -5,6 +5,7 @@ import { Button, Stack } from "react-bootstrap";
 import { BsArrowLeftShort, BsCheckLg, BsXLg } from "react-icons/bs";
 import { useLocation, useNavigate } from "react-router-dom";
 import useSWRImmutable from "swr/immutable";
+import { Paths } from "../../App";
 import ConfrimModal from "../../components/ConfrimModal";
 import { Types } from "../../components/ExerciseFilter";
 import { useAuth } from "../../contexts/AuthContext";
@@ -15,7 +16,7 @@ import {
   ConnectTask,
   PairAnswer,
 } from "../../utils/CommonTypes";
-import { navigateToSummaryScreen, shuffle } from "../../utils/TaskUtils";
+import { shuffle } from "../../utils/TaskUtils";
 
 function Connect() {
   const { state } = useLocation();
@@ -179,8 +180,12 @@ function Connect() {
     if (questionsCount - 1 === questionIndex) {
       postTaskAnswer(user, data.id, data.type, taskAnswer);
       // pass total and correct questions to display result on summary screen
-      navigateToSummaryScreen(questionsCount, countCorrect);
-
+      navigate(Paths.ExerciseSummary, {
+        state: {
+          totalQuestions: questionsCount,
+          correctQuestions: countCorrect,
+        },
+      });
       return;
     }
     // otherwise display next question

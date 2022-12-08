@@ -85,7 +85,11 @@ function AssignedExercisesTab() {
             {/* Render filtered tasks */}
             {filteredTasks ? (
               filteredTasks.map((item) => (
-                <ChooseTaskCard key={item.id} {...item} />
+                <ChooseTaskCard
+                  key={item.id}
+                  isDone={completedTaskIds?.includes(item.id)}
+                  {...item}
+                />
               ))
             ) : (
               <div>Unfortunately, you do not have any assigned tasks</div>
